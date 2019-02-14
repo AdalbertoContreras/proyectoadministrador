@@ -1,6 +1,5 @@
 package com.example.serviamigoadmin;
 
-
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,21 +10,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.comfacesar.serviamigoadmin.Items.adapterItemAlertaTemprana;
 import com.example.extra.MySocialMediaSingleton;
 import com.example.extra.WebService;
 import com.example.gestion.Gestion_alerta_temprana;
 import com.example.gestion.Gestion_noticia;
 import com.example.modelo.Alerta_temprana;
+import com.example.serviamigoadmin.Items.adapterItemAlertaTemprana;
 import com.example.servimaigoadmin.R;
 
+import java.lang.annotation.Native;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 
 /**
  * A simple {@link Fragment} subclass.

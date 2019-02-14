@@ -1,4 +1,4 @@
-package com.comfacesar.serviamigoadmin.Items;
+package com.example.serviamigoadmin.Items;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -11,16 +11,14 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
-import com.comfacesar.ServiAmigo.Extra.MySocialMediaSingleton;
-import com.comfacesar.ServiAmigo.Extra.WebService;
-import com.comfacesar.ServiAmigo.Gestion.Gestion_asunto;
-import com.comfacesar.ServiAmigo.Gestion.Gestion_datos_usuario;
-import com.comfacesar.ServiAmigo.Gestion.Gestion_noticia;
-import com.comfacesar.ServiAmigo.Modelo.Alerta_temprana;
-import com.comfacesar.ServiAmigo.Modelo.Asunto;
-import com.comfacesar.ServiAmigo.Modelo.Datos_usuario;
-import com.comfacesar.ServiAmigo.Modelo.Noticia;
-import com.comfacesar.serviamigoadmin.R;
+import com.example.extra.MySocialMediaSingleton;
+import com.example.extra.WebService;
+import com.example.gestion.Gestion_asunto;
+import com.example.gestion.Gestion_usuario;
+import com.example.modelo.Alerta_temprana;
+import com.example.modelo.Asunto;
+import com.example.modelo.Usuario;
+import com.example.servimaigoadmin.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,7 +59,7 @@ public class adapterItemAlertaTemprana extends  RecyclerView.Adapter<adapterItem
         private TextView descripcion;
         private TextView asunto;
         private View view;
-        private Datos_usuario datos_usuario;
+        private Usuario datos_usuario;
         public ViewHolderDatos(@NonNull final View itemView) {
             super(itemView);
             nombre = itemView.findViewById(R.id.nombreTextViiewConsultaAlertaTemprana);
@@ -74,7 +72,7 @@ public class adapterItemAlertaTemprana extends  RecyclerView.Adapter<adapterItem
 
         private void consultar_datos_usuario(Alerta_temprana alerta_temprana)
         {
-            HashMap<String, String> hashMap = new Gestion_datos_usuario()._consultar_datos_usuario_por_id(alerta_temprana.datos_usuario_alerta_temprana);
+            HashMap<String, String> hashMap = new Gestion_usuario().consultar_usuario_por_id(alerta_temprana.usuario_alerta_temprana);
             Log.d("parametros", hashMap.toString());
             Response.Listener<String> stringListener = new Response.Listener<String>()
             {
@@ -91,13 +89,13 @@ public class adapterItemAlertaTemprana extends  RecyclerView.Adapter<adapterItem
 
         private void llenar_datos_usuario(String response)
         {
-            ArrayList<Datos_usuario> aux = new Gestion_datos_usuario().generar_json(response);
+            ArrayList<Usuario> aux = new Gestion_usuario().generar_json(response);
             if(!aux.isEmpty())
             {
                 datos_usuario = aux.get(0);
-                nombre.setText(datos_usuario.nombre_dato_usuario + " " +  datos_usuario.apellidos_dato_usuario);
-                direccion.setText(datos_usuario.direccion_dato_usuario);
-                telefono.setText(datos_usuario.telefono_dato_usuario);
+                nombre.setText(datos_usuario.nombres_usuario + " " +  datos_usuario.apellidos_usuario);
+                direccion.setText(datos_usuario.direccion_usuario);
+                telefono.setText(datos_usuario.telefono_usuario);
             }
             else
             {

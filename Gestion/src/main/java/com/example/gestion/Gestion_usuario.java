@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Gestion_usuario {
-    private static Usuario aux;
+    private static Usuario aux = new Usuario();
     private static String llave_ws = "usuario";
     private static String fecha1;
     private static String fecha2;
@@ -21,6 +21,13 @@ public class Gestion_usuario {
     private static void iniciar_axu()
     {
         aux = new Usuario();
+    }
+
+    public HashMap<String, String> consultar_usuario_por_id(int id_usuario)
+    {
+        tipo_consulta = "consultar_usuario_por_id";
+        aux.id_usuario = id_usuario;
+        return construir_parametros(aux);
     }
 
     public HashMap<String, String> registrar_usuario(Usuario usuario)
@@ -35,7 +42,7 @@ public class Gestion_usuario {
         return construir_parametros(usuario);
     }
 
-    private ArrayList<Usuario> generar_json(String respuesta)
+    public ArrayList<Usuario> generar_json(String respuesta)
     {
         ArrayList<Usuario> lista_elementos = new ArrayList<>();
         try {
