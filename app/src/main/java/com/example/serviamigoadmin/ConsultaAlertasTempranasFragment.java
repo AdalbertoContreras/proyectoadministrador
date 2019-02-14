@@ -163,7 +163,7 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
 
     private void llenar_alertas_tempranas(String json)
     {
-        alerta_tempranaArrayList = new Gestion_alerta_temprana().generar_jso(json);
+        alerta_tempranaArrayList = new Gestion_alerta_temprana().generar_json(json);
         num_alertas = alerta_tempranaArrayList.size();
         recyclerView_alertas_tempranas = view_permanente.findViewById(R.id.alertas_tempranas_Recycler_view);
         recyclerView_alertas_tempranas.setLayoutManager(new GridLayoutManager(getContext(),1));

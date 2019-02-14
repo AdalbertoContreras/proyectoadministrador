@@ -32,7 +32,8 @@ public class Gestion_alerta_temprana {
         tipo_consulta = "insert";
         return construir_parametros(alerta_temprana);
     }
-    private ArrayList<Alerta_temprana> generar_json(String respuesta)
+
+    public ArrayList<Alerta_temprana> generar_json(String respuesta)
     {
         ArrayList<Alerta_temprana> lista_elementos = new ArrayList<>();
         try {
