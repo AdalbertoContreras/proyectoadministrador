@@ -5,13 +5,10 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
@@ -48,8 +45,6 @@ public class    LoginActivity extends AppCompatActivity {
     // UI references.
     private EditText cuentaEditText;
     private EditText contraseñaEditText;
-    private View mProgressView;
-    private View mLoginFormView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,17 +109,17 @@ public class    LoginActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
                 Toast.makeText(getBaseContext(),response, Toast.LENGTH_LONG).show();
-                if(!response.equals(""))
+                int val = 0;
+                try
                 {
-
-                    /*asignar_aministrador();
-                    contraseñaEditText.setText("");
-                    Intent intent2 = new Intent (getBaseContext(), Navigation.class);
-                    startActivityForResult(intent2, 0);*/
+                    val = Integer.parseInt(response);
+                    asignar_aministrador(val);
+                    Intent intent = new Intent(LoginActivity.this, Navigation.class);
+                    startActivity(intent);
                 }
-                else
+                catch(NumberFormatException exc)
                 {
-                    Toast.makeText(getBaseContext(),"Datos de usuario no correcto", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "Los datos ingresados no coindicen", Toast.LENGTH_LONG).show();
                 }
             }
         };
@@ -132,9 +127,9 @@ public class    LoginActivity extends AppCompatActivity {
         MySocialMediaSingleton.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
     }
 
-    private void asignar_aministrador()
+    private void asignar_aministrador(int id_administrador)
     {
-        HashMap<String,String> params = new Gestion_administrador().consultar_administrador_por_nombre(cuentaEditText.getText().toString());
+        HashMap<String,String> params = new Gestion_administrador().consultar_administrador_por_id(id_administrador);
         Log.d("parametros", params.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {

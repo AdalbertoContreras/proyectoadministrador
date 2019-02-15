@@ -15,12 +15,12 @@ import android.view.ViewGroup;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.comfacesar.serviamigoadmin.Items.adapterItemAlertaTemprana;
 import com.example.extra.MySocialMediaSingleton;
 import com.example.extra.WebService;
 import com.example.gestion.Gestion_alerta_temprana;
 import com.example.gestion.Gestion_noticia;
 import com.example.modelo.Alerta_temprana;
+import com.example.serviamigoadmin.Items.adapterItemAlertaTemprana;
 import com.example.servimaigoadmin.R;
 
 import java.util.ArrayList;
@@ -163,7 +163,7 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
 
     private void llenar_alertas_tempranas(String json)
     {
-        alerta_tempranaArrayList = new Gestion_alerta_temprana().generar_jso(json);
+        alerta_tempranaArrayList = new Gestion_alerta_temprana().generar_json(json);
         num_alertas = alerta_tempranaArrayList.size();
         recyclerView_alertas_tempranas = view_permanente.findViewById(R.id.alertas_tempranas_Recycler_view);
         recyclerView_alertas_tempranas.setLayoutManager(new GridLayoutManager(getContext(),1));

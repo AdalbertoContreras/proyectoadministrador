@@ -17,21 +17,28 @@ public class Gestion_alerta_temprana {
     private static String fecha2;
     private static String tipo_consulta;
 
-    private static void iniciar_axu()
-    {
-        aux = new Alerta_temprana();
-    }
-
     public HashMap<String, String> consultar_alerta_temprana()
     {
         tipo_consulta = "consultar_alerta_temprana";
-        return construir_parametros(aux);
+        return construir_parametros();
+    }
+
+    public HashMap<String, String> num_alertas()
+    {
+        tipo_consulta = "num_alertas";
+        return construir_parametros();
+    }
+
+    private static void iniciar_axu()
+    {
+        aux = new Alerta_temprana();
     }
     public HashMap<String, String> registrar_alerta_temprana(Alerta_temprana alerta_temprana)
     {
         tipo_consulta = "insert";
         return construir_parametros(alerta_temprana);
     }
+
     public ArrayList<Alerta_temprana> generar_json(String respuesta)
     {
         ArrayList<Alerta_temprana> lista_elementos = new ArrayList<>();
@@ -62,7 +69,7 @@ public class Gestion_alerta_temprana {
                 estado_atendido = jsonObject.get("estado_atendido").getAsInt();
                 numero_visitas = jsonObject.get("numero_visitas").getAsInt();
                 estado_atendido = jsonObject.get("estado_atendido").getAsInt();
-                if(!jsonObject.get("estado_atendido").isJsonNull())
+                if(!jsonObject.get("atendido_por").isJsonNull())
                 {
                     atendido_por = jsonObject.get("atendido_por").getAsInt();
                 }
@@ -97,6 +104,34 @@ public class Gestion_alerta_temprana {
             obj.addProperty("llave_ws",llave_ws);
             obj.addProperty("usuario_ol",Gestion_usuario.getUsuario_online().nombre_cuenta_usuario);
             obj.addProperty("contrasena_ol",Gestion_usuario.getUsuario_online().contrasena_usuario);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("json",obj.toString());
+        return hashMap;
+    }
+
+    private HashMap<String,String> construir_parametros()
+    {
+        JsonObject obj = new JsonObject();
+        try {
+            /*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+            obj.addProperty("fecha1",fecha1);
+            obj.addProperty("fecha2",fecha2);
+            obj.addProperty("tipo_consulta",tipo_consulta);
+            obj.addProperty("llave_ws",llave_ws);
+            if(Gestion_usuario.getUsuario_online() != null)
+            {
+                obj.addProperty("usuario_ol",Gestion_usuario.getUsuario_online().nombre_cuenta_usuario);
+                obj.addProperty("contrasena_ol",Gestion_usuario.getUsuario_online().contrasena_usuario);
+            }
+            else
+            {
+                obj.addProperty("usuario_ol","");
+                obj.addProperty("contrasena_ol","");
+            }
+
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Gestion_usuario {
-    private static Usuario aux;
+    private static Usuario aux = new Usuario();
     private static String llave_ws = "usuario";
     private static String fecha1;
     private static String fecha2;
@@ -35,7 +35,14 @@ public class Gestion_usuario {
         return construir_parametros(usuario);
     }
 
-    private ArrayList<Usuario> generar_json(String respuesta)
+    public HashMap<String, String> consultar_usuario_por_id(int id)
+    {
+        tipo_consulta = "consultar_usuario_por_id";
+        aux.id_usuario = id;
+        return construir_parametros(aux);
+    }
+
+    public ArrayList<Usuario> generar_json(String respuesta)
     {
         ArrayList<Usuario> lista_elementos = new ArrayList<>();
         try {
