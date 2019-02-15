@@ -21,6 +21,8 @@ import com.comfacesar.ServiAmigo.Modelo.Asunto;
 import com.comfacesar.ServiAmigo.Modelo.Datos_usuario;
 import com.comfacesar.ServiAmigo.Modelo.Noticia;
 import com.comfacesar.serviamigoadmin.R;
+import com.example.modelo.Alerta_temprana;
+import com.example.servimaigoadmin.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,7 +76,7 @@ public class adapterItemAlertaTemprana extends  RecyclerView.Adapter<adapterItem
 
         private void consultar_datos_usuario(Alerta_temprana alerta_temprana)
         {
-            HashMap<String, String> hashMap = new Gestion_datos_usuario()._consultar_datos_usuario_por_id(alerta_temprana.datos_usuario_alerta_temprana);
+            HashMap<String, String> hashMap = new Gestion_usuario()._consultar_datos_usuario_por_id(alerta_temprana.datos_usuario_alerta_temprana);
             Log.d("parametros", hashMap.toString());
             Response.Listener<String> stringListener = new Response.Listener<String>()
             {
