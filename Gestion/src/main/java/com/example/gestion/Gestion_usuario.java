@@ -73,7 +73,7 @@ public class Gestion_usuario {
                 fecha_nacimiento = jsonObject.get("fecha_nacimiento").getAsString();
                 correo_usuario = jsonObject.get("correo_usuario").getAsString();
                 nombre_cuenta_usuario = jsonObject.get("nombre_cuenta_usuario").getAsString();
-                contrasena_usuario = jsonObject.get("contrasena_usuario").getAsString();
+                contrasena_usuario = jsonObject.get("contraseña_usuario").getAsString();
             } catch (JsonSyntaxException | IllegalStateException | NullPointerException e) {
                 e.printStackTrace();
             }

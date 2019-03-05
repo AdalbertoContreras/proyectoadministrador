@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Gestion_mensaje_chat_asesoria {
-    private static Mensaje_chat_asesoria aux;
-    private static String llave_ws = "accion";
+    private static Mensaje_chat_asesoria aux = new Mensaje_chat_asesoria();
+    private static String llave_ws = "mensaje_chat_asesoria";
     private static String fecha1;
     private static String fecha2;
     private static String tipo_consulta;
@@ -24,7 +24,28 @@ public class Gestion_mensaje_chat_asesoria {
     {
         aux = new Mensaje_chat_asesoria();
     }
-    private ArrayList<Mensaje_chat_asesoria> generar_json(String respuesta)
+
+    public HashMap<String, String> registrar_mensaje_chat_asesoria(Mensaje_chat_asesoria mensaje_chat_asesoria)
+    {
+        tipo_consulta = "registrar_mensaje_chat_asesoria";
+        return construir_parametros(mensaje_chat_asesoria);
+    }
+    public HashMap<String, String> mensajes_asesoria_por_asesoria(int asesoria)
+    {
+            aux.chat_mensaje_chat_asesoria = asesoria;
+            tipo_consulta = "mensajes_asesoria_por_asesoria";
+            return construir_parametros(aux);
+    }
+
+    public HashMap<String, String> mensaje_chat_asesoria_por_chat_mayor(int id,int id_chat)
+    {
+        aux.id_mensaje_chat_asesoria = id;
+        aux.chat_mensaje_chat_asesoria = id_chat;
+        tipo_consulta = "mensaje_chat_asesoria_por_chat_mayor";
+        return construir_parametros(aux);
+    }
+
+    public ArrayList<Mensaje_chat_asesoria> generar_json(String respuesta)
     {
         ArrayList<Mensaje_chat_asesoria> lista_elementos = new ArrayList<>();
         try {

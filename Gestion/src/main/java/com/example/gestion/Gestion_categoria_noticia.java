@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class Gestion_categoria_noticia {
     private static Categoria_noticia_manual aux = new Categoria_noticia_manual();
-    private static String llave_ws = "administrador";
+    private static String llave_ws = "categoria_noticia_manual";
     private static String fecha1;
     private static String fecha2;
     private static String tipo_consulta;
@@ -50,9 +50,8 @@ public class Gestion_categoria_noticia {
     {
         return new Categoria_noticia_manual(){{
             try {
-                id_categoria_noticia_manual = jsonObject.get("id_boton").getAsInt();
-                nombre_categoria_noticia = jsonObject.get("nombre_categoria_noticia").getAsString();
                 id_categoria_noticia_manual = jsonObject.get("id_categoria_noticia_manual").getAsInt();
+                nombre_categoria_noticia = jsonObject.get("nombre_categoria_noticia").getAsString();
                 numero_noticias_categoria_noticia = jsonObject.get("numero_noticias_categoria_noticia").getAsInt();
                 numero_noticias_no_visitadas_categoria_noticia = jsonObject.get("numero_noticias_no_visitadas_categoria_noticia").getAsInt();
                 numero_visitas_categoria_noticia_manual = jsonObject.get("numero_visitas_categoria_noticia_manual").getAsInt();

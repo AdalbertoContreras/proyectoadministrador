@@ -12,5 +12,6 @@ public class Noticia {
     public int numero_visistas_noticia;
     public int administrador_noticia;
     public int categoria_noticia_manual_noticia;
+    public int numero_me_gusta;
     public String json_imagenes;
 }

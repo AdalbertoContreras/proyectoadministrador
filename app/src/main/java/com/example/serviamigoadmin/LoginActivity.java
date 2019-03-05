@@ -1,6 +1,7 @@
 package com.example.serviamigoadmin;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.extra.MySocialMediaSingleton;
 import com.example.extra.WebService;
@@ -45,12 +47,14 @@ public class    LoginActivity extends AppCompatActivity {
     // UI references.
     private EditText cuentaEditText;
     private EditText contraseñaEditText;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
+        progressDialog = new ProgressDialog(LoginActivity.this);
         cuentaEditText = findViewById(R.id.nombreCuentaEditTextLogin);
         contraseñaEditText = (EditText) findViewById(R.id.contraseñaEditTextLogin);
         cuentaEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -75,6 +79,9 @@ public class    LoginActivity extends AppCompatActivity {
         iniciar_secionButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                progressDialog.show();
+                progressDialog.setCancelable(false);
                 abrir_ventana_principal();
             }
         });
@@ -86,6 +93,7 @@ public class    LoginActivity extends AppCompatActivity {
         if(cuentaEditText.getText().toString().isEmpty())
         {
             Toast.makeText(getBaseContext(), "Ingrese el nombre de la cuenta", Toast.LENGTH_LONG).show();
+            progressDialog.dismiss();
             return;
         }
         else
@@ -95,6 +103,7 @@ public class    LoginActivity extends AppCompatActivity {
         if(contraseñaEditText.getText().toString().isEmpty())
         {
             Toast.makeText(getBaseContext(), "Ingrese la contraseña de la cuenta", Toast.LENGTH_LONG).show();
+            progressDialog.dismiss();
             return;
         }
         else
@@ -108,22 +117,35 @@ public class    LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
-                Toast.makeText(getBaseContext(),response, Toast.LENGTH_LONG).show();
+                Log.d("response", response);
                 int val = 0;
                 try
                 {
                     val = Integer.parseInt(response);
-                    asignar_aministrador(val);
-                    Intent intent = new Intent(LoginActivity.this, Navigation.class);
-                    startActivity(intent);
+                    if(val == 0)
+                    {
+                        Toast.makeText(getBaseContext(), "Los datos ingresados no coindicen", Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        asignar_aministrador(val);
+                    }
                 }
                 catch(NumberFormatException exc)
                 {
+                    progressDialog.dismiss();
                     Toast.makeText(getBaseContext(), "Los datos ingresados no coindicen", Toast.LENGTH_LONG).show();
                 }
             }
         };
-        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, MySocialMediaSingleton.errorListener());
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+                Toast.makeText(getBaseContext(), "Ocurrio un error en el servidor", Toast.LENGTH_LONG).show();
+            }
+        };
+        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, errorListener);
         MySocialMediaSingleton.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
     }
 
@@ -136,17 +158,41 @@ public class    LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
+                Log.d("response", response);
                 if(!response.equals(""))
                 {
                     ArrayList<Administrador> arrayList = new Gestion_administrador().generar_json(response);
                     if(!arrayList.isEmpty())
                     {
-                        Gestion_administrador.setAdministrador_actual(arrayList.get(0));
+                        Toast.makeText(getBaseContext(), "Administrador conectado", Toast.LENGTH_LONG).show();
+                        Administrador administrador = arrayList.get(0);
+                        administrador.contrasena_administrador = contraseñaEditText.getText().toString();
+                        Gestion_administrador.setAdministrador_actual(administrador);
+                        Intent intent = new Intent(LoginActivity.this, Navigation.class);
+                        progressDialog.dismiss();
+                        startActivity(intent);
                     }
+                    else
+                    {
+                        Toast.makeText(getBaseContext(), "Los datos ingresados no coindicen", Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getBaseContext(), "Los datos ingresados no coindicen", Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
                 }
             }
         };
-        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, MySocialMediaSingleton.errorListener());
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+                Toast.makeText(getBaseContext(), "Ocurrio un error en el servidor", Toast.LENGTH_LONG).show();
+            }
+        };
+        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, errorListener);
         MySocialMediaSingleton.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
     }
 }

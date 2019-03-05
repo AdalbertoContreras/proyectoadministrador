@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class Gestion_imagen_noticia {
     private static Imagen_noticia aux;
-    private static String llave_ws = "accion";
+    private static String llave_ws = "imagen_noticia";
     private static String fecha1;
     private static String fecha2;
     private static String tipo_consulta;

@@ -62,18 +62,27 @@ public class Gestion_noticia {
     {
         return new Noticia(){{
             try {
-                id_notiticia = jsonObject.get("id_movil_registro").getAsInt();
-                id_generacion_noticia = jsonObject.get("fecha_movil_registro").getAsInt();
-                titulo_noticia = jsonObject.get("hora_movil_registro").getAsString();
-                contenido_noticia = jsonObject.get("imei_movil_registro").getAsString();
-                num_imagenes_noticia = jsonObject.get("id_movil_registro").getAsInt();
-                fecha_registro_noticia = jsonObject.get("tipo_registro_movil_registro").getAsString();
-                hora_registro_noticia = jsonObject.get("tipo_registro_movil_registro").getAsString();
-                tipo_creacion_noticia = jsonObject.get("tipo_registro_movil_registro").getAsInt();
-                numero_visistas_noticia = jsonObject.get("tipo_registro_movil_registro").getAsInt();
-                administrador_noticia = jsonObject.get("tipo_registro_movil_registro").getAsInt();
-                categoria_noticia_manual_noticia = jsonObject.get("tipo_registro_movil_registro").getAsInt();
-                json_imagenes = jsonObject.get("json_imagenes").getAsString();
+                id_notiticia = jsonObject.get("id_generacion_noticia").getAsInt();
+                id_generacion_noticia = jsonObject.get("id_generacion_noticia").getAsInt();
+                titulo_noticia = jsonObject.get("titulo_noticia").getAsString();
+                contenido_noticia = jsonObject.get("contenido_noticia").getAsString();
+                num_imagenes_noticia = jsonObject.get("num_imagenes_noticia").getAsInt();
+                fecha_registro_noticia = jsonObject.get("fecha_registro_noticia").getAsString();
+                hora_registro_noticia = jsonObject.get("hora_registro_noticia").getAsString();
+                tipo_creacion_noticia = jsonObject.get("tipo_creacion_noticia").getAsInt();
+                numero_visistas_noticia = jsonObject.get("numero_visistas_noticia").getAsInt();
+                administrador_noticia = jsonObject.get("administrador_noticia").getAsInt();
+                categoria_noticia_manual_noticia = jsonObject.get("categoria_noticia_manual_noticia").getAsInt();
+                numero_me_gusta = jsonObject.get("numero_me_gusta").getAsInt();
+                if(jsonObject.get("json_imagenes").isJsonNull())
+                {
+                    json_imagenes = jsonObject.get("json_imagenes").getAsString();
+                }
+                else
+                {
+                    json_imagenes = "";
+                }
+
             } catch (JsonSyntaxException | IllegalStateException | NullPointerException e) {
                 e.printStackTrace();
             }

@@ -29,6 +29,20 @@ public class Gestion_alerta_temprana {
         return construir_parametros();
     }
 
+    public HashMap<String, String> consultar_alertas_tempranas_por_usuario(int usuario)
+    {
+        tipo_consulta = "consultar_alertas_tempranas_por_usuario";
+        aux.usuario_alerta_temprana = usuario;
+        return construir_parametros(aux);
+    }
+
+    public HashMap<String, String> consultar_mayor(int id_alerta_temprana)
+    {
+        tipo_consulta = "consultar_mayor";
+        aux.id_alerta_temprana = id_alerta_temprana;
+        return construir_parametros(aux);
+    }
+
     private static void iniciar_axu()
     {
         aux = new Alerta_temprana();
@@ -102,8 +116,17 @@ public class Gestion_alerta_temprana {
             obj.addProperty("fecha2",fecha2);
             obj.addProperty("tipo_consulta",tipo_consulta);
             obj.addProperty("llave_ws",llave_ws);
-            obj.addProperty("usuario_ol",Gestion_usuario.getUsuario_online().nombre_cuenta_usuario);
-            obj.addProperty("contrasena_ol",Gestion_usuario.getUsuario_online().contrasena_usuario);
+            if(Gestion_administrador.getAdministrador_actual() != null)
+            {
+                obj.addProperty("nombre_cuenta_administrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
+                obj.addProperty("contrasena_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
+            }
+            else
+            {
+                obj.addProperty("nombre_cuenta_administrador_ol","");
+                obj.addProperty("contrasena_administrador_ol","");
+            }
+
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
@@ -121,15 +144,15 @@ public class Gestion_alerta_temprana {
             obj.addProperty("fecha2",fecha2);
             obj.addProperty("tipo_consulta",tipo_consulta);
             obj.addProperty("llave_ws",llave_ws);
-            if(Gestion_usuario.getUsuario_online() != null)
+            if(Gestion_administrador.getAdministrador_actual() != null)
             {
-                obj.addProperty("usuario_ol",Gestion_usuario.getUsuario_online().nombre_cuenta_usuario);
-                obj.addProperty("contrasena_ol",Gestion_usuario.getUsuario_online().contrasena_usuario);
+                obj.addProperty("nombre_cuenta_administrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
+                obj.addProperty("contrasena_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
             }
             else
             {
-                obj.addProperty("usuario_ol","");
-                obj.addProperty("contrasena_ol","");
+                obj.addProperty("nombre_cuenta_administrador_ol","");
+                obj.addProperty("contrasena_administrador_ol","");
             }
 
         } catch (JsonSyntaxException e) {

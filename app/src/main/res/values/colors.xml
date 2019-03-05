@@ -11,6 +11,6 @@
     <color name="Gris2">#C5C5C5</color>
     <color name="Gris3">#DDDDDD</color>
     <color name="azul">#72E3F9FF</color>
-
+    <color name="rojo">#ff0000</color>
     <color name="GrisOscuro">#7A7878</color>
 </resources>

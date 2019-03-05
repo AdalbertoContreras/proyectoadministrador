@@ -12,16 +12,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Gestion_administrador{
-    private static Administrador aux = new Administrador();
+    private Administrador aux = new Administrador();
     private static Administrador administrador_actual = null;
-    private static String llave_ws = "administrador";
-    private static String fecha1;
-    private static String fecha2;
-    private static String tipo_consulta;
+    private String llave_ws = "administrador";
+    private String fecha1;
+    private String fecha2;
+    private int especialidad;
+    private String tipo_consulta;
 
-    private static void iniciar_axu()
+    private void iniciar_axu()
     {
         aux = new Administrador();
+    }
+
+    public HashMap<String, String> consultar_administradores_por_especialidad(int _especialidad)
+    {
+        tipo_consulta = "consultar_por_especialidad";
+        especialidad = _especialidad;
+        return construir_parametros();
     }
 
     public HashMap<String, String> consultar_administrador_por_nombre(String nombre)
@@ -33,7 +41,7 @@ public class Gestion_administrador{
 
     public HashMap<String, String> consultar_administrador_por_id(int id_administrador)
     {
-        tipo_consulta = "consultar_por_nombre_cuenta";
+        tipo_consulta = "administrador_por_id";
         aux.id_administrador = id_administrador;
         return construir_parametros(aux);
     }
@@ -106,6 +114,7 @@ public class Gestion_administrador{
         return new Administrador(){{
             try {
                 id_administrador = jsonObject.get("id_administrador").getAsInt();
+                tipo_administrador = jsonObject.get("tipo_administrador").getAsInt();
                 nombre_cuenta_administrador = jsonObject.get("nombre_cuenta_administrador").getAsString();
                 nombres_administrador = jsonObject.get("nombres_administrador").getAsString();
                 apellidos_administrador = jsonObject.get("apellidos_administrador").getAsString();
@@ -175,6 +184,7 @@ public class Gestion_administrador{
             obj.addProperty("fecha2",fecha2);
             obj.addProperty("tipo_consulta",tipo_consulta);
             obj.addProperty("llave_ws",llave_ws);
+            obj.addProperty("especialidad",especialidad);
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }

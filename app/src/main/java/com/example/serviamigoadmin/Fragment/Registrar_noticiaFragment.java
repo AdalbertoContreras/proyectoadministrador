@@ -1,4 +1,4 @@
-package com.example.serviamigoadmin;
+package com.example.serviamigoadmin.Fragment;
 
 
 import android.content.Context;
@@ -27,9 +27,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.extra.MySocialMediaSingleton;
 import com.example.extra.WebService;
+import com.example.gestion.Gestion_administrador;
 import com.example.gestion.Gestion_categoria_noticia;
 import com.example.gestion.Gestion_imagen_noticia;
 import com.example.gestion.Gestion_noticia;
@@ -225,6 +227,7 @@ public class Registrar_noticiaFragment extends Fragment {
     private void registrar_noticia(Noticia noticia)
     {
         id_noticia = -1;
+        noticia.administrador_noticia = Gestion_administrador.getAdministrador_actual().id_administrador;
         HashMap<String, String> hashMap = new Gestion_noticia().registrar_noticia_manual(noticia);
         Log.d("parametros", hashMap.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
@@ -235,7 +238,13 @@ public class Registrar_noticiaFragment extends Fragment {
                 registrar_noticia(response);
             }
         };
-        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, MySocialMediaSingleton.errorListener());
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(view.getContext(),"Ocurrio un error en la conexcion, registro cancelado.", Toast.LENGTH_LONG).show();
+            }
+        };
+        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, errorListener);
         MySocialMediaSingleton.getInstance(view.getContext()).addToRequestQueue(stringRequest);
     }
 
@@ -278,17 +287,23 @@ public class Registrar_noticiaFragment extends Fragment {
         imagen_noticia.url_imagen_noticia = bitmap_conver_to_String(bitmap);
         imagen_noticia.noticia_imagen_noticia = id;
         HashMap<String, String> hashMap = new Gestion_imagen_noticia().registrar_imagen_con_archivo(imagen_noticia);
-        Log.d("parametros", hashMap.toString());
+        Log.d("parametros imagen", hashMap.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override
             public void onResponse(String response) {
                 //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
-                Log.d("response", response);
+                Log.d("response imagen", response);
 
             }
         };
-        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, MySocialMediaSingleton.errorListener());
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(view.getContext(),"Ha ocurrido un error en el servidor", Toast.LENGTH_LONG).show();
+            }
+        };
+        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, errorListener);
         MySocialMediaSingleton.getInstance(view.getContext()).addToRequestQueue(stringRequest);
     }
 
@@ -304,23 +319,31 @@ public class Registrar_noticiaFragment extends Fragment {
                 llenar_categorias(response);
             }
         };
-        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, MySocialMediaSingleton.errorListener());
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(view.getContext(),"Error en la conexion.", Toast.LENGTH_LONG).show();
+            }
+        };
+        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, errorListener);
         MySocialMediaSingleton.getInstance(view.getContext()).addToRequestQueue(stringRequest);
     }
 
     private void llenar_categorias(String json)
     {
+
         categoria_noticiaArrayList = new Gestion_categoria_noticia().generar_json(json);
         String[] categoria_array = null;
         if(categoria_noticiaArrayList.isEmpty())
         {
+            Toast.makeText(getContext(), "Array vacio", Toast.LENGTH_SHORT).show();
             categoria_array = llenar_categorias_vacio();
         }
         else
         {
+            Toast.makeText(getContext(), "Array lleno", Toast.LENGTH_SHORT).show();
             categoria_array = pasar_categorias_a_string(categoria_noticiaArrayList);
         }
-
         ArrayAdapter arrayAdapter = new ArrayAdapter<String>(this.getContext(),android.R.layout.simple_spinner_item, categoria_array);
         categoriaSpinner.setAdapter(arrayAdapter);
     }

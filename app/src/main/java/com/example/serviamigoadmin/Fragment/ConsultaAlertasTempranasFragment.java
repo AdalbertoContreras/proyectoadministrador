@@ -1,4 +1,4 @@
-package com.example.serviamigoadmin;
+package com.example.serviamigoadmin.Fragment;
 
 
 import android.content.Context;
@@ -18,9 +18,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.extra.MySocialMediaSingleton;
 import com.example.extra.WebService;
 import com.example.gestion.Gestion_alerta_temprana;
-import com.example.gestion.Gestion_noticia;
 import com.example.modelo.Alerta_temprana;
-import com.example.serviamigoadmin.Items.adapterItemAlertaTemprana;
+import com.example.serviamigoadmin.Adapter.AdapterItemAlertaTemprana;
 import com.example.servimaigoadmin.R;
 
 import java.util.ArrayList;
@@ -77,77 +76,84 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    private static View view_permanente;
+
+    private View view_permanente;
     private RecyclerView recyclerView_alertas_tempranas;
-    private ArrayList<Alerta_temprana> alerta_tempranaArrayList;
+    private ArrayList<Alerta_temprana> alerta_tempranaArrayList = new ArrayList<>();
     private static int num_alertas = 0;
+    private boolean seguir;
+    private int cont_m;
+    private int id_maximo = 0;
+    private AdapterItemAlertaTemprana adapterItemCliente;
+    private boolean agregar_nuevas_alertas = false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if(view_permanente == null)
-        {
-            view_permanente =  inflater.inflate(R.layout.fragment_consulta_alertas_tempranas, container, false);
-            consultar_alertas_tempranas();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    for(;;)
-                    {
-                        try {
-                            Thread.sleep(5000);
-                            comparar_num_alertas();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }).start();
-        }
+        view_permanente =  inflater.inflate(R.layout.fragment_consulta_alertas_tempranas, container, false);
+        consultar_alertas_tempranas();
         return view_permanente;
     }
 
-    private void comparar_num_alertas()
-    {
-        HashMap<String, String> hashMap = new Gestion_alerta_temprana().num_alertas();
-        Log.d("Thread", hashMap.toString());
-        Response.Listener<String> stringListener = new Response.Listener<String>()
-        {
+    private boolean generando_consulta;
+    @Override
+    public void onResume() {
+        super.onResume();
+        cont_m = 5000;
+        seguir = true;
+        generando_consulta = false;
+        new Thread(new Runnable() {
             @Override
-            public void onResponse(String response) {
-                //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
-                int aux = 0;
-                try
+            public void run() {
+                while(seguir)
                 {
-                    aux = Integer.parseInt(response);
-                    if(aux != num_alertas)
+                    if(cont_m >= 5000)
                     {
-                        consultar_alertas_tempranas();
+                        cont_m = 0;
+                        while(generando_consulta)
+                        {
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if(seguir)
+                        {
+                            consultar_alertas_tempranas();
+                        }
+                    }
+                    try {
+                        Thread.sleep(100);
+                        cont_m += 100;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
-                catch(NumberFormatException exc)
-                {
-
-                }
             }
-        };
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+        }).start();
+    }
 
-            }
-        };
-        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, MySocialMediaSingleton.errorListener());
-        MySocialMediaSingleton.getInstance(view_permanente.getContext()).addToRequestQueue(stringRequest);
+    @Override
+    public void onPause() {
+        super.onPause();
+        cont_m = 0;
+        seguir = false;
     }
 
 
     private void consultar_alertas_tempranas()
     {
-        final Gestion_noticia gestion_noticia = new Gestion_noticia();
-        //tomo los parametros del controlador
-        HashMap<String,String> params = new Gestion_alerta_temprana().consultar_alerta_temprana();
-        Log.d("parametros", params.toString());
+        HashMap<String,String> params;
+        if(alerta_tempranaArrayList.isEmpty())
+        {
+            params = new Gestion_alerta_temprana().consultar_alerta_temprana();
+        }
+        else
+        {
+            agregar_nuevas_alertas = true;
+            params = new Gestion_alerta_temprana().consultar_mayor(id_maximo);
+        }
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override
@@ -163,13 +169,29 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
 
     private void llenar_alertas_tempranas(String json)
     {
-        alerta_tempranaArrayList = new Gestion_alerta_temprana().generar_json(json);
-        num_alertas = alerta_tempranaArrayList.size();
-        recyclerView_alertas_tempranas = view_permanente.findViewById(R.id.alertas_tempranas_Recycler_view);
-        recyclerView_alertas_tempranas.setLayoutManager(new GridLayoutManager(getContext(),1));
-        adapterItemAlertaTemprana adapterItemCliente = new adapterItemAlertaTemprana(alerta_tempranaArrayList);
-        recyclerView_alertas_tempranas.setAdapter(adapterItemCliente);
-        recyclerView_alertas_tempranas.setHasFixedSize(true);
+        ArrayList<Alerta_temprana> aux = new Gestion_alerta_temprana().generar_json(json);
+        if(!alerta_tempranaArrayList.isEmpty())
+        {
+            alerta_tempranaArrayList.addAll(0, aux);
+            id_maximo = alerta_tempranaArrayList.get(0).id_alerta_temprana;
+        }
+        else
+        {
+            alerta_tempranaArrayList = aux;
+        }
+        if(agregar_nuevas_alertas)
+        {
+            adapterItemCliente.notifyItemInserted(0);
+        }
+        else
+        {
+            num_alertas = alerta_tempranaArrayList.size();
+            recyclerView_alertas_tempranas = view_permanente.findViewById(R.id.alertas_tempranas_Recycler_view);
+            recyclerView_alertas_tempranas.setLayoutManager(new GridLayoutManager(getContext(),1));
+            adapterItemCliente = new AdapterItemAlertaTemprana(alerta_tempranaArrayList);
+            recyclerView_alertas_tempranas.setAdapter(adapterItemCliente);
+            recyclerView_alertas_tempranas.setHasFixedSize(true);
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

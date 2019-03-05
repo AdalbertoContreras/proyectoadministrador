@@ -3,11 +3,15 @@ package com.example.modelo;
 public class Administrador
 {
     public int id_administrador;
+    public int tipo_administrador;
     public String nombre_cuenta_administrador;
     public String contrasena_administrador;
     public String nombres_administrador;
     public String apellidos_administrador;
     public String fecha_nacimiento_administrador;
+    public String numero_telefono_administrador;
+    public String direccion_administrador;
+    public String correo_electronico_administrador;
     public int sexo_administrador;
     public int estado_administrador;
     public String fecha_registro_administrador;
