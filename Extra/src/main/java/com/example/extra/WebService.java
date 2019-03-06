@@ -2,7 +2,8 @@ package com.example.extra;
 
 
 public class WebService {
-    private static final String HOSTING = "192.168.1.9";
+    //private static final String HOSTING = "31.220.63.102";
+    private static final String HOSTING = "192.168.1.7";
     private static final String RAIZ = "http://"+ HOSTING;
     private static final String url = RAIZ + "/WScomfacesar/index.php";
 

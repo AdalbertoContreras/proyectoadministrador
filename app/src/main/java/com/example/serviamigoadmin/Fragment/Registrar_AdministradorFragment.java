@@ -175,6 +175,7 @@ public class Registrar_AdministradorFragment extends Fragment {
                 administrador.numero_telefono_administrador = telefonoEditText.getText().toString();
                 administrador.direccion_administrador = direccionEditText.getText().toString();
                 administrador.correo_electronico_administrador = correoElectronicoEditText.getText().toString();
+                administrador.fecha_registro_administrador = fechaNacimientoEditText.getText().toString();
                 if(masculinoRadioButton.isChecked())
                 {
                     administrador.sexo_administrador = 0;
