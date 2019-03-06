@@ -1,6 +1,7 @@
 package com.example.serviamigoadmin.Fragment;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
@@ -10,13 +11,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.example.extra.MySocialMediaSingleton;
+import com.example.extra.WebService;
+import com.example.gestion.Gestion_administrador;
 import com.example.modelo.Administrador;
+import com.example.serviamigoadmin.Dialog.DatePickerFragment;
 import com.example.serviamigoadmin.Dialog.EspecialidadesDialog;
 import com.example.servimaigoadmin.R;
+
+import java.util.HashMap;
 
 
 /**
@@ -44,6 +55,7 @@ public class Registrar_AdministradorFragment extends Fragment {
     private EditText telefonoEditText;
     private EditText correoElectronicoEditText;
     private EditText nombreCuentaEditText;
+    private EditText fechaNacimientoEditText;
     private EditText contraseñaEditText;
     private Button especialidadesEditText;
     private RadioButton femeninoRadioButton;
@@ -90,8 +102,9 @@ public class Registrar_AdministradorFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_registrar_administrador, container, false);
-        nombresEditText = view.findViewById(R.id.nombre_usuarioTextView);
+        nombresEditText = view.findViewById(R.id.nombresAsesorEditText);
         apellidosEditText = view.findViewById(R.id.apellidosAsesorEditText);
+        fechaNacimientoEditText = view.findViewById(R.id.fechaNacimientoAsesorEditText);
         correoElectronicoEditText = view.findViewById(R.id.correoElectronioAsesorEditText);
         telefonoEditText = view.findViewById(R.id.numeroTelefonoAsesorEditText);
         direccionEditText = view.findViewById(R.id.direccionAsesorEditText);
@@ -101,6 +114,22 @@ public class Registrar_AdministradorFragment extends Fragment {
         registrarButton = view.findViewById(R.id.registrarAsesorButton);
         masculinoRadioButton = view.findViewById(R.id.masculinoAsesorRadioButton);
         femeninoRadioButton = view.findViewById(R.id.femeninoAsesorRadioButton);
+        fechaNacimientoEditText.setFocusable(false);
+        fechaNacimientoEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                    showDatePickerDialog();
+                }
+            }
+        });
+        fechaNacimientoEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog();
+            }
+        });
         especialidadesEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,9 +149,9 @@ public class Registrar_AdministradorFragment extends Fragment {
                     Toast.makeText(view.getContext(), "Ingrese los apellidos del asesor", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(!sexualidarReproductivaSelecionada && !identidadSelecionada && !nutricionSelecionada && !embarazoSelecionada)
+                if(fechaNacimientoEditText.getText().toString().isEmpty())
                 {
-                    Toast.makeText(view.getContext(), "Escoja una o varias especialidades para el asesor", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "Ingrese la fecha de cacimiento del asesor", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(nombreCuentaEditText.getText().toString().isEmpty())
@@ -133,6 +162,11 @@ public class Registrar_AdministradorFragment extends Fragment {
                 if(contraseñaEditText.getText().toString().isEmpty())
                 {
                     Toast.makeText(view.getContext(), "Ingrese la contraseña de la cuenta del asesor", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(!sexualidarReproductivaSelecionada && !identidadSelecionada && !nutricionSelecionada && !embarazoSelecionada)
+                {
+                    Toast.makeText(view.getContext(), "Escoja una o varias especialidades para el asesor", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Administrador administrador = new Administrador();
@@ -151,9 +185,76 @@ public class Registrar_AdministradorFragment extends Fragment {
                 }
                 administrador.nombre_cuenta_administrador = nombreCuentaEditText.getText().toString();
                 administrador.contrasena_administrador = contraseñaEditText.getText().toString();
+                registrar_administrador(administrador);
             }
         });
         return view;
+    }
+
+    private void registrar_administrador(Administrador administrador)
+    {
+        final HashMap<String, String> hashMap = new Gestion_administrador().registrar_administrador(administrador, sexualidarReproductivaSelecionada, identidadSelecionada, nutricionSelecionada, embarazoSelecionada);
+        Response.Listener<String> stringListener = new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {
+                try
+                {
+                    int val = Integer.parseInt(response);
+                    if(val > 0)
+                    {
+                        clean();
+                        Toast.makeText(getContext(), "Asesor registrado", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(), "Asesor no registrado", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch (NumberFormatException exc)
+                {
+                    Toast.makeText(getContext(), "No se pudo registrar asesor, error en el servidor", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "No se pudo registrar asesor, error en el servidor", Toast.LENGTH_SHORT).show();
+            }
+        };
+        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, errorListener);
+        MySocialMediaSingleton.getInstance(view.getContext()).addToRequestQueue(stringRequest);
+    }
+
+    private void clean()
+    {
+        nombresEditText.setText("");
+        apellidosEditText.setText("");
+        direccionEditText.setText("");
+        telefonoEditText.setText("");
+        correoElectronicoEditText.setText("");
+        nombreCuentaEditText.setText("");
+        contraseñaEditText.setText("");
+        sexualidarReproductivaSelecionada = false;
+        nutricionSelecionada = false;
+        embarazoSelecionada = false;
+        identidadSelecionada = false;
+        femeninoRadioButton.setChecked(true);
+    }
+
+    private void showDatePickerDialog()
+    {
+        DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                // +1 because january is zero
+                fechaNacimientoEditText.setText(year + "-" + (month+1)  + "-" + day );
+            }
+        });
+        newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
     }
 
     private void showEspecialidades()

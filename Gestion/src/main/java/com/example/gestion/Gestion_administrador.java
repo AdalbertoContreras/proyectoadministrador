@@ -14,6 +14,10 @@ import java.util.HashMap;
 public class Gestion_administrador{
     private Administrador aux = new Administrador();
     private static Administrador administrador_actual = null;
+    private boolean sexualidad;
+    private boolean identidad;
+    private boolean nutricion;
+    private boolean embarazo;
     private String llave_ws = "administrador";
     private String fecha1;
     private String fecha2;
@@ -86,10 +90,14 @@ public class Gestion_administrador{
         return construir_parametros(aux);
     }
 
-    public HashMap<String, String> registrar_administrador(Administrador administrador)
+    public HashMap<String, String> registrar_administrador(Administrador administrador, boolean sexualidad, boolean identidad, boolean nutricion, boolean embarazo)
     {
         tipo_consulta = "insert";
-        return construir_parametros();
+        this.sexualidad = sexualidad;
+        this.identidad = identidad;
+        this.nutricion = nutricion;
+        this.embarazo = embarazo;
+        return construir_parametros(administrador);
     }
 
     public ArrayList<Administrador> generar_json(String respuesta)
@@ -162,6 +170,22 @@ public class Gestion_administrador{
             obj.addProperty("estado_administrador",elemento.estado_administrador);
             obj.addProperty("fecha_registro_administrador",elemento.fecha_registro_administrador);
             obj.addProperty("hora_registro_administrador",elemento.hora_registro_administrador);
+            if(sexualidad)
+            {
+                obj.addProperty("sexualidad",1);
+            }
+            if(identidad)
+            {
+                obj.addProperty("identidad",1);
+            }
+            if(nutricion)
+            {
+                obj.addProperty("nutricion",1);
+            }
+            if(embarazo)
+            {
+                obj.addProperty("embarazo",1);
+            }
             /*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
             obj.addProperty("fecha1",fecha1);
             obj.addProperty("fecha2",fecha2);

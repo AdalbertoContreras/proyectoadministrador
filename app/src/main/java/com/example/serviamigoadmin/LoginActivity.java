@@ -125,6 +125,7 @@ public class    LoginActivity extends AppCompatActivity {
                     if(val == 0)
                     {
                         Toast.makeText(getBaseContext(), "Los datos ingresados no coindicen", Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
                     }
                     else
                     {
@@ -133,16 +134,16 @@ public class    LoginActivity extends AppCompatActivity {
                 }
                 catch(NumberFormatException exc)
                 {
-                    progressDialog.dismiss();
                     Toast.makeText(getBaseContext(), "Los datos ingresados no coindicen", Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
                 }
             }
         };
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                progressDialog.dismiss();
                 Toast.makeText(getBaseContext(), "Ocurrio un error en el servidor", Toast.LENGTH_LONG).show();
+                progressDialog.dismiss();
             }
         };
         StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, errorListener);
@@ -170,6 +171,7 @@ public class    LoginActivity extends AppCompatActivity {
                         Gestion_administrador.setAdministrador_actual(administrador);
                         Intent intent = new Intent(LoginActivity.this, Navigation.class);
                         progressDialog.dismiss();
+                        contraseñaEditText.setText("");
                         startActivity(intent);
                     }
                     else
@@ -180,16 +182,16 @@ public class    LoginActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    Toast.makeText(getBaseContext(), "Los datos ingresados no coindicen", Toast.LENGTH_LONG).show();
                     progressDialog.dismiss();
+                    Toast.makeText(getBaseContext(), "Los datos ingresados no coindicen", Toast.LENGTH_LONG).show();
                 }
             }
         };
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                progressDialog.dismiss();
                 Toast.makeText(getBaseContext(), "Ocurrio un error en el servidor", Toast.LENGTH_LONG).show();
+                progressDialog.dismiss();
             }
         };
         StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, errorListener);

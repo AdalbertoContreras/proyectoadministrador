@@ -7,13 +7,6 @@
     tools:context="com.example.serviamigoadmin.Fragment.Registrar_AdministradorFragment">
 
     <!-- TODO: Update blank fragment layout -->
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -84,20 +77,25 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:orientation="horizontal">
-
-                        <RadioButton
-                            android:layout_width="wrap_content"
+                        <RadioGroup
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Masculino"
-                            android:id="@+id/masculinoAsesorRadioButton"/>
+                            android:orientation="horizontal">
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Masculino"
+                                android:id="@+id/masculinoAsesorRadioButton"/>
 
-                        <RadioButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Femenino"
-                            android:id="@+id/femeninoAsesorRadioButton"/>
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Femenino"
+                                android:id="@+id/femeninoAsesorRadioButton"/>
+                        </RadioGroup>
+
                     </LinearLayout>
 
                 </LinearLayout>
@@ -162,14 +160,12 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/verEspecialidadesTextView"
                     android:text="Ver especialidades"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Registrar administrador"
+                    android:id="@+id/registrarAsesorButton"/>
             </LinearLayout>
         </ScrollView>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Registrar administrador"
-            android:id="@+id/registrarAsesorButton"/>
-    </LinearLayout>
 
 </FrameLayout>
