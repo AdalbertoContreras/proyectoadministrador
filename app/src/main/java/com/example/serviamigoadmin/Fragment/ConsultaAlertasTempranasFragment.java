@@ -154,6 +154,7 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
             agregar_nuevas_alertas = true;
             params = new Gestion_alerta_temprana().consultar_mayor(id_maximo);
         }
+        Log.d("parametros", params.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override

@@ -99,15 +99,15 @@ public class Gestion_usuario {
             obj.addProperty("fecha2",fecha2);
             obj.addProperty("tipo_consulta",tipo_consulta);
             obj.addProperty("llave_ws",llave_ws);
-            if(usuario_online != null)
+            if(Gestion_administrador.getAdministrador_actual() != null)
             {
-                obj.addProperty("usuario_ol",usuario_online.nombre_cuenta_usuario);
-                obj.addProperty("contrasena_ol",usuario_online.contrasena_usuario);
+                obj.addProperty("nombre_administrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
+                obj.addProperty("contrasena_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
             }
             else
             {
-                obj.addProperty("usuario_ol","");
-                obj.addProperty("contrasena_ol","");
+                obj.addProperty("nombre_administrador_ol","");
+                obj.addProperty("contrasena_administrador_ol","");
             }
         } catch (JsonSyntaxException e) {
             e.printStackTrace();

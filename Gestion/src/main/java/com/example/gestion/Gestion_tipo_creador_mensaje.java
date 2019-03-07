@@ -61,6 +61,16 @@ public class Gestion_tipo_creador_mensaje {
             obj.addProperty("fecha2",fecha2);
             obj.addProperty("tipo_consulta",tipo_consulta);
             obj.addProperty("llave_ws",llave_ws);
+            if(Gestion_administrador.getAdministrador_actual() != null)
+            {
+                obj.addProperty("nombre_admnistrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
+                obj.addProperty("contraseña_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
+            }
+            else
+            {
+                obj.addProperty("nombre_admnistrador_ol","");
+                obj.addProperty("contraseña_administrador_ol","");
+            }
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }

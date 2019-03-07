@@ -40,7 +40,7 @@ public class MySocialMediaSingleton
     }
 
     public  void addToRequestQueue(Request req) {
-        req.setRetryPolicy(new RetryPolicy() {
+        /*req.setRetryPolicy(new RetryPolicy() {
             @Override
             public int getCurrentTimeout() {
                 return 50000;
@@ -55,7 +55,7 @@ public class MySocialMediaSingleton
             public void retry(VolleyError error) throws VolleyError {
 
             }
-        });
+        });*/
         getRequestQueue().add(req);
 
     }

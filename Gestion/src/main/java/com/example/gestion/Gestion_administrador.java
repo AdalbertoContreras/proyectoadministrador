@@ -170,6 +170,16 @@ public class Gestion_administrador{
             obj.addProperty("estado_administrador",elemento.estado_administrador);
             obj.addProperty("fecha_registro_administrador",elemento.fecha_registro_administrador);
             obj.addProperty("hora_registro_administrador",elemento.hora_registro_administrador);
+            if(getAdministrador_actual() != null)
+            {
+                obj.addProperty("nombre_admnistrador_ol",administrador_actual.nombre_cuenta_administrador);
+                obj.addProperty("contraseña_administrador_ol",administrador_actual.contrasena_administrador);
+            }
+            else
+            {
+                obj.addProperty("nombre_admnistrador_ol","");
+                obj.addProperty("contraseña_administrador_ol","");
+            }
             if(sexualidad)
             {
                 obj.addProperty("sexualidad",1);

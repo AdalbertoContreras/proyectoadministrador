@@ -118,12 +118,12 @@ public class Gestion_alerta_temprana {
             obj.addProperty("llave_ws",llave_ws);
             if(Gestion_administrador.getAdministrador_actual() != null)
             {
-                obj.addProperty("nombre_cuenta_administrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
+                obj.addProperty("nombre_administrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
                 obj.addProperty("contrasena_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
             }
             else
             {
-                obj.addProperty("nombre_cuenta_administrador_ol","");
+                obj.addProperty("nombre_administrador_ol","");
                 obj.addProperty("contrasena_administrador_ol","");
             }
 
@@ -146,12 +146,12 @@ public class Gestion_alerta_temprana {
             obj.addProperty("llave_ws",llave_ws);
             if(Gestion_administrador.getAdministrador_actual() != null)
             {
-                obj.addProperty("nombre_cuenta_administrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
+                obj.addProperty("nombre_administrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
                 obj.addProperty("contrasena_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
             }
             else
             {
-                obj.addProperty("nombre_cuenta_administrador_ol","");
+                obj.addProperty("nombre_administrador_ol","");
                 obj.addProperty("contrasena_administrador_ol","");
             }
 

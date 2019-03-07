@@ -155,6 +155,16 @@ public class Gestion_chat_asesoria {
             obj.addProperty("fecha2",fecha2);
             obj.addProperty("tipo_consulta",tipo_consulta);
             obj.addProperty("llave_ws",llave_ws);
+            if(Gestion_administrador.getAdministrador_actual() != null)
+            {
+                obj.addProperty("nombre_admnistrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
+                obj.addProperty("contraseña_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
+            }
+            else
+            {
+                obj.addProperty("nombre_admnistrador_ol","");
+                obj.addProperty("contraseña_administrador_ol","");
+            }
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
@@ -173,6 +183,16 @@ public class Gestion_chat_asesoria {
             obj.addProperty("llave_ws",llave_ws);
             obj.addProperty("usuario_ol",Gestion_usuario.getUsuario_online().nombre_cuenta_usuario);
             obj.addProperty("contrasena_ol",Gestion_usuario.getUsuario_online().contrasena_usuario);
+            if(Gestion_administrador.getAdministrador_actual() != null)
+            {
+                obj.addProperty("nombre_admnistrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
+                obj.addProperty("contraseña_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
+            }
+            else
+            {
+                obj.addProperty("nombre_admnistrador_ol","");
+                obj.addProperty("contraseña_administrador_ol","");
+            }
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
