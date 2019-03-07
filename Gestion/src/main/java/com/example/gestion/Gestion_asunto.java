@@ -28,6 +28,13 @@ public class Gestion_asunto {
         return construir_parametros(aux);
     }
 
+    public HashMap<String, String> consultar_asunto_por_id(int id_asunto)
+    {
+        aux.id_asunto = id_asunto;
+        tipo_consulta = "consultar_asunto_por_id";
+        return construir_parametros(aux);
+    }
+
     public ArrayList<Asunto> generar_json(String respuesta)
     {
         ArrayList<Asunto> lista_elementos = new ArrayList<>();

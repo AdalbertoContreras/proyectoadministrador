@@ -13,15 +13,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.serviamigoadmin.Fragment.Actualizar_AdministradorFragment;
+import com.example.serviamigoadmin.Fragment.CambiarContrasenaFragment;
 import com.example.serviamigoadmin.Fragment.ChatUsuarioFragment;
 import com.example.serviamigoadmin.Fragment.ConsultaAlertasTempranasFragment;
+import com.example.serviamigoadmin.Fragment.EstadisticaUsuariosFragment;
 import com.example.serviamigoadmin.Fragment.MisAsesoriasFragment;
 import com.example.serviamigoadmin.Fragment.Registrar_AdministradorFragment;
 import com.example.serviamigoadmin.Fragment.Registrar_noticiaFragment;
 import com.example.servimaigoadmin.R;
 
 public class Navigation extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ConsultaAlertasTempranasFragment.OnFragmentInteractionListener, Registrar_noticiaFragment.OnFragmentInteractionListener, MisAsesoriasFragment.OnFragmentInteractionListener, ChatUsuarioFragment.OnFragmentInteractionListener, Registrar_AdministradorFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ConsultaAlertasTempranasFragment.OnFragmentInteractionListener, Registrar_noticiaFragment.OnFragmentInteractionListener, MisAsesoriasFragment.OnFragmentInteractionListener, ChatUsuarioFragment.OnFragmentInteractionListener, Registrar_AdministradorFragment.OnFragmentInteractionListener, CambiarContrasenaFragment.OnFragmentInteractionListener, Actualizar_AdministradorFragment.OnFragmentInteractionListener, EstadisticaUsuariosFragment.OnFragmentInteractionListener {
     private ConsultaAlertasTempranasFragment consultaAlertasTempranasFragment;
     DrawerLayout drawer;
     @Override
@@ -93,6 +96,18 @@ public class Navigation extends AppCompatActivity
         }
         if (id == R.id.registrar_asesor) {
             fragment = new Registrar_AdministradorFragment();
+            selecionado = true;
+        }
+        if (id == R.id.cambiar_contraseña) {
+            fragment = new CambiarContrasenaFragment();
+            selecionado = true;
+        }
+        if (id == R.id.actualizar_mis_datos) {
+            fragment = new Actualizar_AdministradorFragment();
+            selecionado = true;
+        }
+        if (id == R.id.estadistica_numero_usuario) {
+            fragment = new EstadisticaUsuariosFragment();
             selecionado = true;
         }
         if (id == R.id.cerrar_sesion) {

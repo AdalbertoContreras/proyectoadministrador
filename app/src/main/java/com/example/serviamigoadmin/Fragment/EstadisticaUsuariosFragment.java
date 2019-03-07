@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.servimaigoadmin.R;
 
@@ -24,6 +25,25 @@ public class EstadisticaUsuariosFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private TextView usuariosTotalTextView;
+    private TextView usuariosFemeninoTotalTextView;
+    private TextView usuariosMasculinoTotalTextView;
+    private TextView usuariosInfanciaTextView;
+    private TextView usuariosFemeninoInfanciaTextView;
+    private TextView usuariosMasculinosInfantesTextView;
+    private TextView usuariosAdolecentesTextView;
+    private TextView usuariosFemeninoAdolecenteTextView;
+    private TextView usuariosMasculinoAdolecenteTextView;
+    private TextView usuariosJovenTextView;
+    private TextView usuariosFemeninoJovenTextView;
+    private TextView usuariosMasculinoJovenTextView;
+    private TextView usuariosAdultosTextView;
+    private TextView usuariosFemeninoAdultoTextView;
+    private TextView usuariosMasculinoAdultoTextView;
+    private TextView usuariosMayorTextView;
+    private TextView usauariosFemeninoMayorTextView;
+    private TextView usuariosMasculinoMayorTextView;
+    private View view;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -66,7 +86,25 @@ public class EstadisticaUsuariosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_estadistica_usuarios, container, false);
+        view =  inflater.inflate(R.layout.fragment_estadistica_usuarios, container, false);
+        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
+        usuariosFemeninoTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
+        usuariosMasculinoTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
+        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
+        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
+        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
+        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
+        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
+        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
+        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
+        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
+        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
+        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
+        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
+        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
+        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
+        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

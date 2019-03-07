@@ -336,12 +336,10 @@ public class Registrar_noticiaFragment extends Fragment {
         String[] categoria_array = null;
         if(categoria_noticiaArrayList.isEmpty())
         {
-            Toast.makeText(getContext(), "Array vacio", Toast.LENGTH_SHORT).show();
             categoria_array = llenar_categorias_vacio();
         }
         else
         {
-            Toast.makeText(getContext(), "Array lleno", Toast.LENGTH_SHORT).show();
             categoria_array = pasar_categorias_a_string(categoria_noticiaArrayList);
         }
         ArrayAdapter arrayAdapter = new ArrayAdapter<String>(this.getContext(),android.R.layout.simple_spinner_item, categoria_array);

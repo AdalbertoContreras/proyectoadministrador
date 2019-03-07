@@ -34,12 +34,12 @@ import java.util.HashMap;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Registrar_AdministradorFragment.OnFragmentInteractionListener} interface
+ * {@link Actualizar_AdministradorFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Registrar_AdministradorFragment#newInstance} factory method to
+ * Use the {@link Actualizar_AdministradorFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Registrar_AdministradorFragment extends Fragment {
+public class Actualizar_AdministradorFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -55,19 +55,12 @@ public class Registrar_AdministradorFragment extends Fragment {
     private EditText direccionEditText;
     private EditText telefonoEditText;
     private EditText correoElectronicoEditText;
-    private EditText nombreCuentaEditText;
     private EditText fechaNacimientoEditText;
-    private EditText contraseñaEditText;
-    private Button especialidadesEditText;
     private RadioButton femeninoRadioButton;
     private RadioButton masculinoRadioButton;
     private Button registrarButton;
     private View view;
-    private boolean sexualidarReproductivaSelecionada = false;
-    private boolean identidadSelecionada = false;
-    private boolean nutricionSelecionada = false;
-    private boolean embarazoSelecionada = false;
-    public Registrar_AdministradorFragment() {
+    public Actualizar_AdministradorFragment() {
         // Required empty public constructor
     }
 
@@ -80,8 +73,8 @@ public class Registrar_AdministradorFragment extends Fragment {
      * @return A new instance of fragment Registrar_AdministradorFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Registrar_AdministradorFragment newInstance(String param1, String param2) {
-        Registrar_AdministradorFragment fragment = new Registrar_AdministradorFragment();
+    public static Actualizar_AdministradorFragment newInstance(String param1, String param2) {
+        Actualizar_AdministradorFragment fragment = new Actualizar_AdministradorFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -102,16 +95,13 @@ public class Registrar_AdministradorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view =  inflater.inflate(R.layout.fragment_registrar_administrador, container, false);
+        view =  inflater.inflate(R.layout.actualizar_mis_datos, container, false);
         nombresEditText = view.findViewById(R.id.nombresAsesorEditText);
         apellidosEditText = view.findViewById(R.id.apellidosAsesorEditText);
         fechaNacimientoEditText = view.findViewById(R.id.fechaNacimientoAsesorEditText);
         correoElectronicoEditText = view.findViewById(R.id.correoElectronioAsesorEditText);
         telefonoEditText = view.findViewById(R.id.numeroTelefonoAsesorEditText);
         direccionEditText = view.findViewById(R.id.direccionAsesorEditText);
-        especialidadesEditText = view.findViewById(R.id.verEspecialidadesTextView);
-        nombreCuentaEditText = view.findViewById(R.id.nombreCuentaAsesorEditText);
-        contraseñaEditText = view.findViewById(R.id.contraseñaAsesorEditText);
         registrarButton = view.findViewById(R.id.registrarAsesorButton);
         masculinoRadioButton = view.findViewById(R.id.masculinoAsesorRadioButton);
         femeninoRadioButton = view.findViewById(R.id.femeninoAsesorRadioButton);
@@ -131,46 +121,26 @@ public class Registrar_AdministradorFragment extends Fragment {
                 showDatePickerDialog();
             }
         });
-        especialidadesEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showEspecialidades();
-            }
-        });
         registrarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(nombresEditText.getText().toString().isEmpty())
                 {
-                    Toast.makeText(view.getContext(), "Ingrese los nombres del asesor", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "Ingrese sus nombres", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(apellidosEditText.getText().toString().isEmpty())
                 {
-                    Toast.makeText(view.getContext(), "Ingrese los apellidos del asesor", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "Ingrese sus apellidos", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(fechaNacimientoEditText.getText().toString().isEmpty())
                 {
-                    Toast.makeText(view.getContext(), "Ingrese la fecha de cacimiento del asesor", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(nombreCuentaEditText.getText().toString().isEmpty())
-                {
-                    Toast.makeText(view.getContext(), "Ingrese el nombre de la cuenta del asesor", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(contraseñaEditText.getText().toString().isEmpty())
-                {
-                    Toast.makeText(view.getContext(), "Ingrese la contraseña de la cuenta del asesor", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(!sexualidarReproductivaSelecionada && !identidadSelecionada && !nutricionSelecionada && !embarazoSelecionada)
-                {
-                    Toast.makeText(view.getContext(), "Escoja una o varias especialidades para el asesor", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "Ingrese su fecha de nacimiento", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Administrador administrador = new Administrador();
+                administrador.id_administrador = Gestion_administrador.getAdministrador_actual().id_administrador;
                 administrador.nombres_administrador = nombresEditText.getText().toString();
                 administrador.apellidos_administrador = apellidosEditText.getText().toString();
                 administrador.numero_telefono_administrador = telefonoEditText.getText().toString();
@@ -185,17 +155,35 @@ public class Registrar_AdministradorFragment extends Fragment {
                 {
                     administrador.sexo_administrador = 1;
                 }
-                administrador.nombre_cuenta_administrador = nombreCuentaEditText.getText().toString();
-                administrador.contrasena_administrador = contraseñaEditText.getText().toString();
                 registrar_administrador(administrador);
             }
         });
+        cargar_datos_administrador();
         return view;
     }
 
-    private void registrar_administrador(Administrador administrador)
+    private void cargar_datos_administrador()
     {
-        final HashMap<String, String> hashMap = new Gestion_administrador().registrar_administrador(administrador, sexualidarReproductivaSelecionada, identidadSelecionada, nutricionSelecionada, embarazoSelecionada);
+        Administrador administrador = Gestion_administrador.getAdministrador_actual();
+        nombresEditText.setText(administrador.nombres_administrador);
+        apellidosEditText.setText(administrador.apellidos_administrador);
+        direccionEditText.setText(administrador.direccion_administrador);
+        telefonoEditText.setText(administrador.numero_telefono_administrador);
+        correoElectronicoEditText.setText(administrador.correo_electronico_administrador);
+        fechaNacimientoEditText.setText(administrador.fecha_nacimiento_administrador);
+        if(administrador.sexo_administrador == 0)
+        {
+            masculinoRadioButton.setChecked(true);
+        }
+        else
+        {
+            femeninoRadioButton.setChecked(true);
+        }
+    }
+
+    private void registrar_administrador(final Administrador administrador)
+    {
+        final HashMap<String, String> hashMap = new Gestion_administrador().actualizar_datos(administrador);
         Log.d("parametros", hashMap.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
@@ -207,44 +195,28 @@ public class Registrar_AdministradorFragment extends Fragment {
                     int val = Integer.parseInt(response);
                     if(val > 0)
                     {
-                        clean();
-                        Toast.makeText(getContext(), "Asesor registrado", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Cuenta actualizada con exito", Toast.LENGTH_SHORT).show();
+                        Gestion_administrador.setAdministrador_actual(administrador);
                     }
                     else
                     {
-                        Toast.makeText(getContext(), "Asesor no registrado", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Cuenta no actualizada", Toast.LENGTH_SHORT).show();
                     }
                 }
                 catch (NumberFormatException exc)
                 {
-                    Toast.makeText(getContext(), "No se pudo registrar asesor, error en el servidor", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Ha ocurrido un error en el servidor", Toast.LENGTH_SHORT).show();
                 }
             }
         };
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "No se pudo registrar asesor, error en el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Ha ocurrido un error en el servidor", Toast.LENGTH_SHORT).show();
             }
         };
         StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, errorListener);
         MySocialMediaSingleton.getInstance(view.getContext()).addToRequestQueue(stringRequest);
-    }
-
-    private void clean()
-    {
-        nombresEditText.setText("");
-        apellidosEditText.setText("");
-        direccionEditText.setText("");
-        telefonoEditText.setText("");
-        correoElectronicoEditText.setText("");
-        nombreCuentaEditText.setText("");
-        contraseñaEditText.setText("");
-        sexualidarReproductivaSelecionada = false;
-        nutricionSelecionada = false;
-        embarazoSelecionada = false;
-        identidadSelecionada = false;
-        femeninoRadioButton.setChecked(true);
     }
 
     private void showDatePickerDialog()
@@ -257,20 +229,6 @@ public class Registrar_AdministradorFragment extends Fragment {
                 fechaNacimientoEditText.setText(year + "-" + (month+1)  + "-" + day );
             }
         });
-        newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
-    }
-
-    private void showEspecialidades()
-    {
-        EspecialidadesDialog newFragment = EspecialidadesDialog.newIntancia(new EspecialidadesDialog.EspecialidadesSelecionadas() {
-            @Override
-            public void especialidadesAceptadas(boolean saludSexual, boolean identidad, boolean nutricion, boolean embarazo) {
-                sexualidarReproductivaSelecionada = saludSexual;
-                identidadSelecionada = identidad;
-                nutricionSelecionada = nutricion;
-                embarazoSelecionada = embarazo;
-            }
-        }, sexualidarReproductivaSelecionada, identidadSelecionada, nutricionSelecionada, embarazoSelecionada);
         newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
     }
 

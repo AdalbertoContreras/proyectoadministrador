@@ -23,7 +23,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="12dp"
                     android:gravity="center"
-                    android:text="Registrar asesor"
+                    android:text="Actualizar mis datos"
                     android:textSize="22sp" />
 
                 <android.support.design.widget.TextInputLayout
@@ -138,33 +138,12 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/nombreCuentaAsesorEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Nombre de cuenta del asesor"
-                        android:inputType="textEmailAddress" />
-                </android.support.design.widget.TextInputLayout>
+                    android:layout_height="match_parent"/>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"/>
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/contraseñaAsesorEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Contraseña del asesor"
-                        android:inputType="textPassword" />
-                </android.support.design.widget.TextInputLayout>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/verEspecialidadesTextView"
-                    android:text="Ver especialidades"/>
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

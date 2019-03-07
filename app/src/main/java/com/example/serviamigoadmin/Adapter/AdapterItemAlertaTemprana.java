@@ -51,7 +51,7 @@ public class AdapterItemAlertaTemprana extends  RecyclerView.Adapter<AdapterItem
     }
 
 
-    public static class ViewHolderDatos extends RecyclerView.ViewHolder{
+    public class ViewHolderDatos extends RecyclerView.ViewHolder{
         private TextView nombre;
         private TextView telefono;
         private TextView direccion;
@@ -71,19 +71,7 @@ public class AdapterItemAlertaTemprana extends  RecyclerView.Adapter<AdapterItem
 
         private void consultar_datos_usuario(Alerta_temprana alerta_temprana)
         {
-            HashMap<String, String> hashMap = new Gestion_usuario().consultar_usuario_por_id(alerta_temprana.usuario_alerta_temprana);
-            Log.d("parametros", hashMap.toString());
-            Response.Listener<String> stringListener = new Response.Listener<String>()
-            {
-                @Override
-                public void onResponse(String response) {
-
-                    //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
-                    llenar_datos_usuario(response);
-                }
-            };
-            StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, MySocialMediaSingleton.errorListener());
-            MySocialMediaSingleton.getInstance(view.getContext()).addToRequestQueue(stringRequest);
+            llenar_datos_usuario(alerta_temprana.usuario);
         }
 
         private void llenar_datos_usuario(String response)
@@ -104,48 +92,23 @@ public class AdapterItemAlertaTemprana extends  RecyclerView.Adapter<AdapterItem
             }
         }
 
-        private void llenar_datos_usuario_anonimo()
-        {
-            nombre.setText("Anonimo");
-            direccion.setText("");
-            telefono.setText("");
-        }
-
         private void consultar_asunto(final Alerta_temprana alerta_temprana)
         {
-            HashMap<String, String> hashMap = new Gestion_asunto().consultar_asuntos();
-            Log.d("parametros", hashMap.toString());
-            Response.Listener<String> stringListener = new Response.Listener<String>()
+            ArrayList<Asunto> aux = new Gestion_asunto().generar_json(alerta_temprana.asunto);
+            if(!aux.isEmpty())
             {
-                @Override
-                public void onResponse(String response) {
-                    //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
-                    ArrayList<Asunto> aux = new Gestion_asunto().generar_json(response);
-                    escoger_asunto(aux, alerta_temprana.asunto_alerta_temprana);
-                }
-            };
-            StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, MySocialMediaSingleton.errorListener());
-            MySocialMediaSingleton.getInstance(view.getContext()).addToRequestQueue(stringRequest);
+                asunto.setText(aux.get(0).nombre_asunto);
+            }
+            else
+            {
+                asunto.setText("no enconrado");
+            }
         }
         public void setDatos(final Alerta_temprana Alerta_temprana)
         {
             consultar_datos_usuario(Alerta_temprana);
             consultar_asunto(Alerta_temprana);
-
             descripcion.setText(Alerta_temprana.descripcion_alerta_temprana);
-        }
-
-        private void escoger_asunto(ArrayList<Asunto> asuntos, int id)
-        {
-            for(Asunto item :  asuntos)
-            {
-                if(id == item.id_asunto)
-                {
-                    asunto.setText(item.nombre_asunto);
-                    return;
-                }
-            }
-            asunto.setText("no enconrado");
         }
     }
 }

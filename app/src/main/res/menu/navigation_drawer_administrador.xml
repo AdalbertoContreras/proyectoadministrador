@@ -20,13 +20,24 @@
             android:title="Ver mis asesorias" />
 
         <item
-            android:id="@+id/ver_mi_perfil"
+        android:id="@+id/cambiar_contraseña"
+        android:icon="@drawable/ic_menu_send"
+        android:title="Cambiar contraseña" />
+
+        <item
+            android:id="@+id/actualizar_mis_datos"
             android:icon="@drawable/ic_menu_send"
-            android:title="Ver mi perfil" />
+            android:title="Actualizar mis datos" />
+
         <item
             android:id="@+id/registrar_asesor"
             android:icon="@drawable/ic_menu_send"
             android:title="Registrar asesor" />
+
+        <item
+            android:id="@+id/estadistica_numero_usuario"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Estadistica de usuarios" />
 
         <item
             android:id="@+id/cerrar_sesion"

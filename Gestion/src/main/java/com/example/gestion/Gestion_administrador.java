@@ -36,6 +36,19 @@ public class Gestion_administrador{
         return construir_parametros();
     }
 
+    public HashMap<String, String> cambiar_contrasena(Administrador administrador)
+    {
+        tipo_consulta = "cambiar_contrasena";
+        return construir_parametros(administrador);
+    }
+
+
+    public HashMap<String, String> actualizar_datos(Administrador administrador)
+    {
+        tipo_consulta = "actualizar_datos";
+        return construir_parametros(administrador);
+    }
+
     public HashMap<String, String> consultar_administrador_por_nombre(String nombre)
     {
         tipo_consulta = "consultar_por_nombre_cuenta";
@@ -127,6 +140,9 @@ public class Gestion_administrador{
                 nombres_administrador = jsonObject.get("nombres_administrador").getAsString();
                 apellidos_administrador = jsonObject.get("apellidos_administrador").getAsString();
                 fecha_nacimiento_administrador = jsonObject.get("fecha_nacimiento_administrador").getAsString();
+                direccion_administrador = jsonObject.get("direccion_administrador").getAsString();
+                correo_electronico_administrador = jsonObject.get("correo_electronico_administrador").getAsString();
+                numero_telefono_administrador = jsonObject.get("numero_telefono_administrador").getAsString();
                 sexo_administrador = jsonObject.get("sexo_administrador").getAsInt();
                 estado_administrador = jsonObject.get("estado_administrador").getAsInt();
                 fecha_registro_administrador = jsonObject.get("fecha_registro_administrador").getAsString();
@@ -166,6 +182,9 @@ public class Gestion_administrador{
             obj.addProperty("nombres_administrador",elemento.nombres_administrador);
             obj.addProperty("apellidos_administrador",elemento.apellidos_administrador);
             obj.addProperty("fecha_nacimiento_administrador",elemento.fecha_nacimiento_administrador);
+            obj.addProperty("direccion_administrador",elemento.direccion_administrador);
+            obj.addProperty("numero_telefono_administrador",elemento.numero_telefono_administrador);
+            obj.addProperty("correo_electronico_administrador",elemento.correo_electronico_administrador);
             obj.addProperty("sexo_administrador",elemento.sexo_administrador);
             obj.addProperty("estado_administrador",elemento.estado_administrador);
             obj.addProperty("fecha_registro_administrador",elemento.fecha_registro_administrador);

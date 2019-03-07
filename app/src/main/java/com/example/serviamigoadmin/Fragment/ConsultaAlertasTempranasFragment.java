@@ -91,7 +91,7 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view_permanente =  inflater.inflate(R.layout.fragment_consulta_alertas_tempranas, container, false);
-        consultar_alertas_tempranas();
+        //consultar_alertas_tempranas();
         return view_permanente;
     }
 
@@ -102,6 +102,7 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
         cont_m = 5000;
         seguir = true;
         generando_consulta = false;
+        agregar_nuevas_alertas = false;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -164,7 +165,13 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
                 llenar_alertas_tempranas(response);
             }
         };
-        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, MySocialMediaSingleton.errorListener());
+        Response.ErrorListener errorListener =  new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Reponse.Error",error.toString() + " Alerta temprana no consultada");
+            }
+        };
+        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, errorListener);
         MySocialMediaSingleton.getInstance(view_permanente.getContext()).addToRequestQueue(stringRequest);
     }
 
@@ -173,14 +180,18 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
         ArrayList<Alerta_temprana> aux = new Gestion_alerta_temprana().generar_json(json);
         if(!alerta_tempranaArrayList.isEmpty())
         {
-            alerta_tempranaArrayList.addAll(0, aux);
-            id_maximo = alerta_tempranaArrayList.get(0).id_alerta_temprana;
+            agregar_nuevas_alertas = true;
+            if(!aux.isEmpty())
+            {
+                alerta_tempranaArrayList.addAll(0, aux);
+                id_maximo = aux.get(0).id_alerta_temprana;
+            }
         }
         else
         {
             alerta_tempranaArrayList = aux;
         }
-        if(agregar_nuevas_alertas)
+        if(agregar_nuevas_alertas && !aux.isEmpty())
         {
             adapterItemCliente.notifyItemInserted(0);
         }

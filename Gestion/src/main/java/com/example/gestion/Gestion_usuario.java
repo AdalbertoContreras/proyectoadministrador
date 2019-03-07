@@ -3,6 +3,8 @@ package com.example.gestion;
 import com.example.modelo.Usuario;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
@@ -61,7 +63,7 @@ public class Gestion_usuario {
 
     private Usuario agregar_elemento(final JsonObject jsonObject)
     {
-        return new Usuario(){{
+        Usuario usuario = new Usuario(){{
             try {
                 id_usuario = jsonObject.get("id_usuario").getAsInt();
                 numero_identificacion_usuario = jsonObject.get("numero_identificacion_usuario").getAsString();
@@ -73,11 +75,11 @@ public class Gestion_usuario {
                 fecha_nacimiento = jsonObject.get("fecha_nacimiento").getAsString();
                 correo_usuario = jsonObject.get("correo_usuario").getAsString();
                 nombre_cuenta_usuario = jsonObject.get("nombre_cuenta_usuario").getAsString();
-                contrasena_usuario = jsonObject.get("contraseña_usuario").getAsString();
-            } catch (JsonSyntaxException | IllegalStateException | NullPointerException e) {
+            } catch (JsonSyntaxException | IllegalStateException | NullPointerException  | JsonIOException e) {
                 e.printStackTrace();
             }
         }};
+        return usuario;
     }
 
     private HashMap<String,String> construir_parametros(Usuario elemento)
