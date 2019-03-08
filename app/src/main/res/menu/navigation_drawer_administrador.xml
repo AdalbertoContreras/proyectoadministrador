@@ -35,6 +35,11 @@
             android:title="Registrar asesor" />
 
         <item
+            android:id="@+id/ver_asesores"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Ver asesores" />
+
+        <item
             android:id="@+id/estadistica_numero_usuario"
             android:icon="@drawable/ic_menu_send"
             android:title="Estadistica de usuarios" />

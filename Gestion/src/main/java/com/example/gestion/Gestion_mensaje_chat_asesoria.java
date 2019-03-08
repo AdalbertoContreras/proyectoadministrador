@@ -14,35 +14,72 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Gestion_mensaje_chat_asesoria {
-    private static Mensaje_chat_asesoria aux = new Mensaje_chat_asesoria();
-    private static String llave_ws = "mensaje_chat_asesoria";
-    private static String fecha1;
-    private static String fecha2;
-    private static String tipo_consulta;
+    private static final String llave_ws = "mensaje_chat_asesoria";
+    private JsonObject obj;
 
-    private static void iniciar_axu()
+
+    private void adjuntar_aseso()
     {
-        aux = new Mensaje_chat_asesoria();
+        if(Gestion_administrador.getAdministrador_actual() != null)
+        {
+            obj.addProperty("nombre_administrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
+            obj.addProperty("contrasena_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
+        }
+        else
+        {
+            obj.addProperty("nombre_administrador_ol","");
+            obj.addProperty("contrasena_administrador_ol","");
+        }
+        obj.addProperty("llave_ws",llave_ws);
     }
 
     public HashMap<String, String> registrar_mensaje_chat_asesoria(Mensaje_chat_asesoria mensaje_chat_asesoria)
     {
-        tipo_consulta = "registrar_mensaje_chat_asesoria";
-        return construir_parametros(mensaje_chat_asesoria);
+        obj = new JsonObject();
+        try {
+            obj.addProperty("contenido_mensaje_chat_asesoria", mensaje_chat_asesoria.contenido_mensaje_chat_asesoria);
+            obj.addProperty("chat_mensaje_chat_asesoria", mensaje_chat_asesoria.chat_mensaje_chat_asesoria);
+            obj.addProperty("id_creador_mensaje_chat_asesoria", mensaje_chat_asesoria.id_creador_mensaje_chat_asesoria);
+            obj.addProperty("tipo_creador_mensaje_chat_asesoria", mensaje_chat_asesoria.tipo_creador_mensaje_chat_asesoria);
+            obj.addProperty("tipo_consulta","registrar_mensaje_chat_asesoria");
+            adjuntar_aseso();
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("json",obj.toString());
+        return hashMap;
     }
+
     public HashMap<String, String> mensajes_asesoria_por_asesoria(int asesoria)
     {
-            aux.chat_mensaje_chat_asesoria = asesoria;
-            tipo_consulta = "mensajes_asesoria_por_asesoria";
-            return construir_parametros(aux);
+        obj = new JsonObject();
+        try {
+            obj.addProperty("chat_mensaje_chat_asesoria", asesoria);
+            obj.addProperty("tipo_consulta","mensajes_asesoria_por_asesoria");
+            adjuntar_aseso();
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("json",obj.toString());
+        return hashMap;
     }
 
     public HashMap<String, String> mensaje_chat_asesoria_por_chat_mayor(int id,int id_chat)
     {
-        aux.id_mensaje_chat_asesoria = id;
-        aux.chat_mensaje_chat_asesoria = id_chat;
-        tipo_consulta = "mensaje_chat_asesoria_por_chat_mayor";
-        return construir_parametros(aux);
+        obj = new JsonObject();
+        try {
+            obj.addProperty("id_mensaje_chat_asesoria", id);
+            obj.addProperty("chat_mensaje_chat_asesoria", id_chat);
+            obj.addProperty("tipo_consulta","mensaje_chat_asesoria_por_chat_mayor");
+            adjuntar_aseso();
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("json",obj.toString());
+        return hashMap;
     }
 
     public ArrayList<Mensaje_chat_asesoria> generar_json(String respuesta)
@@ -77,38 +114,5 @@ public class Gestion_mensaje_chat_asesoria {
                 e.printStackTrace();
             }
         }};
-    }
-
-    private HashMap<String,String> construir_parametros(Mensaje_chat_asesoria elemento)
-    {
-        JsonObject obj = new JsonObject();
-        try {
-            obj.addProperty("id_mensaje_chat_asesoria", elemento.id_mensaje_chat_asesoria);
-            obj.addProperty("fecha_envio_mensaje_chat_asesoria", elemento.fecha_envio_mensaje_chat_asesoria);
-            obj.addProperty("hora_envio_mensaje_asesoria", elemento.hora_envio_mensaje_asesoria);
-            obj.addProperty("contenido_mensaje_chat_asesoria", elemento.contenido_mensaje_chat_asesoria);
-            obj.addProperty("chat_mensaje_chat_asesoria", elemento.chat_mensaje_chat_asesoria);
-            obj.addProperty("id_creador_mensaje_chat_asesoria", elemento.id_creador_mensaje_chat_asesoria);
-            obj.addProperty("tipo_creador_mensaje_chat_asesoria", elemento.tipo_creador_mensaje_chat_asesoria);
-            obj.addProperty("fecha1",fecha1);
-            obj.addProperty("fecha2",fecha2);
-            obj.addProperty("tipo_consulta",tipo_consulta);
-            obj.addProperty("llave_ws",llave_ws);
-            if(Gestion_administrador.getAdministrador_actual() != null)
-            {
-                obj.addProperty("nombre_admnistrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
-                obj.addProperty("contraseña_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
-            }
-            else
-            {
-                obj.addProperty("nombre_admnistrador_ol","");
-                obj.addProperty("contraseña_administrador_ol","");
-            }
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
-        }
-        HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("json",obj.toString());
-        return hashMap;
     }
 }

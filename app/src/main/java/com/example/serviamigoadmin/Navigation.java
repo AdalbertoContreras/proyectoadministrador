@@ -21,10 +21,11 @@ import com.example.serviamigoadmin.Fragment.EstadisticaUsuariosFragment;
 import com.example.serviamigoadmin.Fragment.MisAsesoriasFragment;
 import com.example.serviamigoadmin.Fragment.Registrar_AdministradorFragment;
 import com.example.serviamigoadmin.Fragment.Registrar_noticiaFragment;
+import com.example.serviamigoadmin.Fragment.VerAsesoresFragment;
 import com.example.servimaigoadmin.R;
 
 public class Navigation extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ConsultaAlertasTempranasFragment.OnFragmentInteractionListener, Registrar_noticiaFragment.OnFragmentInteractionListener, MisAsesoriasFragment.OnFragmentInteractionListener, ChatUsuarioFragment.OnFragmentInteractionListener, Registrar_AdministradorFragment.OnFragmentInteractionListener, CambiarContrasenaFragment.OnFragmentInteractionListener, Actualizar_AdministradorFragment.OnFragmentInteractionListener, EstadisticaUsuariosFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ConsultaAlertasTempranasFragment.OnFragmentInteractionListener, Registrar_noticiaFragment.OnFragmentInteractionListener, MisAsesoriasFragment.OnFragmentInteractionListener, ChatUsuarioFragment.OnFragmentInteractionListener, Registrar_AdministradorFragment.OnFragmentInteractionListener, CambiarContrasenaFragment.OnFragmentInteractionListener, Actualizar_AdministradorFragment.OnFragmentInteractionListener, EstadisticaUsuariosFragment.OnFragmentInteractionListener, VerAsesoresFragment.OnFragmentInteractionListener {
     private ConsultaAlertasTempranasFragment consultaAlertasTempranasFragment;
     DrawerLayout drawer;
     @Override
@@ -96,6 +97,10 @@ public class Navigation extends AppCompatActivity
         }
         if (id == R.id.registrar_asesor) {
             fragment = new Registrar_AdministradorFragment();
+            selecionado = true;
+        }
+        if (id == R.id.ver_asesores) {
+            fragment = new VerAsesoresFragment();
             selecionado = true;
         }
         if (id == R.id.cambiar_contraseña) {

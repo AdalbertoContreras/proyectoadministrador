@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp">
+
+        <ImageView
+            android:id="@+id/magenAsesorImageView"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            tools:srcCompat="@tools:sample/avatars"
+            android:layout_marginVertical="20dp"
+            android:layout_marginHorizontal="10dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/nombreAsesorTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_marginHorizontal="10dp"
+                android:text="ASESOR 1"
+                android:gravity="center"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/listaEspecialidadesRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                tools:listitem="@layout/recycler_view_item_2"
+                tools:spanCount="5"
+                tools:layoutManager="GridLayoutManager"></android.support.v7.widget.RecyclerView>
+
+            <ImageButton
+                android:id="@+id/detallesAsesorImageButton"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@android:drawable/ic_menu_manage"
+                android:layout_gravity="right"
+                android:layout_marginVertical="10dp"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

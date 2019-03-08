@@ -1,6 +1,5 @@
 package com.example.gestion;
 
-import com.example.modelo.Accion;
 import com.example.modelo.Administrador;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -14,15 +13,45 @@ import java.util.HashMap;
 public class Gestion_administrador{
     private Administrador aux = new Administrador();
     private static Administrador administrador_actual = null;
-    private boolean sexualidad;
-    private boolean identidad;
-    private boolean nutricion;
-    private boolean embarazo;
+    private boolean sexualidad = false;
+    private boolean identidad = false;
+    private boolean nutricion = false;
+    private boolean embarazo = false;
     private String llave_ws = "administrador";
     private String fecha1;
     private String fecha2;
     private int especialidad;
     private String tipo_consulta;
+    private JsonObject obj;
+
+    private void adjuntar_aseso()
+    {
+        if(getAdministrador_actual() != null)
+        {
+            obj.addProperty("nombre_administrador_ol",administrador_actual.nombre_cuenta_administrador);
+            obj.addProperty("contraseña_administrador_ol",administrador_actual.contrasena_administrador);
+        }
+        else
+        {
+            obj.addProperty("nombre_admnistrador_ol","");
+            obj.addProperty("contraseña_administrador_ol","");
+        }
+    }
+
+    private HashMap<String, String> consultar_asesores()
+    {
+        obj = new JsonObject();
+        try {
+            obj.addProperty("tipo_consulta","consultar_asesores");
+            obj.addProperty("llave_ws",llave_ws);
+            adjuntar_aseso();
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("json",obj.toString());
+        return hashMap;
+    }
 
     private void iniciar_axu()
     {
@@ -31,15 +60,35 @@ public class Gestion_administrador{
 
     public HashMap<String, String> consultar_administradores_por_especialidad(int _especialidad)
     {
-        tipo_consulta = "consultar_por_especialidad";
-        especialidad = _especialidad;
-        return construir_parametros();
+        obj = new JsonObject();
+        try {
+            obj.addProperty("especialidad", _especialidad);
+            obj.addProperty("tipo_consulta","consultar_por_especialidad");
+            obj.addProperty("llave_ws",llave_ws);
+            adjuntar_aseso();
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("json",obj.toString());
+        return hashMap;
     }
 
     public HashMap<String, String> cambiar_contrasena(Administrador administrador)
     {
-        tipo_consulta = "cambiar_contrasena";
-        return construir_parametros(administrador);
+        obj = new JsonObject();
+        try {
+            obj.addProperty("id_administrador", administrador.id_administrador);
+            obj.addProperty("contrasena_administrador",administrador.contrasena_administrador);
+            obj.addProperty("tipo_consulta","cambiar_contrasena");
+            obj.addProperty("llave_ws",llave_ws);
+            adjuntar_aseso();
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("json",obj.toString());
+        return hashMap;
     }
 
 
@@ -174,7 +223,7 @@ public class Gestion_administrador{
 
     private HashMap<String,String> construir_parametros(Administrador elemento)
     {
-        JsonObject obj = new JsonObject();
+        obj = new JsonObject();
         try {
             obj.addProperty("id_administrador", elemento.id_administrador);
             obj.addProperty("nombre_cuenta_administrador",elemento.nombre_cuenta_administrador);
@@ -187,18 +236,7 @@ public class Gestion_administrador{
             obj.addProperty("correo_electronico_administrador",elemento.correo_electronico_administrador);
             obj.addProperty("sexo_administrador",elemento.sexo_administrador);
             obj.addProperty("estado_administrador",elemento.estado_administrador);
-            obj.addProperty("fecha_registro_administrador",elemento.fecha_registro_administrador);
-            obj.addProperty("hora_registro_administrador",elemento.hora_registro_administrador);
-            if(getAdministrador_actual() != null)
-            {
-                obj.addProperty("nombre_admnistrador_ol",administrador_actual.nombre_cuenta_administrador);
-                obj.addProperty("contraseña_administrador_ol",administrador_actual.contrasena_administrador);
-            }
-            else
-            {
-                obj.addProperty("nombre_admnistrador_ol","");
-                obj.addProperty("contraseña_administrador_ol","");
-            }
+            adjuntar_aseso();
             if(sexualidad)
             {
                 obj.addProperty("sexualidad",1);
@@ -230,7 +268,7 @@ public class Gestion_administrador{
 
     private HashMap<String,String> construir_parametros()
     {
-        JsonObject obj = new JsonObject();
+        obj = new JsonObject();
         try {
             /*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
             obj.addProperty("fecha1",fecha1);

@@ -215,6 +215,7 @@ public class ChatUsuarioFragment extends Fragment {
         {
             params = new Gestion_mensaje_chat_asesoria().mensajes_asesoria_por_asesoria(chat_asesoria.id_chat_asesoria);
         }
+        Log.d("Parametros",params.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override
