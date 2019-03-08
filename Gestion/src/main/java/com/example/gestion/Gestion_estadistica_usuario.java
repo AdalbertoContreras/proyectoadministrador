@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Gestion_estadistica_usuario {
-    private static Estadistica_usuario aux;
+    private static Estadistica_usuario aux = new Estadistica_usuario();
     private static String llave_ws = "estadistica_usuario";
     private static String fecha1;
     private static String fecha2;
@@ -26,7 +26,7 @@ public class Gestion_estadistica_usuario {
     public HashMap<String, String> consultar()
     {
         tipo_consulta = "consultar";
-        return construir_parametros(aux);
+        return construir_parametros();
     }
 
     public ArrayList<Estadistica_usuario> generar_json(String respuesta)
@@ -104,10 +104,38 @@ public class Gestion_estadistica_usuario {
             obj.addProperty("numero_usuarios_mayor", elemento.numero_usuarios_mayor);
             obj.addProperty("numero_usuarios_mayor_femenino", elemento.numero_usuarios_mayor_femenino);
             obj.addProperty("numero_usuarios_mayor_masculino", elemento.numero_usuarios_mayor_masculino);
+            obj.addProperty("fecha1",fecha1);
+            obj.addProperty("fecha2",fecha2);
+            obj.addProperty("tipo_consulta",tipo_consulta);
+            obj.addProperty("llave_ws",llave_ws);
             if(Gestion_administrador.getAdministrador_actual() != null)
             {
-                obj.addProperty("nombre_admnistrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
-                obj.addProperty("contraseña_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
+                obj.addProperty("nombre_administrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
+                obj.addProperty("contrasena_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
+            }
+            else
+            {
+                obj.addProperty("nombre_admnistrador_ol","");
+                obj.addProperty("contraseña_administrador_ol","");
+            }
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("json",obj.toString());
+        return hashMap;
+    }
+
+    private HashMap<String,String> construir_parametros()
+    {
+        JsonObject obj = new JsonObject();
+        try {
+            obj.addProperty("tipo_consulta",tipo_consulta);
+            obj.addProperty("llave_ws",llave_ws);
+            if(Gestion_administrador.getAdministrador_actual() != null)
+            {
+                obj.addProperty("nombre_administrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
+                obj.addProperty("contrasena_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
             }
             else
             {

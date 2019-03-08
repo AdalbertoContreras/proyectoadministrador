@@ -22,15 +22,6 @@ public class Gestion_chat_asesoria {
         aux = new Chat_asesoria();
     }
 
-    public HashMap<String, String> consultar_chat_asesoria_por_usuario_administrador_y_especialidad(int administrador, int usuario, int especialidad)
-    {
-        aux.administrador_chat_asesoria = administrador;
-        aux.usuario_chat_asesoria = usuario;
-        aux.especializacion_chat_asesoria = especialidad;
-        tipo_consulta = "consultar_chat_asesoria_por_usuario_administrador_y_especialidad";
-        return construir_parametros(aux);
-    }
-
     public HashMap<String, String> chat_asesoria_por_id(int id_chat)
     {
         aux.id_chat_asesoria = id_chat;

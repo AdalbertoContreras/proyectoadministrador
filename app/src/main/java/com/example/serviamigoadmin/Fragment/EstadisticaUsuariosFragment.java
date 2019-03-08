@@ -4,12 +4,25 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.example.extra.MySocialMediaSingleton;
+import com.example.extra.WebService;
+import com.example.gestion.Gestion_administrador;
+import com.example.gestion.Gestion_estadistica_usuario;
+import com.example.modelo.Estadistica_usuario;
 import com.example.servimaigoadmin.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -25,24 +38,24 @@ public class EstadisticaUsuariosFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private TextView usuariosTotalTextView;
-    private TextView usuariosFemeninoTotalTextView;
-    private TextView usuariosMasculinoTotalTextView;
-    private TextView usuariosInfanciaTextView;
-    private TextView usuariosFemeninoInfanciaTextView;
-    private TextView usuariosMasculinosInfantesTextView;
-    private TextView usuariosAdolecentesTextView;
-    private TextView usuariosFemeninoAdolecenteTextView;
-    private TextView usuariosMasculinoAdolecenteTextView;
-    private TextView usuariosJovenTextView;
-    private TextView usuariosFemeninoJovenTextView;
-    private TextView usuariosMasculinoJovenTextView;
-    private TextView usuariosAdultosTextView;
-    private TextView usuariosFemeninoAdultoTextView;
-    private TextView usuariosMasculinoAdultoTextView;
-    private TextView usuariosMayorTextView;
-    private TextView usauariosFemeninoMayorTextView;
-    private TextView usuariosMasculinoMayorTextView;
+    private TextView usuarioTotalTextView;
+    private TextView usuarioFemeninoTotalTextView;
+    private TextView usuarioMasculinoTotalTextView;
+    private TextView usuarioInfanteTextView;
+    private TextView usuarioFemeninoInfanteTextView;
+    private TextView usuarioMasculinosInfanteTextView;
+    private TextView usuarioAdolecenteTextView;
+    private TextView usuarioFemeninoAdolecenteTextView;
+    private TextView usuarioMasculinoAdolecenteTextView;
+    private TextView usuarioJovenTextView;
+    private TextView usuarioFemeninoJovenTextView;
+    private TextView usuarioMasculinoJovenTextView;
+    private TextView usuarioAdultoTextView;
+    private TextView usuarioFemeninoAdultoTextView;
+    private TextView usuarioMasculinoAdultoTextView;
+    private TextView usuarioMayorTextView;
+    private TextView usuarioFemeninoMayorTextView;
+    private TextView usuarioMasculinoMayorTextView;
     private View view;
 
     // TODO: Rename and change types of parameters
@@ -87,24 +100,76 @@ public class EstadisticaUsuariosFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_estadistica_usuarios, container, false);
-        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
-        usuariosFemeninoTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
-        usuariosMasculinoTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
-        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
-        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
-        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
-        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
-        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
-        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
-        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
-        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
-        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
-        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
-        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
-        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
-        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
-        usuariosTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
+        usuarioTotalTextView = view.findViewById(R.id.usuarioTotalTextView);
+        usuarioFemeninoTotalTextView = view.findViewById(R.id.usuarioFemeninoTotalTextView);
+        usuarioMasculinoTotalTextView = view.findViewById(R.id.usuarioMasculinoTotalTextView);
+        usuarioInfanteTextView = view.findViewById(R.id.usuarioInfanteTextView);
+        usuarioFemeninoInfanteTextView = view.findViewById(R.id.usuarioFemeninoInfanteTextView);
+        usuarioMasculinosInfanteTextView = view.findViewById(R.id.usuarioMasculinoInfanteTextView);
+        usuarioAdolecenteTextView = view.findViewById(R.id.usuarioAdolecenteTextView);
+        usuarioFemeninoAdolecenteTextView = view.findViewById(R.id.usuarioFemeninoAdolecenteTextView);
+        usuarioMasculinoAdolecenteTextView = view.findViewById(R.id.usuarioMasculinoAdolecenteTextView);
+        usuarioJovenTextView = view.findViewById(R.id.usuarioJovenTextView);
+        usuarioFemeninoJovenTextView = view.findViewById(R.id.usuarioFemeninoJovenTextView);
+        usuarioMasculinoJovenTextView = view.findViewById(R.id.usuarioMasculinoJovenTextView);
+        usuarioAdultoTextView = view.findViewById(R.id.usuarioAdultoTextView);
+        usuarioFemeninoAdultoTextView = view.findViewById(R.id.usuarioFemeninoAdultoTextView);
+        usuarioMasculinoAdultoTextView = view.findViewById(R.id.usuarioMasculinoAdultoTextView);
+        usuarioMayorTextView = view.findViewById(R.id.usuarioMayorTextView);
+        usuarioFemeninoMayorTextView = view.findViewById(R.id.usuarioFemeninoMayorTextView);
+        usuarioMasculinoMayorTextView = view.findViewById(R.id.usuarioMasculinoMayorTextView);
+        cosultar_estadisticas();
         return view;
+    }
+
+    private void cosultar_estadisticas()
+    {
+        final HashMap<String, String> hashMap = new Gestion_estadistica_usuario().consultar();
+        Log.d("parametros", hashMap.toString());
+        Response.Listener<String> stringListener = new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {
+                Log.d("respuesta", response);
+                cargar_estadisticas(response);
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "No se pudo registrar asesor, error en el servidor", Toast.LENGTH_SHORT).show();
+            }
+        };
+        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, errorListener);
+        MySocialMediaSingleton.getInstance(view.getContext()).addToRequestQueue(stringRequest);
+    }
+
+    private void cargar_estadisticas(String json)
+    {
+        ArrayList<Estadistica_usuario> estadistica_usuarios = new Gestion_estadistica_usuario().generar_json(json);
+        if(!estadistica_usuarios.isEmpty())
+        {
+            Estadistica_usuario estadistica_usuario = estadistica_usuarios.get(0);
+            usuarioTotalTextView.setText(estadistica_usuario.numero_usuarios_total + "");
+            usuarioFemeninoTotalTextView.setText(estadistica_usuario.numero_usuarios_femeninos + "");
+            usuarioMasculinoTotalTextView.setText(estadistica_usuario.numero_usuarios_masculinos + "");
+            usuarioInfanteTextView.setText(estadistica_usuario.numero_usuarios_infancia + "");
+            usuarioFemeninoInfanteTextView.setText(estadistica_usuario.numero_usuarios_infancia_femenino + "");
+            usuarioMasculinosInfanteTextView.setText(estadistica_usuario.numero_usuarios_infancia_masculino + "");
+            usuarioAdolecenteTextView.setText(estadistica_usuario.numero_usuarios_adolecente + "");
+            usuarioFemeninoAdolecenteTextView.setText(estadistica_usuario.numero_usuarios_adolecente_femenino + "");
+            usuarioMasculinoAdolecenteTextView.setText(estadistica_usuario.numero_usuarios_adolecente_masculino + "");
+            usuarioJovenTextView.setText(estadistica_usuario.numero_usuarios_joven + "");
+            usuarioFemeninoJovenTextView.setText(estadistica_usuario.numero_usuarios_joven_femenino + "");
+            usuarioMasculinoJovenTextView.setText(estadistica_usuario.numero_usuarios_joven_masculino + "");
+            usuarioAdultoTextView.setText(estadistica_usuario.numero_usuarios_adulto + "");
+            usuarioFemeninoAdultoTextView.setText(estadistica_usuario.numero_usuarios_adulto_femenino + "");
+            usuarioMasculinoAdultoTextView.setText(estadistica_usuario.numero_usuarios_adulto_masculino + "");
+            usuarioMayorTextView.setText(estadistica_usuario.numero_usuarios_mayor + "");
+            usuarioFemeninoMayorTextView.setText(estadistica_usuario.numero_usuarios_mayor_femenino + "");
+            usuarioMasculinoMayorTextView.setText(estadistica_usuario.numero_usuarios_mayor_masculino + "");
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
