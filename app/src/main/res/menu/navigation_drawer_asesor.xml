@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/ver_mis_Asesorias"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Ver mis asesorias" />
+
+        <item
+        android:id="@+id/cambiar_contraseña"
+        android:icon="@drawable/ic_menu_send"
+        android:title="Cambiar contraseña" />
+
+        <item
+            android:id="@+id/actualizar_mis_datos"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Actualizar mis datos" />
+
+        <item
+            android:id="@+id/cerrar_sesion"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Cerrar sesion" />
+    </group>
+</menu>

@@ -173,13 +173,13 @@ public class Gestion_administrador{
         return hashMap;
     }
 
-    public HashMap<String, String> activar_administrador(int id_administrador)
+    public HashMap<String, String> habilitar_administrador(int id_administrador)
     {
         obj = new JsonObject();
         try {
             obj.addProperty(ID_ADMINISTRADOR, id_administrador);
             adjuntar_aseso();
-            obj.addProperty(TIPO_CONSULTA,"activar_administrador");
+            obj.addProperty(TIPO_CONSULTA,"habilitar_administrador");
             obj.addProperty(LLAVE_WS,llave_ws);
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
@@ -189,13 +189,13 @@ public class Gestion_administrador{
         return hashMap;
     }
 
-    public HashMap<String, String> bloquear_administrador(int id_administrador)
+    public HashMap<String, String> deshabilitar_asesor(int id_administrador)
     {
         obj = new JsonObject();
         try {
             obj.addProperty(ID_ADMINISTRADOR, id_administrador);
             adjuntar_aseso();
-            obj.addProperty(TIPO_CONSULTA,"bloquear_administrador");
+            obj.addProperty(TIPO_CONSULTA,"deshabilitar_asesor");
             obj.addProperty("llave_ws",llave_ws);
         } catch (JsonSyntaxException e) {
             e.printStackTrace();

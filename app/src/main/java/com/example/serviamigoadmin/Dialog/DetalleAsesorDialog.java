@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.extra.MySocialMediaSingleton;
 import com.example.extra.WebService;
+import com.example.gestion.Gestion_administrador;
 import com.example.gestion.Gestion_especialidad_administrador;
 import com.example.modelo.Administrador;
 import com.example.modelo.Especialidad;
@@ -32,6 +33,7 @@ public class DetalleAsesorDialog extends DialogFragment{
     public ArrayList<Boolean> especialidades;
     public ArrayList<Boolean> especialidades_espejo;
     public AceptoCambios aceptoCambios;
+    public int estado_espejo;
     private TextView nombresTextView;
     private TextView apellidosTextView;
     private TextView telefonoTextView;
@@ -46,12 +48,19 @@ public class DetalleAsesorDialog extends DialogFragment{
     private CheckBox maltratoCheckBox;
     private View view;
 
+    public DetalleAsesorDialog()
+    {
+        especialidades_espejo = new ArrayList<>();
+        administrador = new Administrador();
+        estado_espejo = 0;
+    }
+
     public static DetalleAsesorDialog newIntancia(Administrador administrador, ArrayList<Boolean>  especialidades,AceptoCambios aceptoCambios)
     {
         DetalleAsesorDialog detalleAsesorDialog = new DetalleAsesorDialog();
         detalleAsesorDialog.administrador = administrador;
+        detalleAsesorDialog.estado_espejo = administrador.estado_administrador;
         detalleAsesorDialog.especialidades = especialidades;
-        detalleAsesorDialog.especialidades_espejo = new ArrayList<>();
         detalleAsesorDialog.especialidades_espejo.addAll(0, especialidades);
         detalleAsesorDialog.aceptoCambios = aceptoCambios;
         return detalleAsesorDialog;
@@ -145,6 +154,40 @@ public class DetalleAsesorDialog extends DialogFragment{
                 registrar_eliminar_especialidad_administrador(4, false);
             }
         }
+        if(administrador.estado_administrador != estado_espejo)
+        {
+            registrar_estado_administrador();
+        }
+    }
+
+    private void registrar_estado_administrador()
+    {
+        HashMap<String,String> params;
+        if(administrador.estado_administrador == 0)
+        {
+            params = new Gestion_administrador().deshabilitar_asesor(administrador.id_administrador);
+        }
+        else
+        {
+            params = new Gestion_administrador().habilitar_administrador(administrador.id_administrador);
+        }
+        Log.d("parametros", params.toString());
+        Response.Listener<String> stringListener = new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response) {
+                //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
+                Log.d("respuesta", response);
+            }
+        };
+        Response.ErrorListener errorListener =  new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Reponse.Error",error.toString());
+            }
+        };
+        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, errorListener);
+        MySocialMediaSingleton.getInstance(view.getContext()).addToRequestQueue(stringRequest);
     }
 
     private void registrar_eliminar_especialidad_administrador(int especialidad, boolean registrar)
@@ -236,6 +279,14 @@ public class DetalleAsesorDialog extends DialogFragment{
         {
             embarazoCheckBox.setChecked(false);
         }
+        if(administrador.estado_administrador == 0)
+        {
+            permisoAccesoAsesorCheckBox.setChecked(false);
+        }
+        else
+        {
+            permisoAccesoAsesorCheckBox.setChecked(true);
+        }
         sexualidadCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -258,6 +309,19 @@ public class DetalleAsesorDialog extends DialogFragment{
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 especialidades.set(3, isChecked);
+            }
+        });
+        permisoAccesoAsesorCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    administrador.estado_administrador = 1;
+                }
+                else
+                {
+                    administrador.estado_administrador = 0;
+                }
             }
         });
     }

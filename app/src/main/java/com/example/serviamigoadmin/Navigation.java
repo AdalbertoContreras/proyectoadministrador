@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.gestion.Gestion_administrador;
 import com.example.serviamigoadmin.Fragment.Actualizar_AdministradorFragment;
 import com.example.serviamigoadmin.Fragment.CambiarContrasenaFragment;
 import com.example.serviamigoadmin.Fragment.ChatUsuarioFragment;
@@ -22,17 +23,24 @@ import com.example.serviamigoadmin.Fragment.EstadisticaUsuariosFragment;
 import com.example.serviamigoadmin.Fragment.MisAsesoriasFragment;
 import com.example.serviamigoadmin.Fragment.Registrar_AdministradorFragment;
 import com.example.serviamigoadmin.Fragment.Registrar_noticiaFragment;
-import com.example.serviamigoadmin.Fragment.VerAsesoresFragment;
 import com.example.servimaigoadmin.R;
 
 public class Navigation extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ConsultaAlertasTempranasFragment.OnFragmentInteractionListener, Registrar_noticiaFragment.OnFragmentInteractionListener, MisAsesoriasFragment.OnFragmentInteractionListener, ChatUsuarioFragment.OnFragmentInteractionListener, Registrar_AdministradorFragment.OnFragmentInteractionListener, CambiarContrasenaFragment.OnFragmentInteractionListener, Actualizar_AdministradorFragment.OnFragmentInteractionListener, EstadisticaUsuariosFragment.OnFragmentInteractionListener, ConsultarAsesoresFragment.OnFragmentInteractionListener {
     private ConsultaAlertasTempranasFragment consultaAlertasTempranasFragment;
-    DrawerLayout drawer;
+    private DrawerLayout drawer;
+    private boolean seguir;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.principal_navigation);
+        if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 1)
+        {
+            setContentView(R.layout.navigation_administrador);
+        }
+        else
+        {
+            setContentView(R.layout.navigation_asesor);
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -42,10 +50,38 @@ public class Navigation extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         consultaAlertasTempranasFragment = new ConsultaAlertasTempranasFragment();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        getSupportFragmentManager().beginTransaction().add(R.id.framengMaster,new ConsultaAlertasTempranasFragment()).commit();
 
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 1)
+        {
+            getSupportFragmentManager().beginTransaction().add(R.id.framengMaster,new ConsultaAlertasTempranasFragment()).commit();
+        }
+        else
+        {
+            getSupportFragmentManager().beginTransaction().add(R.id.framengMaster,new MisAsesoriasFragment()).commit();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        seguir = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    private void iniciar_hilo_validacion()
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int cont = 5000;
+            }
+        }).start();
     }
 
     @Override
