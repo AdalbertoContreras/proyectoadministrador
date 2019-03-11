@@ -48,26 +48,29 @@ public class Gestion_especialidad {
             try {
                 id_especialidad = jsonObject.get("id_especialidad").getAsInt();
                 nombre_especialidad = jsonObject.get("nombre_especialidad").getAsString();
-                numero_asignados_especilidad = jsonObject.get("numero_asignados_especilidad").getAsInt();
-                numero_chat_asesoria_especialidad = jsonObject.get("numero_chat_asesoria_especialidad").getAsInt();
-                numero_chat_asesoria_primera_infancia_especialidad = jsonObject.get("numero_chat_asesoria_primera_infancia_especialidad").getAsInt();
-                numero_chat_asesoria_infancia_especialidad = jsonObject.get("numero_chat_asesoria_infancia_especialidad").getAsInt();
-                numero_chat_asesoria_adolecencia_especialidad = jsonObject.get("numero_chat_asesoria_adolecencia_especialidad").getAsInt();
-                numero_chat_asesoria_juventud_especialidad = jsonObject.get("numero_chat_asesoria_juventud_especialidad").getAsInt();
-                numero_chat_asesoria_adultez_especialidad = jsonObject.get("numero_chat_asesoria_adultez_especialidad").getAsInt();
-                numero_chat_asesoria_mayor_especialidad = jsonObject.get("numero_chat_asesoria_mayor_especialidad").getAsInt();
-                numero_chat_asesoria_primera_infancia_m_especialidad = jsonObject.get("numero_chat_asesoria_primera_infancia_m_especialidad").getAsInt();
-                numero_chat_asesoria_infancia_m_especialidad = jsonObject.get("numero_chat_asesoria_infancia_m_especialidad").getAsInt();
-                numero_chat_asesoria_adolecencia_m_especialidad = jsonObject.get("numero_chat_asesoria_adolecencia_m_especialidad").getAsInt();
-                numero_chat_asesoria_juventud_m_especialidad = jsonObject.get("numero_chat_asesoria_juventud_m_especialidad").getAsInt();
-                numero_chat_asesoria_adultez_m_especialidad = jsonObject.get("numero_chat_asesoria_adultez_m_especialidad").getAsInt();
-                numero_chat_asesoria_mayor_m_especialidad = jsonObject.get("numero_chat_asesoria_mayor_m_especialidad").getAsInt();
-                numero_chat_asesoria_primera_infancia_f_especialidad = jsonObject.get("numero_chat_asesoria_primera_infancia_f_especialidad").getAsInt();
-                numero_chat_asesoria_infancia_f_especialidad = jsonObject.get("numero_chat_asesoria_infancia_f_especialidad").getAsInt();
-                numero_chat_asesoria_adolecencia_f_especialidad = jsonObject.get("numero_chat_asesoria_adolecencia_f_especialidad").getAsInt();
-                numero_chat_asesoria_juventud_f_especialidad = jsonObject.get("numero_chat_asesoria_juventud_f_especialidad").getAsInt();
-                numero_chat_asesoria_adultez_f_especialidad = jsonObject.get("numero_chat_asesoria_adultez_f_especialidad").getAsInt();
-                numero_chat_asesoria_mayor_f_especialidad = jsonObject.get("numero_chat_asesoria_mayor_f_especialidad").getAsInt();
+                if(jsonObject.has("numero_asignados_especilidad"))
+                {
+                    numero_asignados_especilidad = jsonObject.get("numero_asignados_especilidad").getAsInt();
+                    numero_chat_asesoria_especialidad = jsonObject.get("numero_chat_asesoria_especialidad").getAsInt();
+                    numero_chat_asesoria_primera_infancia_especialidad = jsonObject.get("numero_chat_asesoria_primera_infancia_especialidad").getAsInt();
+                    numero_chat_asesoria_infancia_especialidad = jsonObject.get("numero_chat_asesoria_infancia_especialidad").getAsInt();
+                    numero_chat_asesoria_adolecencia_especialidad = jsonObject.get("numero_chat_asesoria_adolecencia_especialidad").getAsInt();
+                    numero_chat_asesoria_juventud_especialidad = jsonObject.get("numero_chat_asesoria_juventud_especialidad").getAsInt();
+                    numero_chat_asesoria_adultez_especialidad = jsonObject.get("numero_chat_asesoria_adultez_especialidad").getAsInt();
+                    numero_chat_asesoria_mayor_especialidad = jsonObject.get("numero_chat_asesoria_mayor_especialidad").getAsInt();
+                    numero_chat_asesoria_primera_infancia_m_especialidad = jsonObject.get("numero_chat_asesoria_primera_infancia_m_especialidad").getAsInt();
+                    numero_chat_asesoria_infancia_m_especialidad = jsonObject.get("numero_chat_asesoria_infancia_m_especialidad").getAsInt();
+                    numero_chat_asesoria_adolecencia_m_especialidad = jsonObject.get("numero_chat_asesoria_adolecencia_m_especialidad").getAsInt();
+                    numero_chat_asesoria_juventud_m_especialidad = jsonObject.get("numero_chat_asesoria_juventud_m_especialidad").getAsInt();
+                    numero_chat_asesoria_adultez_m_especialidad = jsonObject.get("numero_chat_asesoria_adultez_m_especialidad").getAsInt();
+                    numero_chat_asesoria_mayor_m_especialidad = jsonObject.get("numero_chat_asesoria_mayor_m_especialidad").getAsInt();
+                    numero_chat_asesoria_primera_infancia_f_especialidad = jsonObject.get("numero_chat_asesoria_primera_infancia_f_especialidad").getAsInt();
+                    numero_chat_asesoria_infancia_f_especialidad = jsonObject.get("numero_chat_asesoria_infancia_f_especialidad").getAsInt();
+                    numero_chat_asesoria_adolecencia_f_especialidad = jsonObject.get("numero_chat_asesoria_adolecencia_f_especialidad").getAsInt();
+                    numero_chat_asesoria_juventud_f_especialidad = jsonObject.get("numero_chat_asesoria_juventud_f_especialidad").getAsInt();
+                    numero_chat_asesoria_adultez_f_especialidad = jsonObject.get("numero_chat_asesoria_adultez_f_especialidad").getAsInt();
+                    numero_chat_asesoria_mayor_f_especialidad = jsonObject.get("numero_chat_asesoria_mayor_f_especialidad").getAsInt();
+                }
             } catch (JsonSyntaxException | IllegalStateException | NullPointerException e) {
                 e.printStackTrace();
             }

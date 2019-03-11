@@ -91,13 +91,21 @@ public class ChatUsuarioFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        fragment_activo = true;
+        mensaje_enviado = false;
+        iniciar_conexion_chat();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view =  inflater.inflate(R.layout.fragment_chat_usuario, container, false);
         mensaje_chat_asesorias = new ArrayList<>();
         fragment_activo = true;
         recyclerView_chat_asesoria = view.findViewById(R.id.mensajes_chat_asesoria_recyclerview);
         recyclerView_chat_asesoria.setLayoutManager(new GridLayoutManager(view.getContext(),1));
-        iniciar_conexion_chat();
+
         mensajeEditText = view.findViewById(R.id.mensajeEdittext);
         enviarButton = view.findViewById(R.id.enviarButton);
         enviarButton.setOnClickListener(new View.OnClickListener() {

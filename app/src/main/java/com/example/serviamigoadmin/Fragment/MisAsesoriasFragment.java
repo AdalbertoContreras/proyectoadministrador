@@ -163,7 +163,7 @@ public class MisAsesoriasFragment extends Fragment {
     private String[] asuntos_a_array_string()
     {
         String[] array = new String[especialidades.size() + 1];
-        array[0] = "Selecione un asunto";
+        array[0] = "Selecione una especialidad";
         int cont = 1;
         for(Especialidad item : especialidades)
         {
@@ -172,10 +172,11 @@ public class MisAsesoriasFragment extends Fragment {
         }
         return array;
     }
+
     private String[] asuntos_a_array_string_vacio()
     {
         String[] array = new String[1];
-        array[0] = "No hay asunto";
+        array[0] = "No hay especialidades";
         return array;
     }
 

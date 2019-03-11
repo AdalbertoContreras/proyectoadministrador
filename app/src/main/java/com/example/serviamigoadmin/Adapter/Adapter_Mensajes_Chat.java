@@ -23,11 +23,26 @@ public class Adapter_Mensajes_Chat extends  RecyclerView.Adapter<Adapter_Mensaje
         this.mensaje_chat_asesoria = chat_asesorias;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+
+        return mensaje_chat_asesoria.get(position).tipo_creador_mensaje_chat_asesoria;
+    }
+
     @NonNull
     @Override
     public Adapter_Mensajes_Chat.ViewHolderDatos onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_mensaje_chat,null, false);
+        if(i == 2)
+        {
+            view = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.item_mensaje_chat_assoria,null, false);
+        }
+        else
+        {
+            view = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.item_mensaje_chat_asesoria_recibir,null, false);
+        }
+
         return new Adapter_Mensajes_Chat.ViewHolderDatos(view);
     }
 
