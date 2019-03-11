@@ -6,71 +6,98 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Gestion_administrador{
-    private Administrador aux = new Administrador();
     private static Administrador administrador_actual = null;
-    private boolean sexualidad = false;
-    private boolean identidad = false;
-    private boolean nutricion = false;
-    private boolean embarazo = false;
     private String llave_ws = "administrador";
-    private String fecha1;
-    private String fecha2;
-    private int especialidad;
-    private String tipo_consulta;
     private JsonObject obj;
+    //#############################################################################################\\
+    private final String NOMBRE_ADMINISTRADOR_OL = "nombre_administrador_ol";
+    private final String CONTRASENA_ADMINISTRADOR_OL = "contrasena_administrador_ol";
+    //#############################################################################################\\
+    private final String ID_ADMINISTRADOR = "id_administrador";
+    private final String TIPO_ADMINISTRADOR = "tipo_administrador";
+    private final String NOMBRE_CUENTA_ADMINISTRADOR = "nombre_cuenta_administrador";
+    private final String CONTRASENA_ADMINISTRADOR = "contrasena_administrador";
+    private final String NOMBRES_ADMINISTRADOR = "nombres_administrador";
+    private final String APELLIDOS_ADMINISTRADOR = "apellidos_administrador";
+    private final String FECHA_NACIMIENTO_ADMINISTRADOR = "fecha_nacimiento_administrador";
+    private final String NUMERO_TELEFONO_ADMINISTRADOR = "numero_telefono_administrador";
+    private final String DIRECCION_ADMINISTRADOR = "direccion_administrador";
+    private final String CORREO_ELECTRONICO_ADMINISTRADOR = "correo_electronico_administrador";
+    private final String SEXO_ADMINISTRADOR = "sexo_administrador";
+    private final String ESTADO_ADMINISTRADOR = "estado_administrador";
+    private final String FECHA_REGISTRO_ADMINISTRADOR = "fecha_registro_administrador";
+    private final String HORA_REGISTRO_ADMINISTRADOR = "hora_registro_administrador";
+    private final String NUMERO_ASESORIAS_DADAS_ADMINISTRADOR = "numero_asesorias_dadas_administrador";
+    private final String NUMERO_ASESORIAS_DADAS_PRIMERA_INFANCIA_ADMINISTRADOR = "numero_asesorias_dadas_primera_infancia_administrador";
+    private final String NUMERO_ASESORIAS_DADAS_INFANCIA_ADMINISTRADOR = "numero_asesorias_dadas_infancia_administrador";
+    private final String NUMERO_ASESORIAS_DADAS_ADOLECENCIA_ADMINISTRADOR = "numero_asesorias_dadas_adolecencia_administrador";
+    private final String NUMERO_ASESORIAS_DADAS_JUVENTUD_ADMINISTRADOR = "numero_asesorias_dadas_juventud_administrador";
+    private final String NUMERO_ASESORIAS_DADAS_ADULTEZ_ADMINISTRADOR = "numero_asesorias_dadas_adultez_administrador";
+    private final String NUMERO_ASESORIAS_DADAS_MAYOR_ADMINISTRADOR = "numero_asesorias_dadas_mayor_administrador";
+    private final String NUMERO_ASESORIAS_DADAS_PRIMERA_M_INFANCIA_ADMINISTRADOR = "numero_asesorias_dadas_primera_m_infancia_administrador";
+    private final String NUMERO_ASESORIAS_DADAS_INFANCIA_M_ADMINISTRADOR = "numero_asesorias_dadas_infancia_m_administrador";
+    private final String NUMERO_ASESORIAS_DADAS_ADOLECENCIA_M_ADMINISTRADOR = "numero_asesorias_dadas_adolecencia_m_administrador";
+    private final String NUMERO_ASESORIAS_DADAS_JUVENTUD_M_ADMINISTRADOR = "numero_asesorias_dadas_juventud_m_administrador";
+    private final String NUMERO_ASESORIAS_DADAS_ADULTEZ_M_ADMINISTRADOR = "numero_asesorias_dadas_adultez_m_administrador";
+    private final String NUMERO_ASESORIAS_DADAS_MAYOR_M_ADMINISTRADOR = "numero_asesorias_dadas_mayor_m_administrador";
+    private final String NUMERO_ASESORIAS_DADAS_PRIMERA_F_INFANCIA_ADMINISTRADOR = "numero_asesorias_dadas_primera_f_infancia_administrador";
+    private final String NUMERO_ASESORIAS_DADAS_INFANCIA_F_ADMINISTRADOR = "numero_asesorias_dadas_infancia_f_administrador";
+    private final String NUMERO_ASESORIAS_DADAS_ADOLECENCIA_F_ADMINISTRADOR = "numero_asesorias_dadas_adolecencia_f_administrador";
+    private final String NUMERO_ASESORIAS_DADAS_JUVENTUD_F_ADMINISTRADOR = "numero_asesorias_dadas_juventud_f_administrador";
+    private final String NUMERO_ASESORIAS_DADAS_ADULTEZ_F_ADMINISTRADOR = "numero_asesorias_dadas_adultez_f_administrador";
+    private final String NUMERO_ASESORIAS_DADAS_MAYOR_F_ADMINISTRADOR = "numero_asesorias_dadas_mayor_f_administrador";
+    private final String NUMERO_ESPECIALIDAD_ADMINISTRADOR = "numero_especialidad_administrador";
+    //#############################################################################################\\
+    private final String TIPO_CONSULTA = "tipo_consulta";
+    private final String LLAVE_WS = "llave_ws";
+    private final String JSON = "json";
+    private final String ESPECIALIDAD = "especialidad";
+    private final String SEXUALIDAD = "sexualidad";
+    private final String IDENTIDAD = "identidad";
+    private final String NUTRICION = "nutricion";
+    private final String EMBARAZO = "embarazo";
 
     private void adjuntar_aseso()
     {
         if(getAdministrador_actual() != null)
         {
-            obj.addProperty("nombre_administrador_ol",administrador_actual.nombre_cuenta_administrador);
-            obj.addProperty("contraseña_administrador_ol",administrador_actual.contrasena_administrador);
-        }
-        else
-        {
-            obj.addProperty("nombre_admnistrador_ol","");
-            obj.addProperty("contraseña_administrador_ol","");
+            obj.addProperty(NOMBRE_ADMINISTRADOR_OL,administrador_actual.nombre_cuenta_administrador);
+            obj.addProperty(CONTRASENA_ADMINISTRADOR_OL,administrador_actual.contrasena_administrador);
         }
     }
 
-    private HashMap<String, String> consultar_asesores()
+    public HashMap<String, String> consultar_asesores()
     {
         obj = new JsonObject();
         try {
-            obj.addProperty("tipo_consulta","consultar_asesores");
-            obj.addProperty("llave_ws",llave_ws);
+            obj.addProperty(TIPO_CONSULTA,"consultar_asesores");
+            obj.addProperty(LLAVE_WS,llave_ws);
             adjuntar_aseso();
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
         HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("json",obj.toString());
+        hashMap.put(JSON,obj.toString());
         return hashMap;
     }
 
-    private void iniciar_axu()
-    {
-        aux = new Administrador();
-    }
-
-    public HashMap<String, String> consultar_administradores_por_especialidad(int _especialidad)
+    public HashMap<String, String> consultar_administradores_por_especialidad(int especialidad)
     {
         obj = new JsonObject();
         try {
-            obj.addProperty("especialidad", _especialidad);
-            obj.addProperty("tipo_consulta","consultar_por_especialidad");
-            obj.addProperty("llave_ws",llave_ws);
+            obj.addProperty(ESPECIALIDAD, especialidad);
+            obj.addProperty(TIPO_CONSULTA,"consultar_por_especialidad");
+            obj.addProperty(LLAVE_WS,llave_ws);
             adjuntar_aseso();
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
         HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("json",obj.toString());
+        hashMap.put(JSON,obj.toString());
         return hashMap;
     }
 
@@ -78,88 +105,174 @@ public class Gestion_administrador{
     {
         obj = new JsonObject();
         try {
-            obj.addProperty("id_administrador", administrador.id_administrador);
-            obj.addProperty("contrasena_administrador",administrador.contrasena_administrador);
-            obj.addProperty("tipo_consulta","cambiar_contrasena");
-            obj.addProperty("llave_ws",llave_ws);
+            obj.addProperty(ID_ADMINISTRADOR, administrador.id_administrador);
+            obj.addProperty(CONTRASENA_ADMINISTRADOR,administrador.contrasena_administrador);
+            obj.addProperty(TIPO_CONSULTA,"cambiar_contrasena");
+            obj.addProperty(LLAVE_WS,llave_ws);
             adjuntar_aseso();
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
         HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("json",obj.toString());
+        hashMap.put(JSON,obj.toString());
         return hashMap;
     }
 
-
     public HashMap<String, String> actualizar_datos(Administrador administrador)
     {
-        tipo_consulta = "actualizar_datos";
-        return construir_parametros(administrador);
-    }
-
-    public HashMap<String, String> consultar_administrador_por_nombre(String nombre)
-    {
-        tipo_consulta = "consultar_por_nombre_cuenta";
-        aux.nombre_cuenta_administrador = nombre;
-        return construir_parametros(aux);
+        obj = new JsonObject();
+        try {
+            obj.addProperty(ID_ADMINISTRADOR, administrador.id_administrador);
+            obj.addProperty(NOMBRES_ADMINISTRADOR,administrador.nombres_administrador);
+            obj.addProperty(APELLIDOS_ADMINISTRADOR,administrador.apellidos_administrador);
+            obj.addProperty(FECHA_NACIMIENTO_ADMINISTRADOR,administrador.fecha_nacimiento_administrador);
+            obj.addProperty(DIRECCION_ADMINISTRADOR,administrador.direccion_administrador);
+            obj.addProperty(NUMERO_TELEFONO_ADMINISTRADOR,administrador.numero_telefono_administrador);
+            obj.addProperty(CORREO_ELECTRONICO_ADMINISTRADOR,administrador.correo_electronico_administrador);
+            obj.addProperty(SEXO_ADMINISTRADOR,administrador.sexo_administrador);
+            adjuntar_aseso();
+            obj.addProperty(TIPO_CONSULTA,"actualizar_datos");
+            obj.addProperty(LLAVE_WS,llave_ws);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put(JSON,obj.toString());
+        return hashMap;
     }
 
     public HashMap<String, String> consultar_administrador_por_id(int id_administrador)
     {
-        tipo_consulta = "administrador_por_id";
-        aux.id_administrador = id_administrador;
-        return construir_parametros(aux);
+        obj = new JsonObject();
+        try {
+            obj.addProperty(ID_ADMINISTRADOR, id_administrador);
+            adjuntar_aseso();
+            obj.addProperty(TIPO_CONSULTA,"administrador_por_id");
+            obj.addProperty(LLAVE_WS,llave_ws);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put(JSON,obj.toString());
+        return hashMap;
     }
 
     public HashMap<String, String> validar_administrador(Administrador administrador)
     {
-        tipo_consulta = "validar_administrador";
-        return construir_parametros(administrador);
+        obj = new JsonObject();
+        try {
+            obj.addProperty(NOMBRE_CUENTA_ADMINISTRADOR,administrador.nombre_cuenta_administrador);
+            obj.addProperty(CONTRASENA_ADMINISTRADOR,administrador.contrasena_administrador);
+            obj.addProperty(TIPO_CONSULTA,"validar_administrador");
+            obj.addProperty(LLAVE_WS,llave_ws);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put(JSON,obj.toString());
+        return hashMap;
     }
-    public HashMap<String, String> activar_administrador(Administrador administrador)
+
+    public HashMap<String, String> activar_administrador(int id_administrador)
     {
-        tipo_consulta = "activar_administrador";
-        return construir_parametros();
+        obj = new JsonObject();
+        try {
+            obj.addProperty(ID_ADMINISTRADOR, id_administrador);
+            adjuntar_aseso();
+            obj.addProperty(TIPO_CONSULTA,"activar_administrador");
+            obj.addProperty(LLAVE_WS,llave_ws);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put(JSON,obj.toString());
+        return hashMap;
     }
 
     public HashMap<String, String> bloquear_administrador(int id_administrador)
     {
-        iniciar_axu();
-        tipo_consulta = "bloquar_administrador";
-        aux.id_administrador = id_administrador;
-        return construir_parametros(aux);
+        obj = new JsonObject();
+        try {
+            obj.addProperty(ID_ADMINISTRADOR, id_administrador);
+            adjuntar_aseso();
+            obj.addProperty(TIPO_CONSULTA,"bloquear_administrador");
+            obj.addProperty("llave_ws",llave_ws);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put(JSON,obj.toString());
+        return hashMap;
     }
-
 
     public HashMap<String, String> consultar_activos()
     {
-        tipo_consulta = "consultar_activos";
-        return construir_parametros();
+        obj = new JsonObject();
+        try {
+            adjuntar_aseso();
+            obj.addProperty(TIPO_CONSULTA,"consultar_activos");
+            obj.addProperty(LLAVE_WS,llave_ws);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put(JSON,obj.toString());
+        return hashMap;
     }
 
     public HashMap<String, String> consultar_bloqueados()
     {
-        tipo_consulta = "consultar_bloqueados";
-        return construir_parametros();
-    }
-
-    public HashMap<String, String> consultar_por_nombre_cuenta(String nombre)
-    {
-        iniciar_axu();
-        tipo_consulta = "consultar_por_nombre_cuenta";
-        aux.nombre_cuenta_administrador = nombre;
-        return construir_parametros(aux);
+        obj = new JsonObject();
+        try {
+            adjuntar_aseso();
+            obj.addProperty(TIPO_CONSULTA,"consultar_bloqueados");
+            obj.addProperty(LLAVE_WS,llave_ws);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put(JSON,obj.toString());
+        return hashMap;
     }
 
     public HashMap<String, String> registrar_administrador(Administrador administrador, boolean sexualidad, boolean identidad, boolean nutricion, boolean embarazo)
     {
-        tipo_consulta = "insert";
-        this.sexualidad = sexualidad;
-        this.identidad = identidad;
-        this.nutricion = nutricion;
-        this.embarazo = embarazo;
-        return construir_parametros(administrador);
+        obj = new JsonObject();
+        try {
+            obj.addProperty(NOMBRE_CUENTA_ADMINISTRADOR,administrador.nombre_cuenta_administrador);
+            obj.addProperty(CONTRASENA_ADMINISTRADOR,administrador.contrasena_administrador);
+            obj.addProperty(NOMBRES_ADMINISTRADOR,administrador.nombres_administrador);
+            obj.addProperty(APELLIDOS_ADMINISTRADOR,administrador.apellidos_administrador);
+            obj.addProperty(FECHA_NACIMIENTO_ADMINISTRADOR,administrador.fecha_nacimiento_administrador);
+            obj.addProperty(DIRECCION_ADMINISTRADOR,administrador.direccion_administrador);
+            obj.addProperty(NUMERO_TELEFONO_ADMINISTRADOR,administrador.numero_telefono_administrador);
+            obj.addProperty(CORREO_ELECTRONICO_ADMINISTRADOR,administrador.correo_electronico_administrador);
+            obj.addProperty(SEXO_ADMINISTRADOR,administrador.sexo_administrador);
+            adjuntar_aseso();
+            if(sexualidad)
+            {
+                obj.addProperty(SEXUALIDAD,1);
+            }
+            if(identidad)
+            {
+                obj.addProperty(IDENTIDAD,1);
+            }
+            if(nutricion)
+            {
+                obj.addProperty(NUTRICION,1);
+            }
+            if(embarazo)
+            {
+                obj.addProperty(EMBARAZO,1);
+            }
+            obj.addProperty(TIPO_CONSULTA,"insert");
+            obj.addProperty(LLAVE_WS,llave_ws);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put(JSON,obj.toString());
+        return hashMap;
     }
 
     public ArrayList<Administrador> generar_json(String respuesta)
@@ -183,105 +296,47 @@ public class Gestion_administrador{
     {
         return new Administrador(){{
             try {
-                id_administrador = jsonObject.get("id_administrador").getAsInt();
-                tipo_administrador = jsonObject.get("tipo_administrador").getAsInt();
-                nombre_cuenta_administrador = jsonObject.get("nombre_cuenta_administrador").getAsString();
-                nombres_administrador = jsonObject.get("nombres_administrador").getAsString();
-                apellidos_administrador = jsonObject.get("apellidos_administrador").getAsString();
-                fecha_nacimiento_administrador = jsonObject.get("fecha_nacimiento_administrador").getAsString();
-                direccion_administrador = jsonObject.get("direccion_administrador").getAsString();
-                correo_electronico_administrador = jsonObject.get("correo_electronico_administrador").getAsString();
-                numero_telefono_administrador = jsonObject.get("numero_telefono_administrador").getAsString();
-                sexo_administrador = jsonObject.get("sexo_administrador").getAsInt();
-                estado_administrador = jsonObject.get("estado_administrador").getAsInt();
-                fecha_registro_administrador = jsonObject.get("fecha_registro_administrador").getAsString();
-                hora_registro_administrador= jsonObject.get("hora_registro_administrador").getAsString();
-                numero_asesorias_dadas_administrador = jsonObject.get("numero_asesorias_dadas_administrador").getAsInt();
-                numero_asesorias_dadas_primera_infancia_administrador = jsonObject.get("numero_asesorias_dadas_primera_infancia_administrador").getAsInt();
-                numero_asesorias_dadas_infancia_administrador = jsonObject.get("numero_asesorias_dadas_infancia_administrador").getAsInt();
-                numero_asesorias_dadas_adolecencia_administrador = jsonObject.get("numero_asesorias_dadas_adolecencia_administrador").getAsInt();
-                numero_asesorias_dadas_juventud_administrador = jsonObject.get("numero_asesorias_dadas_juventud_administrador").getAsInt();
-                numero_asesorias_dadas_adultez_administrador = jsonObject.get("numero_asesorias_dadas_adultez_administrador").getAsInt();
-                numero_asesorias_dadas_mayor_administrador = jsonObject.get("numero_asesorias_dadas_mayor_administrador").getAsInt();
-                numero_asesorias_dadas_primera_m_infancia_administrador = jsonObject.get("numero_asesorias_dadas_primera_m_infancia_administrador").getAsInt();
-                numero_asesorias_dadas_primera_f_infancia_administrador = jsonObject.get("numero_asesorias_dadas_primera_f_infancia_administrador").getAsInt();
-                numero_asesorias_dadas_infancia_m_administrador = jsonObject.get("numero_asesorias_dadas_infancia_m_administrador").getAsInt();
-                numero_asesorias_dadas_infancia_f_administrador = jsonObject.get("numero_asesorias_dadas_infancia_f_administrador").getAsInt();
-                numero_asesorias_dadas_adolecencia_m_administrador = jsonObject.get("numero_asesorias_dadas_adolecencia_m_administrador").getAsInt();
-                numero_asesorias_dadas_adolecencia_f_administrador = jsonObject.get("numero_asesorias_dadas_adolecencia_f_administrador").getAsInt();
-                numero_asesorias_dadas_juventud_m_administrador = jsonObject.get("numero_asesorias_dadas_juventud_m_administrador").getAsInt();
-                numero_asesorias_dadas_juventud_f_administrador = jsonObject.get("numero_asesorias_dadas_juventud_f_administrador").getAsInt();
-                numero_asesorias_dadas_adultez_m_administrador = jsonObject.get("numero_asesorias_dadas_adultez_m_administrador").getAsInt();
-                numero_asesorias_dadas_adultez_f_administrador = jsonObject.get("numero_asesorias_dadas_adultez_f_administrador").getAsInt();
-                numero_asesorias_dadas_mayor_m_administrador = jsonObject.get("numero_asesorias_dadas_mayor_m_administrador").getAsInt();
-                numero_asesorias_dadas_mayor_f_administrador = jsonObject.get("numero_asesorias_dadas_mayor_f_administrador").getAsInt();
+                id_administrador = jsonObject.get(ID_ADMINISTRADOR).getAsInt();
+                tipo_administrador = jsonObject.get(TIPO_ADMINISTRADOR).getAsInt();
+                nombre_cuenta_administrador = jsonObject.get(NOMBRE_CUENTA_ADMINISTRADOR).getAsString();
+                nombres_administrador = jsonObject.get(NOMBRES_ADMINISTRADOR).getAsString();
+                apellidos_administrador = jsonObject.get(APELLIDOS_ADMINISTRADOR).getAsString();
+                fecha_nacimiento_administrador = jsonObject.get(FECHA_NACIMIENTO_ADMINISTRADOR).getAsString();
+                numero_telefono_administrador = jsonObject.get(NUMERO_TELEFONO_ADMINISTRADOR).getAsString();
+                direccion_administrador = jsonObject.get(DIRECCION_ADMINISTRADOR).getAsString();
+                correo_electronico_administrador = jsonObject.get(CORREO_ELECTRONICO_ADMINISTRADOR).getAsString();
+                sexo_administrador = jsonObject.get(SEXO_ADMINISTRADOR).getAsInt();
+                estado_administrador = jsonObject.get(ESTADO_ADMINISTRADOR).getAsInt();
+                fecha_registro_administrador = jsonObject.get(FECHA_REGISTRO_ADMINISTRADOR).getAsString();
+                hora_registro_administrador = jsonObject.get(HORA_REGISTRO_ADMINISTRADOR).getAsString();
+                numero_asesorias_dadas_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_ADMINISTRADOR).getAsInt();
+                numero_asesorias_dadas_primera_infancia_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_PRIMERA_INFANCIA_ADMINISTRADOR).getAsInt();
+                numero_asesorias_dadas_infancia_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_INFANCIA_ADMINISTRADOR).getAsInt();
+                numero_asesorias_dadas_adolecencia_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_ADOLECENCIA_ADMINISTRADOR).getAsInt();
+                numero_asesorias_dadas_juventud_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_JUVENTUD_ADMINISTRADOR).getAsInt();
+                numero_asesorias_dadas_adultez_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_ADULTEZ_ADMINISTRADOR).getAsInt();
+                numero_asesorias_dadas_mayor_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_MAYOR_ADMINISTRADOR).getAsInt();
+                numero_asesorias_dadas_primera_m_infancia_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_PRIMERA_M_INFANCIA_ADMINISTRADOR).getAsInt();
+                numero_asesorias_dadas_infancia_m_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_INFANCIA_M_ADMINISTRADOR).getAsInt();
+                numero_asesorias_dadas_adolecencia_m_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_ADOLECENCIA_M_ADMINISTRADOR).getAsInt();
+                numero_asesorias_dadas_juventud_m_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_JUVENTUD_M_ADMINISTRADOR).getAsInt();
+                numero_asesorias_dadas_adultez_m_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_ADULTEZ_M_ADMINISTRADOR).getAsInt();
+                numero_asesorias_dadas_mayor_m_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_MAYOR_M_ADMINISTRADOR).getAsInt();
+                numero_asesorias_dadas_primera_f_infancia_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_PRIMERA_F_INFANCIA_ADMINISTRADOR).getAsInt();
+                numero_asesorias_dadas_infancia_f_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_INFANCIA_F_ADMINISTRADOR).getAsInt();
+                numero_asesorias_dadas_adolecencia_f_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_ADOLECENCIA_F_ADMINISTRADOR).getAsInt();
+                numero_asesorias_dadas_juventud_f_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_JUVENTUD_F_ADMINISTRADOR).getAsInt();
+                numero_asesorias_dadas_adultez_f_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_ADULTEZ_F_ADMINISTRADOR).getAsInt();
+                numero_asesorias_dadas_mayor_f_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_MAYOR_F_ADMINISTRADOR).getAsInt();
+                numero_especialidad_administrador = jsonObject.get(NUMERO_ESPECIALIDAD_ADMINISTRADOR).getAsInt();
+                if(jsonObject.has("especialidad"))
+                {
+                    especialidades = jsonObject.get("especialidad").getAsString();
+                }
             } catch (JsonSyntaxException | IllegalStateException | NullPointerException e) {
                 e.printStackTrace();
             }
         }};
-    }
-
-    private HashMap<String,String> construir_parametros(Administrador elemento)
-    {
-        obj = new JsonObject();
-        try {
-            obj.addProperty("id_administrador", elemento.id_administrador);
-            obj.addProperty("nombre_cuenta_administrador",elemento.nombre_cuenta_administrador);
-            obj.addProperty("contrasena_administrador",elemento.contrasena_administrador);
-            obj.addProperty("nombres_administrador",elemento.nombres_administrador);
-            obj.addProperty("apellidos_administrador",elemento.apellidos_administrador);
-            obj.addProperty("fecha_nacimiento_administrador",elemento.fecha_nacimiento_administrador);
-            obj.addProperty("direccion_administrador",elemento.direccion_administrador);
-            obj.addProperty("numero_telefono_administrador",elemento.numero_telefono_administrador);
-            obj.addProperty("correo_electronico_administrador",elemento.correo_electronico_administrador);
-            obj.addProperty("sexo_administrador",elemento.sexo_administrador);
-            obj.addProperty("estado_administrador",elemento.estado_administrador);
-            adjuntar_aseso();
-            if(sexualidad)
-            {
-                obj.addProperty("sexualidad",1);
-            }
-            if(identidad)
-            {
-                obj.addProperty("identidad",1);
-            }
-            if(nutricion)
-            {
-                obj.addProperty("nutricion",1);
-            }
-            if(embarazo)
-            {
-                obj.addProperty("embarazo",1);
-            }
-            /*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
-            obj.addProperty("fecha1",fecha1);
-            obj.addProperty("fecha2",fecha2);
-            obj.addProperty("tipo_consulta",tipo_consulta);
-            obj.addProperty("llave_ws",llave_ws);
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
-        }
-        HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("json",obj.toString());
-        return hashMap;
-    }
-
-    private HashMap<String,String> construir_parametros()
-    {
-        obj = new JsonObject();
-        try {
-            /*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
-            obj.addProperty("fecha1",fecha1);
-            obj.addProperty("fecha2",fecha2);
-            obj.addProperty("tipo_consulta",tipo_consulta);
-            obj.addProperty("llave_ws",llave_ws);
-            obj.addProperty("especialidad",especialidad);
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
-        }
-        HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("json",obj.toString());
-        return hashMap;
     }
 
     public static Administrador getAdministrador_actual() {

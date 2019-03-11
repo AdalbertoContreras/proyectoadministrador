@@ -1,6 +1,5 @@
 package com.example.gestion;
 
-import com.example.modelo.Especialidad;
 import com.example.modelo.Especialidad_administrador;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -13,13 +12,17 @@ import java.util.HashMap;
 
 public class Gestion_especialidad_administrador {
     private static Especialidad_administrador aux = new Especialidad_administrador();
-    private static String llave_ws = "especialidad";
+    private static String llave_ws = "especialidad_administrador";
     private static String fecha1;
     private static String fecha2;
     private static String tipo_consulta;
 
     public HashMap<String, String> registrar_especialidad_administrador(Especialidad_administrador especialidad_administrador){
         tipo_consulta = "insert";
+        return construir_parametros(especialidad_administrador);
+    }
+    public HashMap<String, String> eliminar_especialidad_administrador(Especialidad_administrador especialidad_administrador){
+        tipo_consulta = "delete";
         return construir_parametros(especialidad_administrador);
     }
 
@@ -46,7 +49,7 @@ public class Gestion_especialidad_administrador {
         return new Especialidad_administrador(){{
             try {
                 id_especialidad_administrador = jsonObject.get("id_especialidad_administrador").getAsInt();
-                especiliad_especialidad_admnistrador = jsonObject.get("especiliad_especialidad_admnistrador").getAsInt();
+                especialidad_especialidad_admnistrador = jsonObject.get("especialidad_especialidad_admnistrador").getAsInt();
                 administrador_especialidad_administrador = jsonObject.get("administrador_especialidad_administrador").getAsInt();
                 fecha_especilidad_administrador = jsonObject.get("fecha_especilidad_administrador").getAsString();
                 hora_especialidad_administrador = jsonObject.get("hora_especialidad_administrador").getAsString();
@@ -61,7 +64,7 @@ public class Gestion_especialidad_administrador {
         JsonObject obj = new JsonObject();
         try {
             obj.addProperty("id_especialidad_administrador", elemento.id_especialidad_administrador);
-            obj.addProperty("especiliad_especialidad_admnistrador", elemento.especiliad_especialidad_admnistrador);
+            obj.addProperty("especialidad_especialidad_admnistrador", elemento.especialidad_especialidad_admnistrador);
             obj.addProperty("administrador_especialidad_administrador", elemento.administrador_especialidad_administrador);
             obj.addProperty("fecha_especilidad_administrador", elemento.fecha_especilidad_administrador);
             obj.addProperty("hora_especialidad_administrador", elemento.hora_especialidad_administrador);
@@ -71,13 +74,13 @@ public class Gestion_especialidad_administrador {
             obj.addProperty("llave_ws",llave_ws);
             if(Gestion_administrador.getAdministrador_actual() != null)
             {
-                obj.addProperty("nombre_admnistrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
-                obj.addProperty("contraseña_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
+                obj.addProperty("nombre_administrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
+                obj.addProperty("contrasena_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
             }
             else
             {
                 obj.addProperty("nombre_admnistrador_ol","");
-                obj.addProperty("contraseña_administrador_ol","");
+                obj.addProperty("contrasena_administrador_ol","");
             }
         } catch (JsonSyntaxException e) {
             e.printStackTrace();

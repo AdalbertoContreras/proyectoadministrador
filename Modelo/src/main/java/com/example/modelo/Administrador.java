@@ -35,4 +35,6 @@ public class Administrador
     public int numero_asesorias_dadas_juventud_f_administrador;
     public int numero_asesorias_dadas_adultez_f_administrador;
     public int numero_asesorias_dadas_mayor_f_administrador;
+    public int numero_especialidad_administrador;
+    public String especialidades;
 }

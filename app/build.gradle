@@ -33,4 +33,5 @@ dependencies {
     implementation project(':Extra')
     implementation project(':Gestion')
     implementation project(':Modelo')
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
 }
