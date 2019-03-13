@@ -69,7 +69,6 @@ public class Adapter_Mensajes_Chat extends  RecyclerView.Adapter<Adapter_Mensaje
     public static class ViewHolderDatos extends RecyclerView.ViewHolder{
         private TextView contenidoTextView;
         private TextView fechatextView;
-        private ConstraintLayout constraintLayout;
         private CircleImageView circleImageView;
         private View view;
 
@@ -78,7 +77,6 @@ public class Adapter_Mensajes_Chat extends  RecyclerView.Adapter<Adapter_Mensaje
             view = itemView;
             contenidoTextView = view.findViewById(R.id.contenidotextView_itemMensaje);
             fechatextView = view.findViewById(R.id.fechatextViewItem_mensaje);
-            constraintLayout = view.findViewById(R.id.cuerpoLinearLayoutItemmensaje);
             circleImageView = view.findViewById(R.id.imagenPerfil);
         }
 
@@ -102,12 +100,7 @@ public class Adapter_Mensajes_Chat extends  RecyclerView.Adapter<Adapter_Mensaje
                 ArrayList<Administrador> administrador = new Gestion_administrador().generar_json(chat_asesoria.administrador);
                 if(!administrador.isEmpty())
                 {
-                    Toast.makeText(view.getContext(), "Imagen de perfil : " + administrador.get(0).url_foto_perfil_anterior, Toast.LENGTH_SHORT).show();
                     Picasso.with(view.getContext()).load(administrador.get(0).url_foto_perfil_administrador).into(circleImageView);
-                }
-                else
-                {
-                    Toast.makeText(view.getContext(), "Administrador no encontrado", Toast.LENGTH_SHORT).show();
                 }
             }
         }

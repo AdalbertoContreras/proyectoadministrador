@@ -198,7 +198,8 @@ public class Actualizar_AdministradorFragment extends Fragment {
                     return;
                 }
                 Administrador administrador = new Administrador();
-                administrador.url_foto_perfil_administrador = "-1";
+                administrador.url_foto_perfil_administrador = Gestion_administrador.getAdministrador_actual().url_foto_perfil_administrador;
+                administrador.url_foto_perfil_anterior = Gestion_administrador.getAdministrador_actual().url_foto_perfil_administrador;
                 if(imagen_modificada)
                 {
                     if(bitmap != null)
@@ -206,11 +207,6 @@ public class Actualizar_AdministradorFragment extends Fragment {
                         administrador.url_foto_perfil_administrador = bitmap_conver_to_String(bitmap);
                     }
                 }
-                else
-                {
-                    administrador.url_foto_perfil_administrador = Gestion_administrador.getAdministrador_actual().url_foto_perfil_administrador;
-                }
-                administrador.url_foto_perfil_anterior = Gestion_administrador.getAdministrador_actual().url_foto_perfil_administrador;
                 administrador.id_administrador = Gestion_administrador.getAdministrador_actual().id_administrador;
                 administrador.nombres_administrador = nombresEditText.getText().toString();
                 administrador.apellidos_administrador = apellidosEditText.getText().toString();

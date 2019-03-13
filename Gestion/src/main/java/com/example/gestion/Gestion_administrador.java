@@ -126,6 +126,10 @@ public class Gestion_administrador{
     {
         obj = new JsonObject();
         try {
+            if(administrador.url_foto_perfil_administrador.equals(administrador.url_foto_perfil_anterior))
+            {
+                administrador.url_foto_perfil_administrador = administrador.url_foto_perfil_administrador.replace("http://31.220.63.102/WScomfacesar/","");
+            }
             if(administrador.url_foto_perfil_anterior.contains("http://31.220.63.102/WScomfacesar/"))
             {
                 administrador.url_foto_perfil_anterior = administrador.url_foto_perfil_anterior.replace("http://31.220.63.102/WScomfacesar/", "");

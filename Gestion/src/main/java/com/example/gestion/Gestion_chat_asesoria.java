@@ -1,6 +1,5 @@
 package com.example.gestion;
 
-import com.example.modelo.Administrador;
 import com.example.modelo.Chat_asesoria;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -21,7 +20,7 @@ public class Gestion_chat_asesoria {
     private static String FECHA_INICIO_ASESORIA = "B";
     private static String HORA_INICIO_ASESORIA = "C";
     private static String FECHA_CIERRE_ASESORIA = "D";
-    private static String HORA_CIERRA_CHAT_ASESORIA = "E";
+    private static String HORA_CIERRE_CHAT_ASESORIA = "E";
     private static String ADMINISTRADOR_CHAT_ASESORIA = "F";
     private static String USUARIO_CHAT_ASESORIA = "G";
     private static String ESTADO_CERRADO = "H";
@@ -78,31 +77,31 @@ public class Gestion_chat_asesoria {
     {
         return new Chat_asesoria(){{
             try {
-                id_chat_asesoria = jsonObject.get("id_chat_asesoria").getAsInt();
-                fecha_inicio_asesoria = jsonObject.get("fecha_inicio_asesoria").getAsString();
-                hora_inicio_asesoria = jsonObject.get("hora_inicio_asesoria").getAsString();
-                if(!jsonObject.get("fecha_cierre_asesoria").isJsonNull())
+                id_chat_asesoria = jsonObject.get(ID_CHAT_ASESORIA).getAsInt();
+                fecha_inicio_asesoria = jsonObject.get(FECHA_INICIO_ASESORIA).getAsString();
+                hora_inicio_asesoria = jsonObject.get(HORA_INICIO_ASESORIA).getAsString();
+                if(!jsonObject.get(FECHA_CIERRE_ASESORIA).isJsonNull())
                 {
-                    fecha_cierre_asesoria = jsonObject.get("fecha_cierre_asesoria").getAsString();
+                    fecha_cierre_asesoria = jsonObject.get(FECHA_CIERRE_ASESORIA).getAsString();
                 }
-                if(!jsonObject.get("hora_cierra_chat_asesoria").isJsonNull())
+                if(!jsonObject.get(HORA_CIERRE_CHAT_ASESORIA).isJsonNull())
                 {
-                    hora_cierra_chat_asesoria = jsonObject.get("hora_cierra_chat_asesoria").getAsString();
+                    hora_cierra_chat_asesoria = jsonObject.get(HORA_CIERRE_CHAT_ASESORIA).getAsString();
                 }
-                administrador_chat_asesoria = jsonObject.get("administrador_chat_asesoria").getAsInt();
-                usuario_chat_asesoria = jsonObject.get("usuario_chat_asesoria").getAsInt();
-                estado_cerrado = jsonObject.get("estado_cerrado").getAsInt();
-                tiempo_sesion_chat_asesoria = jsonObject.get("tiempo_sesion_chat_asesoria").getAsString();
-                especializacion_chat_asesoria = jsonObject.get("especializacion_chat_asesoria").getAsInt();
-                if(!jsonObject.get("ultimo_mensaje").isJsonNull())
+                administrador_chat_asesoria = jsonObject.get(ADMINISTRADOR_CHAT_ASESORIA).getAsInt();
+                usuario_chat_asesoria = jsonObject.get(USUARIO_CHAT_ASESORIA).getAsInt();
+                estado_cerrado = jsonObject.get(ESTADO_CERRADO).getAsInt();
+                tiempo_sesion_chat_asesoria = jsonObject.get(TIEMPO_SESION_CHAT_ASESORIA).getAsString();
+                especializacion_chat_asesoria = jsonObject.get(ESPECIALIZACION_CHAT_ASESORIA).getAsInt();
+                if(!jsonObject.get(ULTIMO_MENSAJE).isJsonNull())
                 {
-                    ultimo_mensaje = jsonObject.get("ultimo_mensaje").getAsString();
+                    ultimo_mensaje = jsonObject.get(ULTIMO_MENSAJE).getAsString();
                 }
-                if(!jsonObject.get("ultima_fecha_chat_asesoria").isJsonNull())
+                if(!jsonObject.get(ULTIMA_FECHA_CHAT_ASESORIA).isJsonNull())
                 {
-                    ultima_fecha_chat_asesoria = jsonObject.get("ultima_fecha_chat_asesoria").getAsString();
+                    ultima_fecha_chat_asesoria = jsonObject.get(ULTIMA_FECHA_CHAT_ASESORIA).getAsString();
                 }
-                if(!jsonObject.get("ultima_hora_chat_asesoria").isJsonNull())
+                if(!jsonObject.get(ULTIMA_HORA_CHAT_ASESORIA).isJsonNull())
                 {
                     ultima_hora_chat_asesoria = jsonObject.get("ultima_hora_chat_asesoria").getAsString();
                 }
@@ -128,7 +127,7 @@ public class Gestion_chat_asesoria {
             obj.addProperty(FECHA_INICIO_ASESORIA, elemento.fecha_inicio_asesoria);
             obj.addProperty(HORA_INICIO_ASESORIA, elemento.hora_inicio_asesoria);
             obj.addProperty(FECHA_CIERRE_ASESORIA, elemento.fecha_cierre_asesoria);
-            obj.addProperty(HORA_CIERRA_CHAT_ASESORIA, elemento.hora_cierra_chat_asesoria);
+            obj.addProperty(HORA_CIERRE_CHAT_ASESORIA, elemento.hora_cierra_chat_asesoria);
             obj.addProperty(ADMINISTRADOR_CHAT_ASESORIA, elemento.administrador_chat_asesoria);
             obj.addProperty(USUARIO_CHAT_ASESORIA, elemento.usuario_chat_asesoria);
             obj.addProperty(ESTADO_CERRADO, elemento.estado_cerrado);

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -73,6 +74,18 @@ public class    LoginActivity extends AppCompatActivity {
                 {
                     contraseñaEditText.setSelection(0, contraseñaEditText.getText().toString().length());
                 }
+            }
+        });
+        contraseñaEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode == KeyEvent.KEYCODE_ENTER)
+                {
+                    progressDialog.show();
+                    progressDialog.setCancelable(false);
+                    abrir_ventana_principal();
+                }
+                return false;
             }
         });
         Button iniciar_secionButton = (Button) findViewById(R.id.inicio_sesion_Button);
