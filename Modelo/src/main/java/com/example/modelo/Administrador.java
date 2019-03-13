@@ -16,6 +16,8 @@ public class Administrador
     public int estado_administrador;
     public String fecha_registro_administrador;
     public String hora_registro_administrador;
+    public String url_foto_perfil_administrador;
+    public String url_foto_perfil_anterior;
     public int numero_asesorias_dadas_administrador;
     public int numero_asesorias_dadas_primera_infancia_administrador;
     public int numero_asesorias_dadas_infancia_administrador;

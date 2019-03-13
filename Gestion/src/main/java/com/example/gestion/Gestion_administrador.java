@@ -9,6 +9,8 @@ import com.google.gson.JsonSyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import sun.rmi.runtime.Log;
+
 public class Gestion_administrador{
     private static Administrador administrador_actual = null;
     private String llave_ws = "administrador";
@@ -31,6 +33,8 @@ public class Gestion_administrador{
     private final String ESTADO_ADMINISTRADOR = "estado_administrador";
     private final String FECHA_REGISTRO_ADMINISTRADOR = "fecha_registro_administrador";
     private final String HORA_REGISTRO_ADMINISTRADOR = "hora_registro_administrador";
+    private final String URL_FOTO_PERFIL_ADMINISTRADOR = "url_foto_perfil_administrador";
+    private final String URL_FOTO_PERFIL_ANTERIOR = "url_foto_perfil_anterior";
     private final String NUMERO_ASESORIAS_DADAS_ADMINISTRADOR = "numero_asesorias_dadas_administrador";
     private final String NUMERO_ASESORIAS_DADAS_PRIMERA_INFANCIA_ADMINISTRADOR = "numero_asesorias_dadas_primera_infancia_administrador";
     private final String NUMERO_ASESORIAS_DADAS_INFANCIA_ADMINISTRADOR = "numero_asesorias_dadas_infancia_administrador";
@@ -122,6 +126,10 @@ public class Gestion_administrador{
     {
         obj = new JsonObject();
         try {
+            if(administrador.url_foto_perfil_anterior.contains("http://31.220.63.102/WScomfacesar/"))
+            {
+                administrador.url_foto_perfil_anterior = administrador.url_foto_perfil_anterior.replace("http://31.220.63.102/WScomfacesar/", "");
+            }
             obj.addProperty(ID_ADMINISTRADOR, administrador.id_administrador);
             obj.addProperty(NOMBRES_ADMINISTRADOR,administrador.nombres_administrador);
             obj.addProperty(APELLIDOS_ADMINISTRADOR,administrador.apellidos_administrador);
@@ -133,6 +141,8 @@ public class Gestion_administrador{
             adjuntar_aseso();
             obj.addProperty(TIPO_CONSULTA,"actualizar_datos");
             obj.addProperty(LLAVE_WS,llave_ws);
+            obj.addProperty(URL_FOTO_PERFIL_ANTERIOR,administrador.url_foto_perfil_anterior);
+            obj.addProperty(URL_FOTO_PERFIL_ADMINISTRADOR,administrador.url_foto_perfil_administrador);
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
@@ -309,6 +319,7 @@ public class Gestion_administrador{
                 estado_administrador = jsonObject.get(ESTADO_ADMINISTRADOR).getAsInt();
                 fecha_registro_administrador = jsonObject.get(FECHA_REGISTRO_ADMINISTRADOR).getAsString();
                 hora_registro_administrador = jsonObject.get(HORA_REGISTRO_ADMINISTRADOR).getAsString();
+                url_foto_perfil_administrador = jsonObject.get(URL_FOTO_PERFIL_ADMINISTRADOR).getAsString();
                 numero_asesorias_dadas_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_ADMINISTRADOR).getAsInt();
                 numero_asesorias_dadas_primera_infancia_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_PRIMERA_INFANCIA_ADMINISTRADOR).getAsInt();
                 numero_asesorias_dadas_infancia_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_INFANCIA_ADMINISTRADOR).getAsInt();

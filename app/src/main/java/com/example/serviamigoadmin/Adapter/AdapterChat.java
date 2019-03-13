@@ -78,7 +78,7 @@ public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.ViewHolderDat
             {
                 nombre_usuarioTextView.setText(" ");
             }
-            ultima_fechaTextView.setText(chat_asesoria.ultima_fecha);
+            ultima_fechaTextView.setText(chat_asesoria.ultima_fecha_chat_asesoria);
             ultimo_mensajeTextView.setText(chat_asesoria.ultimo_mensaje);
             Picasso.with(view.getContext()).load(R.drawable.imagen_nueva).into(asesoriaImageView);
 

@@ -1,6 +1,5 @@
 package com.example.serviamigoadmin;
 
-
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.example.gestion.Gestion_administrador;
 import com.example.serviamigoadmin.Fragment.Actualizar_AdministradorFragment;
 import com.example.serviamigoadmin.Fragment.CambiarContrasenaFragment;

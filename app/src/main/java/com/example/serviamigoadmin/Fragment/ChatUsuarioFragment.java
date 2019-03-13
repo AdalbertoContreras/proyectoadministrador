@@ -43,7 +43,8 @@ public class ChatUsuarioFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     public static Chat_asesoria chat_asesoria;
-    private int ultimo_id;
+    private String ultima_fecha = "";
+    private String ultima_hora = "";
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -121,6 +122,7 @@ public class ChatUsuarioFragment extends Fragment {
                     mensaje_chat_asesoria.contenido_mensaje_chat_asesoria = mensajeEditText.getText().toString();
                     mensaje_chat_asesoria.tipo_creador_mensaje_chat_asesoria = 2;
                     HashMap<String,String> params = new Gestion_mensaje_chat_asesoria().registrar_mensaje_chat_asesoria(mensaje_chat_asesoria);
+                    Log.d("mensaje_env", params.toString());
                     Response.Listener<String> stringListener = new Response.Listener<String>()
                     {
                         @Override
@@ -175,11 +177,12 @@ public class ChatUsuarioFragment extends Fragment {
         consultando = true;
         mensaje_chat_asesorias = new Gestion_mensaje_chat_asesoria().generar_json(response);
         //Collections.reverse(mensaje_chat_asesorias);
-        adapter_mensajes_chat_asesoria = new Adapter_Mensajes_Chat(mensaje_chat_asesorias);
+        adapter_mensajes_chat_asesoria = new Adapter_Mensajes_Chat(mensaje_chat_asesorias, chat_asesoria);
         if(!mensaje_chat_asesorias.isEmpty())
         {
             recyclerView_chat_asesoria.smoothScrollToPosition(mensaje_chat_asesorias.size() - 1);
-            ultimo_id = mensaje_chat_asesorias.get(mensaje_chat_asesorias.size() - 1).id_mensaje_chat_asesoria;
+            ultima_fecha = mensaje_chat_asesorias.get(mensaje_chat_asesorias.size() - 1).fecha_envio_mensaje_chat_asesoria;
+            ultima_hora = mensaje_chat_asesorias.get(mensaje_chat_asesorias.size() - 1).hora_envio_mensaje_asesoria;
         }
         recyclerView_chat_asesoria.setAdapter(adapter_mensajes_chat_asesoria);
         recyclerView_chat_asesoria.setHasFixedSize(true);
@@ -217,7 +220,7 @@ public class ChatUsuarioFragment extends Fragment {
         HashMap<String,String> params;
         if(!mensaje_chat_asesorias.isEmpty())
         {
-            params = new Gestion_mensaje_chat_asesoria().mensaje_chat_asesoria_por_chat_mayor(ultimo_id, chat_asesoria.id_chat_asesoria);
+            params = new Gestion_mensaje_chat_asesoria().mensaje_chat_asesoria_por_chat_mayor(ultima_fecha, ultima_hora, chat_asesoria.id_chat_asesoria);
         }
         else
         {
@@ -252,7 +255,8 @@ public class ChatUsuarioFragment extends Fragment {
         ArrayList<Mensaje_chat_asesoria> mensaje_chat_asesorias_aux = new Gestion_mensaje_chat_asesoria().generar_json(response);
         if(!mensaje_chat_asesorias_aux.isEmpty())
         {
-            ultimo_id = mensaje_chat_asesorias_aux.get(mensaje_chat_asesorias_aux.size() - 1).id_mensaje_chat_asesoria;
+            ultima_fecha = mensaje_chat_asesorias_aux.get(mensaje_chat_asesorias_aux.size() - 1).fecha_envio_mensaje_chat_asesoria;
+            ultima_hora = mensaje_chat_asesorias_aux.get(mensaje_chat_asesorias_aux.size() - 1).hora_envio_mensaje_asesoria;
             mensaje_chat_asesorias.addAll(mensaje_chat_asesorias_aux);
             adapter_mensajes_chat_asesoria.notifyItemInserted(mensaje_chat_asesorias.size() - 1 );
             if(mensaje_enviado)

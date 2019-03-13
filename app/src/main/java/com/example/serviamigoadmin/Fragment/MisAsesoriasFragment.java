@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -183,10 +184,12 @@ public class MisAsesoriasFragment extends Fragment {
     private void consultar_chat()
     {
         HashMap<String,String> params = new Gestion_chat_asesoria().consultar_por_administrador(Gestion_administrador.getAdministrador_actual().id_administrador);
+        Log.d("Parametros", params.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override
             public void onResponse(String response) {
+                Log.d("response", response);
                 //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
                 cargar_chat(response);
             }

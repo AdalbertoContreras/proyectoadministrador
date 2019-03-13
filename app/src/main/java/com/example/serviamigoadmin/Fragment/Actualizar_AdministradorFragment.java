@@ -3,10 +3,15 @@ package com.example.serviamigoadmin.Fragment;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,21 +19,30 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.extra.MySocialMediaSingleton;
 import com.example.extra.WebService;
 import com.example.gestion.Gestion_administrador;
 import com.example.modelo.Administrador;
 import com.example.serviamigoadmin.Dialog.DatePickerFragment;
-import com.example.serviamigoadmin.Dialog.EspecialidadesDialog;
+import com.example.serviamigoadmin.LoginActivity;
+import com.example.serviamigoadmin.Navigation;
 import com.example.servimaigoadmin.R;
+import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -59,6 +73,18 @@ public class Actualizar_AdministradorFragment extends Fragment {
     private RadioButton femeninoRadioButton;
     private RadioButton masculinoRadioButton;
     private Button registrarButton;
+    private ImageView fotoPerfilImageView;
+    private static final int PICK_IMAGE = 100;
+    private Uri imageUri;
+    private Bitmap bitmap = null;
+    private Button tomar_fotoButton;
+    private Button subirFotoButton;
+    private Button eliminarImagenButton;
+    private String url_foto_anterior;
+    private int REQUEST_IMAGE_CAPTURE = 1;
+    private boolean imagen_eliminada = false;
+    private boolean imagen_modificada = false;
+    private ProgressDialog progressDialog;
     private View view;
     public Actualizar_AdministradorFragment() {
         // Required empty public constructor
@@ -96,6 +122,8 @@ public class Actualizar_AdministradorFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.actualizar_mis_datos, container, false);
+        actualizar_perfil();
+        progressDialog = new ProgressDialog(getContext());
         nombresEditText = view.findViewById(R.id.nombresAsesorEditText);
         apellidosEditText = view.findViewById(R.id.apellidosAsesorEditText);
         fechaNacimientoEditText = view.findViewById(R.id.fechaNacimientoAsesorEditText);
@@ -106,13 +134,37 @@ public class Actualizar_AdministradorFragment extends Fragment {
         masculinoRadioButton = view.findViewById(R.id.masculinoAsesorRadioButton);
         femeninoRadioButton = view.findViewById(R.id.femeninoAsesorRadioButton);
         fechaNacimientoEditText.setFocusable(false);
+        fotoPerfilImageView = view.findViewById(R.id.fotoPerfilImageView);
+        tomar_fotoButton = view.findViewById(R.id.tomarFotoButton);
+        subirFotoButton = view.findViewById(R.id.subirFotoButton);
+        eliminarImagenButton = view.findViewById(R.id.eliminar_imagenButton);
+        subirFotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGallery();
+            }
+        });
+        tomar_fotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tomarFoto();
+            }
+        });
+        eliminarImagenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imagen_eliminada = true;
+                bitmap = null;
+                fotoPerfilImageView.setImageBitmap(null);
+            }
+        });
         fechaNacimientoEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus)
-                {
-                    showDatePickerDialog();
-                }
+            if(hasFocus)
+            {
+                showDatePickerDialog();
+            }
             }
         });
         fechaNacimientoEditText.setOnClickListener(new View.OnClickListener() {
@@ -124,22 +176,41 @@ public class Actualizar_AdministradorFragment extends Fragment {
         registrarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog.show();
+                progressDialog.setTitle("Actualizando informacion de mis cuenta");
+                progressDialog.setCancelable(false);
                 if(nombresEditText.getText().toString().isEmpty())
                 {
                     Toast.makeText(view.getContext(), "Ingrese sus nombres", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
                     return;
                 }
                 if(apellidosEditText.getText().toString().isEmpty())
                 {
                     Toast.makeText(view.getContext(), "Ingrese sus apellidos", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
                     return;
                 }
                 if(fechaNacimientoEditText.getText().toString().isEmpty())
                 {
                     Toast.makeText(view.getContext(), "Ingrese su fecha de nacimiento", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
                     return;
                 }
                 Administrador administrador = new Administrador();
+                administrador.url_foto_perfil_administrador = "-1";
+                if(imagen_modificada)
+                {
+                    if(bitmap != null)
+                    {
+                        administrador.url_foto_perfil_administrador = bitmap_conver_to_String(bitmap);
+                    }
+                }
+                else
+                {
+                    administrador.url_foto_perfil_administrador = Gestion_administrador.getAdministrador_actual().url_foto_perfil_administrador;
+                }
+                administrador.url_foto_perfil_anterior = Gestion_administrador.getAdministrador_actual().url_foto_perfil_administrador;
                 administrador.id_administrador = Gestion_administrador.getAdministrador_actual().id_administrador;
                 administrador.nombres_administrador = nombresEditText.getText().toString();
                 administrador.apellidos_administrador = apellidosEditText.getText().toString();
@@ -155,11 +226,53 @@ public class Actualizar_AdministradorFragment extends Fragment {
                 {
                     administrador.sexo_administrador = 1;
                 }
-                registrar_administrador(administrador);
+                actualizar_administrador(administrador);
             }
         });
         cargar_datos_administrador();
         return view;
+    }
+
+    public void tomarFoto() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    private void openGallery(){
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, PICK_IMAGE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(resultCode == RESULT_OK && requestCode == PICK_IMAGE)
+        {
+            imageUri = data.getData();
+            fotoPerfilImageView.setImageURI(imageUri);
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(view.getContext().getContentResolver(), imageUri);
+                imagen_modificada = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            bitmap = (Bitmap) extras.get("data");
+            fotoPerfilImageView.setImageBitmap(bitmap);
+            imagen_modificada = true;
+        }
+    }
+
+    private String bitmap_conver_to_String(Bitmap bitmap)
+    {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100, stream);
+        byte[] bytes = stream.toByteArray();
+        String s = Base64.encodeToString(bytes, Base64.DEFAULT);
+        return s;
     }
 
     private void cargar_datos_administrador()
@@ -171,6 +284,7 @@ public class Actualizar_AdministradorFragment extends Fragment {
         telefonoEditText.setText(administrador.numero_telefono_administrador);
         correoElectronicoEditText.setText(administrador.correo_electronico_administrador);
         fechaNacimientoEditText.setText(administrador.fecha_nacimiento_administrador);
+
         if(administrador.sexo_administrador == 0)
         {
             masculinoRadioButton.setChecked(true);
@@ -181,10 +295,9 @@ public class Actualizar_AdministradorFragment extends Fragment {
         }
     }
 
-    private void registrar_administrador(final Administrador administrador)
+    private void actualizar_administrador(final Administrador administrador)
     {
         final HashMap<String, String> hashMap = new Gestion_administrador().actualizar_datos(administrador);
-        Log.d("parametros", hashMap.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override
@@ -195,16 +308,19 @@ public class Actualizar_AdministradorFragment extends Fragment {
                     int val = Integer.parseInt(response);
                     if(val > 0)
                     {
+                        progressDialog.dismiss();
                         Toast.makeText(getContext(), "Cuenta actualizada con exito", Toast.LENGTH_SHORT).show();
                         Gestion_administrador.setAdministrador_actual(administrador);
                     }
                     else
                     {
+                        progressDialog.dismiss();
                         Toast.makeText(getContext(), "Cuenta no actualizada", Toast.LENGTH_SHORT).show();
                     }
                 }
                 catch (NumberFormatException exc)
                 {
+                    progressDialog.dismiss();
                     Toast.makeText(getContext(), "Ha ocurrido un error en el servidor", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -212,6 +328,7 @@ public class Actualizar_AdministradorFragment extends Fragment {
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
                 Toast.makeText(getContext(), "Ha ocurrido un error en el servidor", Toast.LENGTH_SHORT).show();
             }
         };
@@ -230,6 +347,42 @@ public class Actualizar_AdministradorFragment extends Fragment {
             }
         });
         newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+    }
+
+    private void actualizar_perfil()
+    {
+
+        HashMap<String,String> params = new Gestion_administrador().consultar_administrador_por_id(Gestion_administrador.getAdministrador_actual().id_administrador);
+        Log.d("parametros", params.toString());
+        Response.Listener<String> stringListener = new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response) {
+                //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
+                Log.d("response", response);
+                if(!response.equals(""))
+                {
+                    ArrayList<Administrador> arrayList = new Gestion_administrador().generar_json(response);
+                    if(!arrayList.isEmpty())
+                    {
+                        Administrador administrador = arrayList.get(0);
+                        Gestion_administrador.getAdministrador_actual().url_foto_perfil_administrador = administrador.url_foto_perfil_administrador;
+                        Picasso.with(getContext()).load(Gestion_administrador.getAdministrador_actual().url_foto_perfil_administrador).into(fotoPerfilImageView);
+                    }
+                }
+                else
+                {
+                }
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.w("Response.error", error.toString());
+            }
+        };
+        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, errorListener);
+        MySocialMediaSingleton.getInstance(getContext()).addToRequestQueue(stringRequest);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
