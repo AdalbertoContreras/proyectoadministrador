@@ -11,9 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gestion.Gestion_administrador;
+import com.example.gestion.Gestion_usuario;
 import com.example.modelo.Administrador;
 import com.example.modelo.Chat_asesoria;
 import com.example.modelo.Mensaje_chat_asesoria;
+import com.example.modelo.Usuario;
 import com.example.servimaigoadmin.R;
 import com.squareup.picasso.Picasso;
 
@@ -93,7 +95,11 @@ public class Adapter_Mensajes_Chat extends  RecyclerView.Adapter<Adapter_Mensaje
             }
             if(mensaje_chat_asesoria.tipo_creador_mensaje_chat_asesoria == 1)
             {
-
+                ArrayList<Usuario> usuarios = new Gestion_usuario().generar_json(chat_asesoria.usuario);
+                if(!usuarios.isEmpty())
+                {
+                    Picasso.with(view.getContext()).load(usuarios.get(0).foto_perfil_usuario).into(circleImageView);
+                }
             }
             else
             {

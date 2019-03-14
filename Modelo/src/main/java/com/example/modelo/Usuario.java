@@ -12,4 +12,5 @@ public class Usuario {
     public String correo_usuario;
     public String nombre_cuenta_usuario;
     public String contrasena_usuario;
+    public String foto_perfil_usuario;
 }

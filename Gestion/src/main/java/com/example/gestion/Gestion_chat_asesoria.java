@@ -63,7 +63,8 @@ public class Gestion_chat_asesoria {
             JsonArray array = new JsonParser().parse(respuesta).getAsJsonArray();
             for(JsonElement element : array )
             {
-                lista_elementos.add (agregar_elemento(element.getAsJsonObject()));
+                Chat_asesoria chat_asesoria = agregar_elemento(element.getAsJsonObject());
+                lista_elementos.add (chat_asesoria);
             }
         }
         catch(JsonSyntaxException | IllegalStateException | NullPointerException e)
@@ -103,7 +104,7 @@ public class Gestion_chat_asesoria {
                 }
                 if(!jsonObject.get(ULTIMA_HORA_CHAT_ASESORIA).isJsonNull())
                 {
-                    ultima_hora_chat_asesoria = jsonObject.get("ultima_hora_chat_asesoria").getAsString();
+                    ultima_hora_chat_asesoria = jsonObject.get(ULTIMA_HORA_CHAT_ASESORIA).getAsString();
                 }
                 if(!jsonObject.get("usuario").isJsonNull())
                 {
