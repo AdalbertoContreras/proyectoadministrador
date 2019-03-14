@@ -85,14 +85,7 @@ public class Adapter_Mensajes_Chat extends  RecyclerView.Adapter<Adapter_Mensaje
         public void setDatos(final Mensaje_chat_asesoria mensaje_chat_asesoria, Chat_asesoria chat_asesoria)       {
             contenidoTextView.setText(mensaje_chat_asesoria.contenido_mensaje_chat_asesoria);
             fechatextView.setText(mensaje_chat_asesoria.fecha_envio_mensaje_chat_asesoria + " " + mensaje_chat_asesoria.hora_envio_mensaje_asesoria);
-            if(mensaje_chat_asesoria.tipo_creador_mensaje_chat_asesoria == 2)
-            {
-                contenidoTextView.setTextColor(Color.BLUE);
-            }
-            else
-            {
-                contenidoTextView.setTextColor(Color.RED);
-            }
+
             if(mensaje_chat_asesoria.tipo_creador_mensaje_chat_asesoria == 1)
             {
                 ArrayList<Usuario> usuarios = new Gestion_usuario().generar_json(chat_asesoria.usuario);
