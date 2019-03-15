@@ -95,6 +95,7 @@ public class    LoginActivity extends AppCompatActivity {
 
                 progressDialog.show();
                 progressDialog.setCancelable(false);
+                progressDialog.setMessage("Conetandose a SERVIAMIGO");
                 abrir_ventana_principal();
             }
         });

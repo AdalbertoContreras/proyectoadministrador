@@ -23,7 +23,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="12dp"
                     android:gravity="center"
-                    android:text="Actualizar mis datos"
+                    android:text="ACTUALIZAR DATOS"
                     android:textSize="22sp" />
 
                 <android.support.design.widget.TextInputLayout
@@ -147,50 +147,86 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/Gris2"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:weightSum="1">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/fotoPerfilImageView"
-                        android:layout_width="220dp"
-                        android:layout_height="220dp"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:src="@drawable/perfil2"
+                        android:elevation="5dp"
+                        android:layout_margin="15dp"
                         android:layout_gravity="center"
-                        android:layout_marginVertical="10dp"
-                        android:background="@android:drawable/stat_sys_download" />
-
+                        android:layout_weight="0.20"
+                        />
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_weight="0.80"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        >
 
-                        <Button
-                            android:id="@+id/subirFotoButton"
-                            android:layout_width="match_parent"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="5dp"
-                            android:layout_weight="1"
-                            android:text="Subir foto" />
+                            android:background="@color/White"
+                            android:layout_marginRight="10dp">
 
-                        <Button
-                            android:id="@+id/tomarFotoButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="5dp"
-                            android:layout_weight="1"
-                            android:text="Tomar foto" />
+                            <Button
+                                android:id="@+id/tomarFotoButton"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginHorizontal="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/ic_camara"
+                                android:layout_margin="5dp"
+                                />
+                        </LinearLayout>
 
-                        <Button
-                            android:id="@+id/eliminar_imagenButton"
-                            android:layout_width="50dp"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="5dp"
-                            android:text="X" />
+                            android:background="@color/White"
+                            android:layout_marginRight="10dp">
+
+                            <Button
+                                android:id="@+id/subirFotoButton"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginHorizontal="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/ic_galeria"
+                                android:layout_margin="5dp"
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/White"
+                            >
+
+                            <Button
+                                android:id="@+id/eliminar_imagenButton"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginHorizontal="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/ic_eliminar2"
+                                android:layout_margin="5dp"
+                                />
+                        </LinearLayout>
                     </LinearLayout>
+
+
                 </LinearLayout>
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Registrar administrador"
+                    android:text="ACTUALIZAR DATOS"
                     android:id="@+id/registrarAsesorButton"/>
             </LinearLayout>
         </ScrollView>

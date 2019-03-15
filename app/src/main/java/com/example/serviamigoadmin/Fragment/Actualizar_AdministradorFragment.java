@@ -26,14 +26,11 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.extra.MySocialMediaSingleton;
 import com.example.extra.WebService;
 import com.example.gestion.Gestion_administrador;
 import com.example.modelo.Administrador;
 import com.example.serviamigoadmin.Dialog.DatePickerFragment;
-import com.example.serviamigoadmin.LoginActivity;
-import com.example.serviamigoadmin.Navigation;
 import com.example.servimaigoadmin.R;
 import com.squareup.picasso.Picasso;
 
@@ -72,7 +69,7 @@ public class Actualizar_AdministradorFragment extends Fragment {
     private EditText fechaNacimientoEditText;
     private RadioButton femeninoRadioButton;
     private RadioButton masculinoRadioButton;
-    private Button registrarButton;
+    private Button actualizar_datos;
     private ImageView fotoPerfilImageView;
     private static final int PICK_IMAGE = 100;
     private Uri imageUri;
@@ -130,7 +127,7 @@ public class Actualizar_AdministradorFragment extends Fragment {
         correoElectronicoEditText = view.findViewById(R.id.correoElectronioAsesorEditText);
         telefonoEditText = view.findViewById(R.id.numeroTelefonoAsesorEditText);
         direccionEditText = view.findViewById(R.id.direccionAsesorEditText);
-        registrarButton = view.findViewById(R.id.registrarAsesorButton);
+        actualizar_datos = view.findViewById(R.id.registrarAsesorButton);
         masculinoRadioButton = view.findViewById(R.id.masculinoAsesorRadioButton);
         femeninoRadioButton = view.findViewById(R.id.femeninoAsesorRadioButton);
         fechaNacimientoEditText.setFocusable(false);
@@ -155,7 +152,7 @@ public class Actualizar_AdministradorFragment extends Fragment {
             public void onClick(View v) {
                 imagen_eliminada = true;
                 bitmap = null;
-                fotoPerfilImageView.setImageBitmap(null);
+                Picasso.with(getContext()).load(R.drawable.perfil2).into(fotoPerfilImageView);
             }
         });
         fechaNacimientoEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -173,11 +170,11 @@ public class Actualizar_AdministradorFragment extends Fragment {
                 showDatePickerDialog();
             }
         });
-        registrarButton.setOnClickListener(new View.OnClickListener() {
+        actualizar_datos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 progressDialog.show();
-                progressDialog.setTitle("Actualizando informacion de mis cuenta");
+                progressDialog.setMessage("Actualizando datos...");
                 progressDialog.setCancelable(false);
                 if(nombresEditText.getText().toString().isEmpty())
                 {
@@ -307,6 +304,7 @@ public class Actualizar_AdministradorFragment extends Fragment {
                         progressDialog.dismiss();
                         Toast.makeText(getContext(), "Cuenta actualizada con exito", Toast.LENGTH_SHORT).show();
                         Gestion_administrador.setAdministrador_actual(administrador);
+                        actualizar_perfil();
                     }
                     else
                     {
@@ -363,7 +361,7 @@ public class Actualizar_AdministradorFragment extends Fragment {
                     {
                         Administrador administrador = arrayList.get(0);
                         Gestion_administrador.getAdministrador_actual().url_foto_perfil_administrador = administrador.url_foto_perfil_administrador;
-                        Picasso.with(getContext()).load(Gestion_administrador.getAdministrador_actual().url_foto_perfil_administrador).into(fotoPerfilImageView);
+                        Picasso.with(getContext()).load(Gestion_administrador.getAdministrador_actual().url_foto_perfil_administrador).placeholder(getContext().getResources().getDrawable(R.drawable.perfil2)).error(R.drawable.perfil2).into(fotoPerfilImageView);
                     }
                 }
                 else
