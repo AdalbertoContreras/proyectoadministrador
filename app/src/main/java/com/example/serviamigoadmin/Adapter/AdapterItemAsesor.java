@@ -16,8 +16,12 @@ import com.example.modelo.Especialidad;
 import com.example.serviamigoadmin.Dialog.DetalleAsesorDialog;
 import com.example.serviamigoadmin.Fragment.ConsultarAsesoresFragment;
 import com.example.servimaigoadmin.R;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.EnumSet;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AdapterItemAsesor extends  RecyclerView.Adapter<AdapterItemAsesor.ViewHolderDatos>{
     private ArrayList<Administrador> alertas;
@@ -50,7 +54,7 @@ public class AdapterItemAsesor extends  RecyclerView.Adapter<AdapterItemAsesor.V
 
     public class ViewHolderDatos extends RecyclerView.ViewHolder{
         private View view;
-        private ImageView imagenAsesorImageView;
+        private CircleImageView imagenAsesorImageView;
         private TextView nombreAsesorTextView;
         private ImageButton detallesImageButton;
         private ImageView sexualidadImageView;
@@ -62,7 +66,7 @@ public class AdapterItemAsesor extends  RecyclerView.Adapter<AdapterItemAsesor.V
         public ViewHolderDatos(@NonNull final View itemView) {
             super(itemView);
             this.view = itemView;
-            imagenAsesorImageView = view.findViewById(R.id.magenAsesorImageView);
+            imagenAsesorImageView = view.findViewById(R.id.fotoPerfilCircleImageView);
             nombreAsesorTextView = view.findViewById(R.id.nombreAsesorTextView);
             detallesImageButton = view.findViewById(R.id.detallesAsesorImageButton);
             sexualidadImageView = view.findViewById(R.id.sexualidadImageView);
@@ -76,6 +80,7 @@ public class AdapterItemAsesor extends  RecyclerView.Adapter<AdapterItemAsesor.V
         private void cargar_datos_asesor()
         {
             nombreAsesorTextView.setText(administrador.nombres_administrador + " " + administrador.apellidos_administrador);
+            Picasso.with(view.getContext()).load(administrador.url_foto_perfil_administrador).into(imagenAsesorImageView);
             if(especialidades_boolean.get(0))
             {
                 sexualidadImageView.setVisibility(View.VISIBLE);
