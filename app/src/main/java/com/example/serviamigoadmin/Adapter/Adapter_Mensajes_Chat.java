@@ -99,7 +99,8 @@ public class Adapter_Mensajes_Chat extends  RecyclerView.Adapter<Adapter_Mensaje
                 ArrayList<Administrador> administrador = new Gestion_administrador().generar_json(chat_asesoria.administrador);
                 if(!administrador.isEmpty())
                 {
-                    Picasso.with(view.getContext()).load(administrador.get(0).url_foto_perfil_administrador).into(circleImageView);
+                    Picasso.with(view.getContext()).load(administrador.get(0).url_foto_perfil_administrador).placeholder(R.drawable.perfil2)
+                            .error(R.drawable.perfil2).into(circleImageView);
                 }
             }
         }

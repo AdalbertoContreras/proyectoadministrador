@@ -80,7 +80,8 @@ public class AdapterItemAsesor extends  RecyclerView.Adapter<AdapterItemAsesor.V
         private void cargar_datos_asesor()
         {
             nombreAsesorTextView.setText(administrador.nombres_administrador + " " + administrador.apellidos_administrador);
-            Picasso.with(view.getContext()).load(administrador.url_foto_perfil_administrador).into(imagenAsesorImageView);
+            Picasso.with(view.getContext()).load(administrador.url_foto_perfil_administrador).placeholder(R.drawable.perfil2)
+                    .error(R.drawable.perfil2).into(imagenAsesorImageView);
             if(especialidades_boolean.get(0))
             {
                 sexualidadImageView.setVisibility(View.VISIBLE);
