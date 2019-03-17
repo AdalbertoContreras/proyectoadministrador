@@ -26,6 +26,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Adapter_Mensajes_Chat extends  RecyclerView.Adapter<Adapter_Mensajes_Chat.ViewHolderDatos>{
     private ArrayList<Mensaje_chat_asesoria> mensaje_chat_asesorias;
     private Chat_asesoria chat_asesoria;
+
     public Adapter_Mensajes_Chat(ArrayList<Mensaje_chat_asesoria> mensaje_chat_asesorias, Chat_asesoria chat_asesoria)
     {
         this.mensaje_chat_asesorias = mensaje_chat_asesorias;
@@ -51,7 +52,6 @@ public class Adapter_Mensajes_Chat extends  RecyclerView.Adapter<Adapter_Mensaje
             view = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.item_mensaje_chat_asesoria_recibir,null, false);
         }
-
         return new Adapter_Mensajes_Chat.ViewHolderDatos(view);
     }
 
@@ -82,7 +82,8 @@ public class Adapter_Mensajes_Chat extends  RecyclerView.Adapter<Adapter_Mensaje
             circleImageView = view.findViewById(R.id.imagenPerfil);
         }
 
-        public void setDatos(final Mensaje_chat_asesoria mensaje_chat_asesoria, Chat_asesoria chat_asesoria)       {
+        public void setDatos(final Mensaje_chat_asesoria mensaje_chat_asesoria, Chat_asesoria chat_asesoria)
+        {
             contenidoTextView.setText(mensaje_chat_asesoria.contenido_mensaje_chat_asesoria);
             fechatextView.setText(mensaje_chat_asesoria.fecha_envio_mensaje_chat_asesoria + " " + mensaje_chat_asesoria.hora_envio_mensaje_asesoria);
 

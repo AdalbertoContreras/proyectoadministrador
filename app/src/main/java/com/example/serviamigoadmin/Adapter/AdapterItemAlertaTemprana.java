@@ -6,12 +6,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.extra.MySocialMediaSingleton;
 import com.example.extra.WebService;
+import com.example.gestion.Gestion_administrador;
+import com.example.gestion.Gestion_alerta_temprana;
 import com.example.gestion.Gestion_asunto;
 import com.example.gestion.Gestion_usuario;
 import com.example.modelo.Alerta_temprana;
@@ -59,6 +64,7 @@ public class AdapterItemAlertaTemprana extends  RecyclerView.Adapter<AdapterItem
         private TextView asunto;
         private View view;
         private Usuario datos_usuario;
+        private CheckBox atendidoCheckBox;
         public ViewHolderDatos(@NonNull final View itemView) {
             super(itemView);
             nombre = itemView.findViewById(R.id.nombreTextViiewConsultaAlertaTemprana);
@@ -66,7 +72,38 @@ public class AdapterItemAlertaTemprana extends  RecyclerView.Adapter<AdapterItem
             telefono = itemView.findViewById(R.id.telefonoTextViewConsultaAlertaTemprana);
             descripcion = itemView.findViewById(R.id.descripcionTextViewConsultaAlertaTemprana);
             asunto = itemView.findViewById(R.id.asuntoTextViiewCobsultaAlertaTemprana);
-            this.view = itemView;
+            atendidoCheckBox = itemView.findViewById(R.id.atendidoCheckBox);
+
+        }
+
+        private void atenderAlertaTemprana(Alerta_temprana alerta_temprana, boolean atender)
+        {
+            HashMap<String, String> hashMap;
+            if(atender)
+            {
+                hashMap = new Gestion_alerta_temprana().atendido(Gestion_administrador.getAdministrador_actual().id_administrador, alerta_temprana.id_alerta_temprana);
+            }
+            else
+            {
+                hashMap = new Gestion_alerta_temprana().no_atendido(alerta_temprana.id_alerta_temprana);
+            }
+            Log.d("parametros", hashMap.toString());
+            Response.Listener<String> stringListener = new Response.Listener<String>()
+            {
+                @Override
+                public void onResponse(String response) {
+
+                }
+            };
+            Response.ErrorListener errorListener = new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                    Log.d("Reponse.Error",error.toString());
+                }
+            };
+            StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, errorListener);
+            MySocialMediaSingleton.getInstance(view.getContext()).addToRequestQueue(stringRequest);
         }
 
         private void consultar_datos_usuario(Alerta_temprana alerta_temprana)
@@ -104,11 +141,29 @@ public class AdapterItemAlertaTemprana extends  RecyclerView.Adapter<AdapterItem
                 asunto.setText("no enconrado");
             }
         }
-        public void setDatos(final Alerta_temprana Alerta_temprana)
+        public void setDatos(final Alerta_temprana alerta_temprana)
         {
-            consultar_datos_usuario(Alerta_temprana);
-            consultar_asunto(Alerta_temprana);
-            descripcion.setText(Alerta_temprana.descripcion_alerta_temprana);
+            consultar_datos_usuario(alerta_temprana);
+            consultar_asunto(alerta_temprana);
+            descripcion.setText(alerta_temprana.descripcion_alerta_temprana);
+            if(alerta_temprana.estado_atendido == 1)
+            {
+                atendidoCheckBox.setChecked(true);
+                atendidoCheckBox.setText("Atendido");
+            }
+            else
+            {
+                atendidoCheckBox.setChecked(false);
+                atendidoCheckBox.setText("No atendido");
+            }
+
+            atendidoCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    atenderAlertaTemprana(alerta_temprana, isChecked);
+                }
+            });
+            this.view = itemView;
         }
     }
 }

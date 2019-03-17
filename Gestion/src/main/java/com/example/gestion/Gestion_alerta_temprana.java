@@ -29,6 +29,21 @@ public class Gestion_alerta_temprana {
         return construir_parametros();
     }
 
+    public HashMap<String, String> atendido(int atendido_por, int id_alerta)
+    {
+        tipo_consulta = "atendido";
+        aux.atendido_por = atendido_por;
+        aux.id_alerta_temprana = id_alerta;
+        return construir_parametros(aux);
+    }
+
+    public HashMap<String, String> no_atendido(int id_alerta)
+    {
+        tipo_consulta = "no_atendido";
+        aux.id_alerta_temprana = id_alerta;
+        return construir_parametros(aux);
+    }
+
     public HashMap<String, String> consultar_alertas_tempranas_por_usuario(int usuario)
     {
         tipo_consulta = "consultar_alertas_tempranas_por_usuario";

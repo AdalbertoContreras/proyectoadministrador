@@ -104,7 +104,7 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
         seguir = true;
         generando_consulta = false;
         agregar_nuevas_alertas = false;
-        new Thread(new Runnable() {
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
                 while(seguir)
@@ -133,7 +133,8 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
                     }
                 }
             }
-        }).start();
+        }).start();*/
+        consultar_alertas_tempranas();
     }
 
     @Override
@@ -186,17 +187,14 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
             {
                 alerta_tempranaArrayList.addAll(0, aux);
                 id_maximo = aux.get(0).id_alerta_temprana;
+                adapterItemCliente.notifyItemInserted(0 );
             }
         }
         else
         {
             alerta_tempranaArrayList = aux;
         }
-        if(agregar_nuevas_alertas && !aux.isEmpty())
-        {
-            adapterItemCliente.notifyItemInserted(0);
-        }
-        else
+        if(!agregar_nuevas_alertas)
         {
             num_alertas = alerta_tempranaArrayList.size();
             recyclerView_alertas_tempranas = view_permanente.findViewById(R.id.alertas_tempranas_Recycler_view);
