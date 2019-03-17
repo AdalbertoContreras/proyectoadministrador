@@ -114,6 +114,10 @@ public class Gestion_chat_asesoria {
                 {
                     administrador = jsonObject.get("administrador").getAsString();
                 }
+                if(!jsonObject.get("especialidad").isJsonNull())
+                {
+                    especialidad = jsonObject.get("especialidad").getAsString();
+                }
             } catch (JsonSyntaxException | IllegalStateException | NullPointerException e) {
                 e.printStackTrace();
             }

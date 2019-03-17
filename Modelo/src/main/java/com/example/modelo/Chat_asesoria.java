@@ -15,5 +15,6 @@ public class Chat_asesoria {
     public String ultimo_mensaje;
     public String usuario;
     public String administrador;
+    public String especialidad;
     public String ultima_hora_chat_asesoria;
 }

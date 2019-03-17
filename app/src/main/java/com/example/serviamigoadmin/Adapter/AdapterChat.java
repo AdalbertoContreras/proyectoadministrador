@@ -10,14 +10,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.gestion.Gestion_especialidad;
 import com.example.gestion.Gestion_usuario;
 import com.example.modelo.Chat_asesoria;
+import com.example.modelo.Especialidad;
 import com.example.modelo.Usuario;
 import com.example.serviamigoadmin.Fragment.ChatUsuarioFragment;
 import com.example.servimaigoadmin.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.ViewHolderDatos>{
     private ArrayList<Chat_asesoria> chat_asesorias;
@@ -51,37 +55,44 @@ public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.ViewHolderDat
 
     public static class ViewHolderDatos extends RecyclerView.ViewHolder{
         private View view;
-        private ImageView asesoriaImageView;
+        private CircleImageView asesoriaImageView;
         private TextView nombre_usuarioTextView;
         private TextView ultimo_mensajeTextView;
         private TextView ultima_fechaTextView;
+        private TextView tipoAsesoriaTextView;
 
         public ViewHolderDatos(@NonNull final View itemView) {
             super(itemView);
             this.view = itemView;
-            asesoriaImageView = view.findViewById(R.id.imagen_asesoriaImageView);
+            asesoriaImageView = view.findViewById(R.id.fotoPerfilCircleImageView);
             nombre_usuarioTextView = view.findViewById(R.id.nombre_usuarioTextView);
             ultimo_mensajeTextView = view.findViewById(R.id.ultimo_mensajeTextView);
             ultima_fechaTextView = view.findViewById(R.id.fecha_ultimo_mensajeTextView);
+            tipoAsesoriaTextView = view.findViewById(R.id.tipoAsesoriaTextView);
         }
 
         public void setDatos(final Chat_asesoria chat_asesoria, final FragmentManager fragmentManager)
         {
             ArrayList<Usuario> usuarios =  new Gestion_usuario().generar_json(chat_asesoria.usuario);
+            ArrayList<Especialidad> especialidades = new Gestion_especialidad().generar_json(chat_asesoria.especialidad);
             final Usuario usuario;
             if(!usuarios.isEmpty())
             {
                 usuario = usuarios.get(0);
                 nombre_usuarioTextView.setText(usuario.nombres_usuario + " " + usuario.apellidos_usuario);
+                Picasso.with(view.getContext()).load(usuario.foto_perfil_usuario).into(asesoriaImageView);
             }
             else
             {
                 nombre_usuarioTextView.setText(" ");
             }
-            ultima_fechaTextView.setText(chat_asesoria.ultima_fecha_chat_asesoria);
+            if(!especialidades.isEmpty())
+            {
+                Especialidad especialidad = especialidades.get(0);
+                tipoAsesoriaTextView.setText(especialidad.nombre_especialidad);
+            }
+            ultima_fechaTextView.setText(chat_asesoria.ultima_fecha_chat_asesoria + " " + chat_asesoria.ultima_hora_chat_asesoria);
             ultimo_mensajeTextView.setText(chat_asesoria.ultimo_mensaje);
-            Picasso.with(view.getContext()).load(R.drawable.imagen_nueva).into(asesoriaImageView);
-
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
