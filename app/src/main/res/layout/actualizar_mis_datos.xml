@@ -227,7 +227,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ACTUALIZAR DATOS"
-                    android:id="@+id/registrarAsesorButton"/>
+                    android:id="@+id/registrarAsesorButton"
+                    android:theme="@style/Button"/>
             </LinearLayout>
         </ScrollView>
 
