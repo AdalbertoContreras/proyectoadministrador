@@ -104,7 +104,7 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
         seguir = true;
         generando_consulta = false;
         agregar_nuevas_alertas = false;
-        /*new Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 while(seguir)
@@ -133,8 +133,7 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
                     }
                 }
             }
-        }).start();*/
-        consultar_alertas_tempranas();
+        }).start();
     }
 
     @Override

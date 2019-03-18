@@ -4,23 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.servimaigoadmin.com.example.serviamigoadmin.Fragment.ChatUsuarioFragment">
+    tools:context=".Activities.ChatAsesoria">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/fondo2">
+
+        <TextView
+            android:id="@+id/nombreUsuarioTextView"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_weight="0"
+            android:text="Administrador"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:paddingVertical="10dp"
+            android:background="@color/Gris3"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/mensajes_chat_asesoria_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:layout_weight="1"
-            tools:listitem="@layout/recycler_view_item" />
+            android:layout_weight="1" />
 
         <LinearLayout
 
@@ -29,6 +42,7 @@
             android:layout_height="60dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="0"
             android:orientation="horizontal">
 
@@ -36,25 +50,37 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/linearLayout"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
-                android:visibility="visible">
+                android:background="@color/Gris3"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:visibility="visible"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="661dp">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/mensajeEdittext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
                     android:autoText="false"
-                    android:hint="hint"
+                    android:hint="mensaje"
                     android:lines="1"
                     android:maxLines="3"
-                    android:minLines="2" />
+                    android:minLines="2"
+                    android:textSize="12sp" />
             </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/enviarButton"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/ic_menu_send" />
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/icon_enviar" />
         </LinearLayout>
 
     </LinearLayout>

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -20,8 +21,10 @@ import com.example.extra.MySocialMediaSingleton;
 import com.example.extra.WebService;
 import com.example.gestion.Gestion_administrador;
 import com.example.gestion.Gestion_mensaje_chat_asesoria;
+import com.example.gestion.Gestion_usuario;
 import com.example.modelo.Chat_asesoria;
 import com.example.modelo.Mensaje_chat_asesoria;
+import com.example.modelo.Usuario;
 import com.example.serviamigoadmin.Adapter.Adapter_Mensajes_Chat;
 import com.example.servimaigoadmin.R;
 
@@ -57,6 +60,7 @@ public class ChatUsuarioFragment extends Fragment {
     private Boolean consultando;
     private Adapter_Mensajes_Chat adapter_mensajes_chat_asesoria;
     private boolean fragment_activo;
+    private TextView nombreUsuarioTextView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -106,9 +110,15 @@ public class ChatUsuarioFragment extends Fragment {
         fragment_activo = true;
         recyclerView_chat_asesoria = view.findViewById(R.id.mensajes_chat_asesoria_recyclerview);
         recyclerView_chat_asesoria.setLayoutManager(new GridLayoutManager(view.getContext(),1));
-
+        nombreUsuarioTextView = view.findViewById(R.id.nombreUsuarioTextView);
         mensajeEditText = view.findViewById(R.id.mensajeEdittext);
         enviarButton = view.findViewById(R.id.enviarButton);
+        ArrayList<Usuario> usuarios = new Gestion_usuario().generar_json(chat_asesoria.usuario);
+        if(!usuarios.isEmpty())
+        {
+            Usuario usuario = usuarios.get(0);
+            nombreUsuarioTextView.setText(usuario.nombre_cuenta_usuario);
+        }
         enviarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

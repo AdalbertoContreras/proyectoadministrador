@@ -15,11 +15,6 @@
             android:title="Crear articulo" />
 
         <item
-            android:id="@+id/ver_mis_Asesorias"
-            android:icon="@drawable/ic_menu_send"
-            android:title="Ver mis asesorias" />
-
-        <item
         android:id="@+id/cambiar_contraseña"
         android:icon="@drawable/ic_menu_send"
         android:title="Cambiar contraseña" />
