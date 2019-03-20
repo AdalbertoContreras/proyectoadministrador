@@ -55,6 +55,7 @@ public class    LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
+        new Navigation();
         progressDialog = new ProgressDialog(LoginActivity.this);
         cuentaEditText = findViewById(R.id.nombreCuentaEditTextLogin);
         contraseñaEditText = (EditText) findViewById(R.id.contraseñaEditTextLogin);

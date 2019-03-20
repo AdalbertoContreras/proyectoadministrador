@@ -64,7 +64,11 @@ public class Gestion_administrador{
     private final String IDENTIDAD = "identidad";
     private final String NUTRICION = "nutricion";
     private final String EMBARAZO = "embarazo";
-
+    public static CambioAdministrador cambioAdministrador = null;
+    public interface CambioAdministrador
+    {
+        void administradorCambiado(Administrador administrador);
+    }
     private void adjuntar_aseso()
     {
         if(getAdministrador_actual() != null)
@@ -360,5 +364,6 @@ public class Gestion_administrador{
 
     public static void setAdministrador_actual(Administrador administrador_actual) {
         Gestion_administrador.administrador_actual = administrador_actual;
+        cambioAdministrador.administradorCambiado(administrador_actual);
     }
 }
