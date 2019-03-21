@@ -45,7 +45,9 @@ import com.example.serviamigoadmin.Fragment.ChatUsuarioFragment;
 import com.example.serviamigoadmin.Fragment.ConsultaAlertasTempranasFragment;
 import com.example.serviamigoadmin.Fragment.ConsultarAsesoresFragment;
 import com.example.serviamigoadmin.Fragment.EstadisticaUsuariosFragment;
+import com.example.serviamigoadmin.Fragment.ListaNoticiasFragment;
 import com.example.serviamigoadmin.Fragment.MisAsesoriasFragment;
+import com.example.serviamigoadmin.Fragment.Modificar_noticiaFragment;
 import com.example.serviamigoadmin.Fragment.Registrar_AdministradorFragment;
 import com.example.serviamigoadmin.Fragment.Registrar_noticiaFragment;
 import com.example.servimaigoadmin.R;
@@ -55,7 +57,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 public class Navigation extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ConsultaAlertasTempranasFragment.OnFragmentInteractionListener, Registrar_noticiaFragment.OnFragmentInteractionListener, MisAsesoriasFragment.OnFragmentInteractionListener, ChatUsuarioFragment.OnFragmentInteractionListener, Registrar_AdministradorFragment.OnFragmentInteractionListener, CambiarContrasenaFragment.OnFragmentInteractionListener, Actualizar_AdministradorFragment.OnFragmentInteractionListener, EstadisticaUsuariosFragment.OnFragmentInteractionListener, ConsultarAsesoresFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ConsultaAlertasTempranasFragment.OnFragmentInteractionListener, Registrar_noticiaFragment.OnFragmentInteractionListener, MisAsesoriasFragment.OnFragmentInteractionListener, ChatUsuarioFragment.OnFragmentInteractionListener, Registrar_AdministradorFragment.OnFragmentInteractionListener, CambiarContrasenaFragment.OnFragmentInteractionListener, Actualizar_AdministradorFragment.OnFragmentInteractionListener, EstadisticaUsuariosFragment.OnFragmentInteractionListener, ConsultarAsesoresFragment.OnFragmentInteractionListener, ListaNoticiasFragment.OnFragmentInteractionListener, Modificar_noticiaFragment.OnFragmentInteractionListener {
     private ConsultaAlertasTempranasFragment consultaAlertasTempranasFragment;
     private NotificationManagerCompat notificationManagerCompat;
     private static ArrayList<Chat_asesoria> chat_asesorias_local;
@@ -423,6 +425,11 @@ public class Navigation extends AppCompatActivity
         }
         if (id == R.id.estadistica_numero_usuario) {
             fragment = new EstadisticaUsuariosFragment();
+            selecionado = true;
+        }
+        if(id == R.id.cosultar_noticias)
+        {
+            fragment = new ListaNoticiasFragment();
             selecionado = true;
         }
         if (id == R.id.cerrar_sesion) {

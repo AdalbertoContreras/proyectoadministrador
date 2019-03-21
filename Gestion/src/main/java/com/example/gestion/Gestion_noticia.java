@@ -1,5 +1,6 @@
 package com.example.gestion;
 
+import com.example.modelo.Imagen_noticia;
 import com.example.modelo.Movil_registro;
 import com.example.modelo.Noticia;
 import com.google.gson.JsonArray;
@@ -27,6 +28,44 @@ public class Gestion_noticia {
     {
         tipo_consulta = "registrar_noticia_manual";
         return construir_parametros(noticia);
+    }
+
+    public HashMap<String, String> update(Noticia noticia, Imagen_noticia imagen_noticia)
+    {
+        tipo_consulta = "update";
+        JsonObject obj = new JsonObject();
+        try {
+            obj.addProperty("id_notiticia", noticia.id_notiticia);
+            obj.addProperty("id_generacion_noticia", "");
+            obj.addProperty("titulo_noticia", noticia.titulo_noticia);
+            obj.addProperty("contenido_noticia", noticia.contenido_noticia);
+            obj.addProperty("num_imagenes_noticia", "");
+            obj.addProperty("fecha_registro_noticia", "");
+            obj.addProperty("hora_registro_noticia", "");
+            obj.addProperty("tipo_creacion_noticia", "");
+            obj.addProperty("numero_visistas_noticia", "");
+            obj.addProperty("administrador_noticia", "");
+            obj.addProperty("categoria_noticia_manual_noticia", noticia.categoria_noticia_manual_noticia);
+            obj.addProperty("fecha1",fecha1);
+            obj.addProperty("fecha2",fecha2);
+            obj.addProperty("tipo_consulta","update");
+            obj.addProperty("llave_ws",llave_ws);
+            if(Gestion_administrador.getAdministrador_actual() != null)
+            {
+                obj.addProperty("nombre_admnistrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
+                obj.addProperty("contraseña_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
+            }
+            else
+            {
+                obj.addProperty("nombre_admnistrador_ol","");
+                obj.addProperty("contraseña_administrador_ol","");
+            }
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("json",obj.toString());
+        return hashMap;
     }
 
     public HashMap<String, String> consultar_num_noticia()
@@ -74,7 +113,7 @@ public class Gestion_noticia {
                 administrador_noticia = jsonObject.get("administrador_noticia").getAsInt();
                 categoria_noticia_manual_noticia = jsonObject.get("categoria_noticia_manual_noticia").getAsInt();
                 numero_me_gusta = jsonObject.get("numero_me_gusta").getAsInt();
-                if(jsonObject.get("json_imagenes").isJsonNull())
+                if(!jsonObject.get("json_imagenes").isJsonNull())
                 {
                     json_imagenes = jsonObject.get("json_imagenes").getAsString();
                 }

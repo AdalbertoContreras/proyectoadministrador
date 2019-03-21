@@ -13,7 +13,10 @@
             android:id="@+id/crear_noticia"
             android:icon="@drawable/ic_menu_send"
             android:title="Crear articulo" />
-
+        <item
+            android:id="@+id/cosultar_noticias"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Consultar noticias" />
         <item
         android:id="@+id/cambiar_contraseña"
         android:icon="@drawable/ic_menu_send"

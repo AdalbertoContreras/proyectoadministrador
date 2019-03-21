@@ -56,7 +56,7 @@ public class    LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        new Navigation();
+
         progressDialog = new ProgressDialog(LoginActivity.this);
         cuentaEditText = findViewById(R.id.nombreCuentaEditTextLogin);
         contraseñaEditText = (EditText) findViewById(R.id.contraseñaEditTextLogin);
@@ -213,5 +213,15 @@ public class    LoginActivity extends AppCompatActivity {
         MySocialMediaSingleton.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(Gestion_administrador.getAdministrador_actual() != null)
+        {
+            Intent intent = new Intent(LoginActivity.this, Navigation.class);
+            contraseñaEditText.setText("");
+            startActivity(intent);
+        }
+    }
 }
 
