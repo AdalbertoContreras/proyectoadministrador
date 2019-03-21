@@ -22,6 +22,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
@@ -61,7 +63,10 @@ public class Navigation extends AppCompatActivity
     private boolean hilo_notificaciones_activo = false;
     private final String CHANEL_ID = "NOTIFICACION";
     private DrawerLayout drawer;
-    private boolean seguir;
+    public static boolean hilo_notificacion_iniciado;
+    private final int CICLO_NOTIFICACIONES = 3000;
+    private final int SUMA = 100;
+    private boolean aplicacion_terminada;
 
     public Navigation()
     {
@@ -100,25 +105,34 @@ public class Navigation extends AppCompatActivity
         }
         Log.d("administrador", "valido");
         hilo_notificaciones_activo = true;
-        iniciar_hilo_notificaciones();
+        if(!hilo_notificacion_iniciado)
+        {
+            hilo_notificacion_iniciado = true;
+            iniciar_hilo_notificaciones();
+        }
+        Gestion_chat_asesoria.setChatAbierto(new Gestion_chat_asesoria.ChatAbierto() {
+            @Override
+            public void abierto(int id_chat) {
+                /***
+                 * Cierra la notificacion segun el chat abierto por el usuario
+                 */
+                notificationManagerCompat = NotificationManagerCompat.from(Navigation.this);
+                notificationManagerCompat.cancel(id_chat);
+            }
+        });
+        aplicacion_terminada = false;
     }
 
-    public static void iniciarEscuchador()
-    {
-
-    }
     private void iniciar_hilo_notificaciones()
     {
         chat_asesorias_local = null;
-        actualizar_notificaciones_chat();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Log.d("hilo", "iniciado");
-                int time = 3000;
+                int time = CICLO_NOTIFICACIONES;
                 while (hilo_notificaciones_activo)
                 {
-                    if(time >= 3000)
+                    if(time >= CICLO_NOTIFICACIONES)
                     {
                         time = 0;
                         runOnUiThread(new Runnable() {
@@ -129,8 +143,8 @@ public class Navigation extends AppCompatActivity
                         });
                     }
                     try {
-                        Thread.sleep(100);
-                        time += 100;
+                        Thread.sleep(SUMA);
+                        time += SUMA;
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -144,7 +158,6 @@ public class Navigation extends AppCompatActivity
         if(Gestion_administrador.getAdministrador_actual() != null)
         {
             HashMap<String,String> params = new Gestion_chat_asesoria().consultar_por_administrador(Gestion_administrador.getAdministrador_actual().id_administrador);
-            Log.d("parametros", params.toString());
             Response.Listener<String> stringListener = new Response.Listener<String>()
             {
                 @Override
@@ -252,11 +265,11 @@ public class Navigation extends AppCompatActivity
         createNotification(item.ultimo_mensaje_usuario_chat_asesoria, titulo, item.id_chat_asesoria);
     }
 
-    public static Chat_asesoria chat_asesoria_por_id(int id)
+    public static Chat_asesoria chat_asesoria_por_id(final int ID)
     {
         for(Chat_asesoria item : chat_asesorias_local)
         {
-            if(item.id_chat_asesoria == id)
+            if(item.id_chat_asesoria == ID)
             {
                 return item;
             }
@@ -266,8 +279,8 @@ public class Navigation extends AppCompatActivity
 
     public void reemplazar_chat_local(Chat_asesoria chat_asesoria)
     {
-        int tam = chat_asesorias_local.size();
-        for(int i = 0; i < tam; i ++)
+        final int TAM = chat_asesorias_local.size();
+        for(int i = 0; i < TAM; i ++)
         {
             if(chat_asesorias_local.get(i).id_chat_asesoria == chat_asesoria.id_chat_asesoria)
             {
@@ -315,7 +328,6 @@ public class Navigation extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        seguir = true;
     }
 
     @Override
@@ -334,11 +346,23 @@ public class Navigation extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            drawer.openDrawer(GravityCompat.START);
+    public void onBackPressed()
+    {
+        if(aplicacion_terminada)
+        {
+            Gestion_administrador.setAdministrador_actual(null);
+            Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+            startActivity(intent);
+        }
+        else
+        {
+            if (drawer.isDrawerOpen(GravityCompat.START))
+            {
+                drawer.closeDrawer(GravityCompat.START);
+            } else
+                {
+                drawer.openDrawer(GravityCompat.START);
+            }
         }
     }
 
@@ -404,6 +428,8 @@ public class Navigation extends AppCompatActivity
         if (id == R.id.cerrar_sesion) {
             Log.d("administrador", "null");
             hilo_notificaciones_activo = false;
+            hilo_notificacion_iniciado = false;
+            notificationManagerCompat = NotificationManagerCompat.from(this);
             if(chat_asesorias_local != null)
             {
                 for(Chat_asesoria chat : chat_asesorias_local)
@@ -413,7 +439,8 @@ public class Navigation extends AppCompatActivity
                 chat_asesorias_local.clear();
                 chat_asesorias_local = null;
             }
-            finish();
+            aplicacion_terminada = true;
+            onBackPressed();
             return false;
         }
         if(selecionado)
@@ -425,8 +452,6 @@ public class Navigation extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
 
     @Override
     public void onFragmentInteraction(Uri uri) {

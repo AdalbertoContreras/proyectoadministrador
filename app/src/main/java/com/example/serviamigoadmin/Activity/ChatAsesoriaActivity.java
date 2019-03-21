@@ -1,5 +1,6 @@
 package com.example.serviamigoadmin.Activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -39,7 +40,6 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private View view;
     private ArrayList<Mensaje_chat_asesoria> mensaje_chat_asesorias;
     private RecyclerView recyclerView_chat_asesoria;
     private EditText mensajeEditText;
@@ -111,13 +111,35 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
                             }
                         };
                         StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, errorListener);
-                        MySocialMediaSingleton.getInstance(view.getContext()).addToRequestQueue(stringRequest);
+                        MySocialMediaSingleton.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
                     }
                     mensajeEditText.setText("");
                 }
             }
         });
     }
+
+    private void chatVisto()
+    {
+        HashMap<String,String> params = new Gestion_chat_asesoria().vista_por_administrador(chat_asesoria.id_chat_asesoria);
+        Response.Listener<String> stringListener = new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                consultando = false;
+                Log.d("Reponse.Error",error.toString());
+            }
+        };
+        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, errorListener);
+        MySocialMediaSingleton.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
+    }
+
 
     private void consultar_mensajes()
     {
@@ -130,7 +152,7 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
             }
         };
         StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, MySocialMediaSingleton.errorListener());
-        MySocialMediaSingleton.getInstance(view.getContext()).addToRequestQueue(stringRequest);
+        MySocialMediaSingleton.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
     }
 
     private void cargar_mensajes_de_inicio(String response)
@@ -202,7 +224,7 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
             }
         };
         StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, errorListener);
-        MySocialMediaSingleton.getInstance(view.getContext()).addToRequestQueue(stringRequest);
+        MySocialMediaSingleton.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
     }
 
     private void iniciar_conexion_chat()
@@ -233,6 +255,7 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
         super.onResume();
         fragment_activo = true;
         mensaje_enviado = false;
+        chatVisto();
         iniciar_conexion_chat();
     }
 
@@ -240,6 +263,19 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
         fragment_activo = false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(id_chat_notificacion > 0)
+        {
+            Intent intent = new Intent(getBaseContext(), Navigation.class);
+            startActivity(intent);
+        }
+        else
+        {
+            super.onBackPressed();
+        }
     }
 
 }

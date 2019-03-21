@@ -1,5 +1,6 @@
 package com.example.serviamigoadmin.Adapter;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,7 +16,9 @@ import com.example.gestion.Gestion_usuario;
 import com.example.modelo.Chat_asesoria;
 import com.example.modelo.Especialidad;
 import com.example.modelo.Usuario;
+import com.example.serviamigoadmin.Activity.ChatAsesoriaActivity;
 import com.example.serviamigoadmin.Fragment.ChatUsuarioFragment;
+import com.example.serviamigoadmin.Navigation;
 import com.example.servimaigoadmin.R;
 import com.squareup.picasso.Picasso;
 
@@ -97,9 +100,9 @@ public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.ViewHolderDat
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Fragment fragment = new ChatUsuarioFragment();
-                    ChatUsuarioFragment.chat_asesoria = chat_asesoria;
-                    fragmentManager.beginTransaction().replace(R.id.framengMaster,fragment).commit();
+                    Intent intent = new Intent(view.getContext(), ChatAsesoriaActivity.class);
+                    intent.putExtra("chat", chat_asesoria.id_chat_asesoria);
+                    (view.getContext()).startActivity(intent);
                 }
             });
         }

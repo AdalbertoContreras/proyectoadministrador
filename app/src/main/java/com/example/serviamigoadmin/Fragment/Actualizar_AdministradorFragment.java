@@ -361,7 +361,7 @@ public class Actualizar_AdministradorFragment extends Fragment {
                     {
                         Administrador administrador = arrayList.get(0);
                         Gestion_administrador.getAdministrador_actual().url_foto_perfil_administrador = administrador.url_foto_perfil_administrador;
-                        Picasso.with(getContext()).load(Gestion_administrador.getAdministrador_actual().url_foto_perfil_administrador).placeholder(getContext().getResources().getDrawable(R.drawable.perfil2)).error(R.drawable.perfil2).into(fotoPerfilImageView);
+                        Picasso.with(view.getContext()).load(Gestion_administrador.getAdministrador_actual().url_foto_perfil_administrador).placeholder(view.getContext().getResources().getDrawable(R.drawable.perfil2)).error(R.drawable.perfil2).into(fotoPerfilImageView);
                     }
                 }
                 else
@@ -376,7 +376,7 @@ public class Actualizar_AdministradorFragment extends Fragment {
             }
         };
         StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, errorListener);
-        MySocialMediaSingleton.getInstance(getContext()).addToRequestQueue(stringRequest);
+        MySocialMediaSingleton.getInstance(view.getContext()).addToRequestQueue(stringRequest);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

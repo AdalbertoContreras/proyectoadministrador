@@ -54,6 +54,13 @@ public class Gestion_chat_asesoria {
         chatAbierto.abierto(id_chat);
     }
 
+    public HashMap<String, String> vista_por_administrador( int id_chat)
+    {
+        aux.id_chat_asesoria = id_chat;
+        tipo_consulta = "vista_por_administrador";
+        return construir_parametros(aux);
+    }
+
     public HashMap<String, String> chat_asesoria_por_id(int id_chat)
     {
         aux.id_chat_asesoria = id_chat;

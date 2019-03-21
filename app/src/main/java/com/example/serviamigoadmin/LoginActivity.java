@@ -52,6 +52,7 @@ public class    LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Navigation.hilo_notificacion_iniciado = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
@@ -89,11 +90,10 @@ public class    LoginActivity extends AppCompatActivity {
                 return false;
             }
         });
-        Button iniciar_secionButton = (Button) findViewById(R.id.inicio_sesion_Button);
+        Button iniciar_secionButton = findViewById(R.id.inicio_sesion_Button);
         iniciar_secionButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 progressDialog.show();
                 progressDialog.setCancelable(false);
                 progressDialog.setMessage("Conetandose a SERVIAMIGO");
@@ -212,5 +212,6 @@ public class    LoginActivity extends AppCompatActivity {
         StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, errorListener);
         MySocialMediaSingleton.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
     }
+
 }
 

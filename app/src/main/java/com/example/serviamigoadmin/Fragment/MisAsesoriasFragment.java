@@ -94,6 +94,13 @@ public class MisAsesoriasFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_mis_asesorias, container, false);
         chat_asesorRecyclerView = view.findViewById(R.id.mis_asesoriasRecyclerView);
         tipo_asesoriasSpinner = view.findViewById(R.id.tipo_asesoriasSpinner);
+
+
+        return view;
+    }
+
+    private void iniciar_evento()
+    {
         tipo_asesoriasSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -113,9 +120,6 @@ public class MisAsesoriasFragment extends Fragment {
 
             }
         });
-        consultar_chat();
-        consultar_especializaciones();
-        return view;
     }
 
     private void filtrar_chat(int filtro)
@@ -157,8 +161,9 @@ public class MisAsesoriasFragment extends Fragment {
             asuntosArray= asuntos_a_array_string_vacio();
 
         }
-        ArrayAdapter arrayAdapter = new ArrayAdapter<>(this.getContext(),android.R.layout.simple_spinner_item, asuntosArray);
+        ArrayAdapter arrayAdapter = new ArrayAdapter<>(view.getContext(),android.R.layout.simple_spinner_item, asuntosArray);
         tipo_asesoriasSpinner.setAdapter(arrayAdapter);
+        iniciar_evento();
     }
 
     private String[] asuntos_a_array_string()
@@ -207,6 +212,7 @@ public class MisAsesoriasFragment extends Fragment {
         chat_asesorRecyclerView.setAdapter(adapterChat);
         chat_asesorRecyclerView.setHasFixedSize(true);
     }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -223,6 +229,13 @@ public class MisAsesoriasFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        consultar_especializaciones();
+        consultar_chat();
     }
 
     @Override
