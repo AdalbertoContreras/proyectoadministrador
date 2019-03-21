@@ -364,6 +364,5 @@ public class Gestion_administrador{
 
     public static void setAdministrador_actual(Administrador administrador_actual) {
         Gestion_administrador.administrador_actual = administrador_actual;
-        cambioAdministrador.administradorCambiado(administrador_actual);
     }
 }

@@ -16,12 +16,17 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.extra.MySocialMediaSingleton;
 import com.example.extra.WebService;
 import com.example.gestion.Gestion_administrador;
+import com.example.gestion.Gestion_chat_asesoria;
+import com.example.gestion.Gestion_especialidad;
 import com.example.gestion.Gestion_mensaje_chat_asesoria;
 import com.example.gestion.Gestion_usuario;
+import com.example.modelo.Administrador;
 import com.example.modelo.Chat_asesoria;
+import com.example.modelo.Especialidad;
 import com.example.modelo.Mensaje_chat_asesoria;
 import com.example.modelo.Usuario;
 import com.example.serviamigoadmin.Adapter.Adapter_Mensajes_Chat;
+import com.example.serviamigoadmin.Navigation;
 import com.example.servimaigoadmin.R;
 
 import java.util.ArrayList;
@@ -44,6 +49,7 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
     private Adapter_Mensajes_Chat adapter_mensajes_chat_asesoria;
     private boolean fragment_activo;
     private TextView nombreUsuarioTextView;
+    private int id_chat_notificacion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +61,16 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
         nombreUsuarioTextView = findViewById(R.id.nombreUsuarioTextView);
         mensajeEditText = findViewById(R.id.mensajeEdittext);
         enviarButton = findViewById(R.id.enviarButton);
+        try
+        {
+            id_chat_notificacion = getIntent().getExtras().getInt("chat");
+            Gestion_chat_asesoria.chat_abiero(id_chat_notificacion);
+            chat_asesoria = Navigation.chat_asesoria_por_id(id_chat_notificacion);
+        }
+        catch (NullPointerException exc)
+        {
+
+        }
         ArrayList<Usuario> usuarios = new Gestion_usuario().generar_json(chat_asesoria.usuario);
         if(!usuarios.isEmpty())
         {

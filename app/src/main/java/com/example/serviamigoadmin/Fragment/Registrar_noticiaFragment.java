@@ -129,36 +129,36 @@ public class Registrar_noticiaFragment extends Fragment {
         registrarNoticiaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Noticia noticia = new Noticia();
-                imagen_noticia = new Imagen_noticia();
-                if(tituloEditText.getText().toString().isEmpty())
-                {
-                    Toast.makeText(view.getContext(), "Ingrese el titulo de la noticia", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                else
-                {
-                    noticia.titulo_noticia = tituloEditText.getText().toString();
-                }
-                if(contenidoEditText.getText().toString().isEmpty())
-                {
-                    Toast.makeText(view.getContext(), "Ingrese el contenido de la noticia", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                else
-                {
-                    noticia.contenido_noticia = contenidoEditText.getText().toString();
-                }
-                if(categoria_noticia_selecionado == null)
-                {
-                    Toast.makeText(view.getContext(), "Selecione la categoria de la noticia", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                else
-                {
-                    noticia.categoria_noticia_manual_noticia = categoria_noticia_selecionado.id_categoria_noticia_manual;
-                }
-                registrar_noticia(noticia);
+            Noticia noticia = new Noticia();
+            imagen_noticia = new Imagen_noticia();
+            if(tituloEditText.getText().toString().isEmpty())
+            {
+                Toast.makeText(view.getContext(), "Ingrese el titulo de la noticia", Toast.LENGTH_LONG).show();
+                return;
+            }
+            else
+            {
+                noticia.titulo_noticia = tituloEditText.getText().toString();
+            }
+            if(contenidoEditText.getText().toString().isEmpty())
+            {
+                Toast.makeText(view.getContext(), "Ingrese el contenido de la noticia", Toast.LENGTH_LONG).show();
+                return;
+            }
+            else
+            {
+                noticia.contenido_noticia = contenidoEditText.getText().toString();
+            }
+            if(categoria_noticia_selecionado == null)
+            {
+                Toast.makeText(view.getContext(), "Selecione la categoria de la noticia", Toast.LENGTH_LONG).show();
+                return;
+            }
+            else
+            {
+                noticia.categoria_noticia_manual_noticia = categoria_noticia_selecionado.id_categoria_noticia_manual;
+            }
+            registrar_noticia(noticia);
             }
         });
         cargarImagenButton.setOnClickListener(new View.OnClickListener() {

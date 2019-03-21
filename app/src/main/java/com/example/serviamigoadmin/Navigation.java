@@ -65,34 +65,6 @@ public class Navigation extends AppCompatActivity
 
     public Navigation()
     {
-        if(Gestion_administrador.cambioAdministrador == null)
-        {
-            Gestion_administrador.cambioAdministrador = new Gestion_administrador.CambioAdministrador() {
-                @Override
-                public void administradorCambiado(Administrador administrador) {
-                    if(administrador != null)
-                    {
-                        Log.d("administrador", "valido");
-                        hilo_notificaciones_activo = true;
-                        iniciar_hilo_notificaciones();
-                    }
-                    else
-                    {
-                        Log.d("administrador", "null");
-                        hilo_notificaciones_activo = false;
-                        if(chat_asesorias_local != null)
-                        {
-                            for(Chat_asesoria item : chat_asesorias_local)
-                            {
-                                notificationManagerCompat.cancel(item.id_chat_asesoria);
-                            }
-                            chat_asesorias_local.clear();
-                            chat_asesorias_local = null;
-                        }
-                    }
-                }
-            };
-        }
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +98,9 @@ public class Navigation extends AppCompatActivity
         {
             getSupportFragmentManager().beginTransaction().add(R.id.framengMaster,new MisAsesoriasFragment()).commit();
         }
+        Log.d("administrador", "valido");
+        hilo_notificaciones_activo = true;
+        iniciar_hilo_notificaciones();
     }
 
     public static void iniciarEscuchador()
@@ -143,7 +118,6 @@ public class Navigation extends AppCompatActivity
                 int time = 3000;
                 while (hilo_notificaciones_activo)
                 {
-                    Log.d("hilo", "en ciclo");
                     if(time >= 3000)
                     {
                         time = 0;
@@ -315,7 +289,7 @@ public class Navigation extends AppCompatActivity
 
     private void createNotification(String mensaje, String titulo, int id)
     {
-        Intent resultIntent = new Intent(getBaseContext(), ChatAsesoriaActivity.class);
+        Intent resultIntent = new Intent(Navigation.this, ChatAsesoriaActivity.class);
         resultIntent.putExtra("chat", id);
 
 // Create the TaskStackBuilder and add the intent, which inflates the back stack
@@ -428,6 +402,17 @@ public class Navigation extends AppCompatActivity
             selecionado = true;
         }
         if (id == R.id.cerrar_sesion) {
+            Log.d("administrador", "null");
+            hilo_notificaciones_activo = false;
+            if(chat_asesorias_local != null)
+            {
+                for(Chat_asesoria chat : chat_asesorias_local)
+                {
+                    notificationManagerCompat.cancel(chat.id_chat_asesoria);
+                }
+                chat_asesorias_local.clear();
+                chat_asesorias_local = null;
+            }
             finish();
             return false;
         }
