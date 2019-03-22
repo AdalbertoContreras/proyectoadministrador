@@ -116,6 +116,15 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
                 {
                     contenidoCambiado = true;
                 }
+                if(bitmap != null)
+                {
+                    imagenCambiada = true;
+                }
+                else
+                {
+                    imagenCambiada = false;
+                }
+
                 if(categoriaCambiada || tituloCambiado || imagenCambiada || contenidoCambiado)
                 {
                     Noticia noticia = new Noticia();
@@ -189,6 +198,14 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
         });
     }
 
+    private void resetearComparaciones()
+    {
+        tituloCambiado = true;
+        contenidoCambiado = true;
+        imagenCambiada = true;
+        categoriaCambiada= true;
+    }
+
     private void openGallery(){
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
@@ -215,16 +232,6 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
         byte[] bytes = stream.toByteArray();
         String s = Base64.encodeToString(bytes, Base64.DEFAULT);
         return s;
-    }
-
-    private void limpiar_campos()
-    {
-        categoriaSpinner.setSelection(0);
-        tituloEditText.setText("");
-        contenidoEditText.setText("");
-        imageUri = null;
-        bitmap = null;
-        foto_gallery.setImageURI(imageUri);
     }
 
     private void modificarNoticia(Noticia noticia)
@@ -264,16 +271,11 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
         }
         if(valor > 0)
         {
-            /*if(bitmap != null)
-            {*/
-                registrar_imagen(valor);
-                Toast.makeText(getBaseContext(), "Noticia y imagen registrada con exito.", Toast.LENGTH_LONG).show();
-            /*}
-            else
-            {
-                Toast.makeText(getBaseContext(), "Cambios registrado con exito.", Toast.LENGTH_LONG).show();
-            }*/
-            //limpiar_campos();
+            noticiaModificar.titulo_noticia = tituloEditText.getText().toString();
+            noticiaModificar.contenido_noticia = contenidoEditText.getText().toString();
+            noticiaModificar.categoria_noticia_manual_noticia = categoria_noticia_selecionado.id_categoria_noticia_manual;
+            registrar_imagen(valor);
+            Toast.makeText(getBaseContext(), "Noticia y imagen registrada con exito.", Toast.LENGTH_LONG).show();
         }
         else
         {
@@ -294,7 +296,6 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
             {
                 imagen_noticia.url_imagen_noticia = "-1";
             }
-
         }
         else
         {
@@ -317,8 +318,12 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
+                if(response.contains("http://31.220.63.102/WScomfacesar/"))
+                {
+                    imagen_noticia.url_imagen_noticia = response;
+                }
                 Log.d("response imagen", response);
-
+                bitmap = null;
             }
         };
         Response.ErrorListener errorListener = new Response.ErrorListener() {
