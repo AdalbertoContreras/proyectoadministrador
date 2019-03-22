@@ -79,7 +79,7 @@ public class Adapter_Mensajes_Chat extends  RecyclerView.Adapter<Adapter_Mensaje
             view = itemView;
             contenidoTextView = view.findViewById(R.id.contenidotextView_itemMensaje);
             fechatextView = view.findViewById(R.id.fechatextViewItem_mensaje);
-            circleImageView = view.findViewById(R.id.imagenPerfil);
+            circleImageView = view.findViewById(R.id.fotoPerfilImageView);
         }
 
         public void setDatos(final Mensaje_chat_asesoria mensaje_chat_asesoria, Chat_asesoria chat_asesoria)

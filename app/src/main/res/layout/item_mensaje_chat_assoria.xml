@@ -8,71 +8,80 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        tools:ignore="MissingConstraints"
-        android:padding="10dp"
-        android:weightSum="1">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/fechatextViewItem_mensaje"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:gravity="left"
+            android:text="Hace mas de un dia"
+            android:textColor="@color/Gris2"
+            android:layout_gravity="left"
+            android:layout_marginRight="94dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:textSize="9sp"
 
+            />
 
-        <android.support.v7.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="10dp"
-            app:cardUseCompatPadding="true"
-            android:layout_weight="0.99"
+            android:orientation="horizontal"
+            tools:ignore="MissingConstraints"
+            android:paddingHorizontal="10dp"
+            android:weightSum="1">
 
-            >
-
-            <LinearLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@color/colorAccent">
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="true"
+                android:layout_weight="0.99"
+                >
 
-                <TextView
-                    android:id="@+id/fechatextViewItem_mensaje"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:gravity="right"
-                    android:text="Hace mas de un dia"
-                    android:textColor="@color/Gris2"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:textSize="10sp"
-
-                     />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/White"
-                    android:layout_margin="10dp">
+                    android:orientation="vertical"
+                    android:background="@color/Gris3"
+                    android:layout_gravity="center">
 
-                <TextView
-                    android:id="@+id/contenidotextView_itemMensaje"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="7dp"
-                    android:textSize="13dp"
-                     />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_gravity="center"
+                        >
 
+                        <TextView
+                            android:id="@+id/contenidotextView_itemMensaje"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="7dp"
+                            android:textSize="13dp"
+                            android:text="@string/textoprueba"
+                            />
+
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
 
-        </android.support.v7.widget.CardView>
+            </android.support.v7.widget.CardView>
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imagenPerfil"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:src="@drawable/sede"
-            android:elevation="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center"
-            android:layout_weight="0.01"
-            />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/fotoPerfilImageView"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="0.01"
+                android:elevation="5dp"
+                android:src="@drawable/sede" />
 
 
+        </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
