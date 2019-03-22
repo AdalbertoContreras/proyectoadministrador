@@ -64,7 +64,7 @@ public class AdaptaderNoticiaModificar extends  RecyclerView.Adapter<AdaptaderNo
         private TextView numeroMeGustaTextView;
         private CircleImageView imagenArticuloCircleImageView;
         private View view;
-
+        private Noticia noticia;
         public ViewHolderDatos(@NonNull final View itemView) {
             super(itemView);
             view = itemView;
@@ -75,16 +75,30 @@ public class AdaptaderNoticiaModificar extends  RecyclerView.Adapter<AdaptaderNo
 
         public void setDatos(final Noticia noticia, final FragmentManager fragmentManager)
         {
+            ViewHolderDatos.this.noticia = noticia;
             tituloArticuloTextView.setText(noticia.titulo_noticia);
             numeroMeGustaTextView.setText(noticia.numero_me_gusta + " me gusta");
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ModificarNoticiaActivity.noticiaModificar = noticia;
+                    ModificarNoticiaActivity.noticiaModificar = ViewHolderDatos.this.noticia;
+                    ModificarNoticiaActivity.noticiaActualizada = new ModificarNoticiaActivity.NoticiaActualizada() {
+                        @Override
+                        public void noticiaCambiada(Noticia noticia) {
+                            tituloArticuloTextView.setText(noticia.titulo_noticia);
+                            ViewHolderDatos.this.noticia = noticia;
+                            cargarImagenNoticia();
+                        }
+                    };
                     Intent intent = new Intent(view.getContext(), ModificarNoticiaActivity.class);
                     (view.getContext()).startActivity(intent);
                 }
             });
+            cargarImagenNoticia();
+        }
+
+        private void cargarImagenNoticia()
+        {
             ArrayList<Imagen_noticia> imagen_noticias = new Gestion_imagen_noticia().generar_json(noticia.json_imagenes);
             if(imagen_noticias.isEmpty())
             {
@@ -95,7 +109,6 @@ public class AdaptaderNoticiaModificar extends  RecyclerView.Adapter<AdaptaderNo
                 Picasso.with(view.getContext()).load(imagen_noticias.get(0).url_imagen_noticia).placeholder(R.drawable.perfil2)
                         .error(R.drawable.perfil2).into(imagenArticuloCircleImageView);
             }
-
         }
     }
 }

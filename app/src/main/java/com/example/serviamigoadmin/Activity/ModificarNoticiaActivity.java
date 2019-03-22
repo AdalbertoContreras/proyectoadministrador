@@ -56,6 +56,8 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
     private boolean tituloCambiado = false;
     private boolean imagenCambiada = false;
     private boolean contenidoCambiado = false;
+    public static NoticiaActualizada noticiaActualizada;
+    private String urlNoticia;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -264,6 +266,7 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
         try
         {
             valor = Integer.parseInt(response);
+            urlNoticia = imagen_noticia.url_imagen_noticia;
         }
         catch (NumberFormatException exc)
         {
@@ -274,7 +277,14 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
             noticiaModificar.titulo_noticia = tituloEditText.getText().toString();
             noticiaModificar.contenido_noticia = contenidoEditText.getText().toString();
             noticiaModificar.categoria_noticia_manual_noticia = categoria_noticia_selecionado.id_categoria_noticia_manual;
-            registrar_imagen(valor);
+            if(bitmap != null)
+            {
+                registrar_imagen(valor);
+            }
+            else
+            {
+                noticiaActualizada.noticiaCambiada(noticiaModificar);
+            }
             Toast.makeText(getBaseContext(), "Noticia y imagen registrada con exito.", Toast.LENGTH_LONG).show();
         }
         else
@@ -302,14 +312,7 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
             imagen_noticia = new Imagen_noticia();
             imagen_noticia.url_imagen_anterior_noticia = "-1";
         }
-        if(bitmap != null)
-        {
-            imagen_noticia.url_imagen_noticia = bitmap_conver_to_String(bitmap);
-        }
-        else
-        {
-            imagen_noticia.url_imagen_noticia = "-1";
-        }
+        imagen_noticia.url_imagen_noticia = bitmap_conver_to_String(bitmap);
         imagen_noticia.noticia_imagen_noticia = id;
         HashMap<String, String> hashMap = new Gestion_imagen_noticia().subir_y_eliminar_imagen(imagen_noticia);
         Log.d("parametros imagen", hashMap.toString());
@@ -318,11 +321,13 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
-                if(response.contains("http://31.220.63.102/WScomfacesar/"))
+                ArrayList<Imagen_noticia> imagen_noticias = new Gestion_imagen_noticia().generar_json(response);
+                if(!imagen_noticias.isEmpty())
                 {
-                    imagen_noticia.url_imagen_noticia = response;
+                    imagen_noticia = imagen_noticias.get(0);
+                    noticiaModificar.json_imagenes = response;
+                    noticiaActualizada.noticiaCambiada(noticiaModificar);
                 }
-                Log.d("response imagen", response);
                 bitmap = null;
             }
         };
@@ -402,5 +407,8 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
         return new String[]{"No hay categoria"};
     }
 
-
+    public interface NoticiaActualizada
+    {
+        void noticiaCambiada(Noticia noticia);
+    }
 }
