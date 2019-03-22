@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -70,9 +71,17 @@ public class Navigation extends AppCompatActivity
     private final int SUMA = 100;
     private boolean aplicacion_terminada;
 
+    private TextView tiulo_tollba;
+
+
+
+
     public Navigation()
     {
     }
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,13 +89,20 @@ public class Navigation extends AppCompatActivity
         if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 1)
         {
             setContentView(R.layout.navigation_administrador);
+
         }
         else
         {
             setContentView(R.layout.navigation_asesor);
+
         }
+
+
+        tiulo_tollba= findViewById(R.id.titulo_toolbar);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -395,42 +411,55 @@ public class Navigation extends AppCompatActivity
         int id = item.getItemId();
         Fragment fragment = null;
         boolean selecionado = false;
+
+
         if (id == R.id.consulta_alertas_tempranas) {
             fragment = consultaAlertasTempranasFragment;
             selecionado = true;
+            tiulo_tollba.setText("Lista Alertas");
+
         }
         if (id == R.id.crear_noticia) {
             fragment = new Registrar_noticiaFragment();
             selecionado = true;
+            tiulo_tollba.setText("Crear Noticia");
         }
         if (id == R.id.ver_mis_Asesorias) {
             fragment = new MisAsesoriasFragment();
             selecionado = true;
+            tiulo_tollba.setText("Mis Asesorias");
+
         }
         if (id == R.id.registrar_asesor) {
             fragment = new Registrar_AdministradorFragment();
             selecionado = true;
+            tiulo_tollba.setText("Registro Asesor");
         }
         if (id == R.id.ver_asesores) {
             fragment = new ConsultarAsesoresFragment();
             selecionado = true;
+            tiulo_tollba.setText("Lista Asesores");
         }
         if (id == R.id.cambiar_contraseña) {
             fragment = new CambiarContrasenaFragment();
             selecionado = true;
+            tiulo_tollba.setText("Cambiar Contraseña");
         }
         if (id == R.id.actualizar_mis_datos) {
             fragment = new Actualizar_AdministradorFragment();
             selecionado = true;
+            tiulo_tollba.setText("Actualizar Datos");
         }
         if (id == R.id.estadistica_numero_usuario) {
             fragment = new EstadisticaUsuariosFragment();
             selecionado = true;
+            tiulo_tollba.setText("Estadisticas");
         }
         if(id == R.id.cosultar_noticias)
         {
             fragment = new ListaNoticiasFragment();
             selecionado = true;
+            tiulo_tollba.setText("Lista Noticias");
         }
         if (id == R.id.cerrar_sesion) {
             Log.d("administrador", "null");
