@@ -46,14 +46,16 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
     private Spinner categoriaSpinner;
     private Button registrarNoticiaButton;
     private Categoria_noticia_manual categoria_noticia_selecionado;
-    private int id_noticia;
     private static final int PICK_IMAGE = 100;
     private Uri imageUri;
     private ImageView foto_gallery;
     private Imagen_noticia imagen_noticia;
     private Bitmap bitmap;
     public static Noticia noticiaModificar;
-    private Noticia noticiaEspejo;
+    private boolean categoriaCambiada = false;
+    private boolean tituloCambiado = false;
+    private boolean imagenCambiada = false;
+    private boolean contenidoCambiado = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +70,7 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
         foto_gallery = findViewById(R.id.imagenImageViewRegistrarImagen);
         iniciareventos();
         cargarDatosNoticia();
-        noticiaEspejo = new Noticia();
-        noticiaEspejo = noticiaModificar;
+
     }
 
     private void cargarDatosNoticia()
@@ -88,10 +89,10 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
         }
         else
         {
-            Picasso.with(getBaseContext()).load(imagen_noticias.get(0).url_imagen_noticia).placeholder(R.drawable.perfil2)
+            imagen_noticia = imagen_noticias.get(0);
+            Picasso.with(getBaseContext()).load(imagen_noticia.url_imagen_noticia).placeholder(R.drawable.perfil2)
                     .error(R.drawable.perfil2).into(foto_gallery);
         }
-
     }
 
     private void iniciareventos()
@@ -99,36 +100,58 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
         registrarNoticiaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Noticia noticia = new Noticia();
-                imagen_noticia = new Imagen_noticia();
-                if(tituloEditText.getText().toString().isEmpty())
+                if(noticiaModificar.titulo_noticia.equals(tituloEditText.getText().toString()))
                 {
-                    Toast.makeText(getBaseContext(), "Ingrese el titulo de la noticia", Toast.LENGTH_LONG).show();
-                    return;
+                    tituloCambiado = false;
                 }
                 else
                 {
-                    noticia.titulo_noticia = tituloEditText.getText().toString();
+                    tituloCambiado = true;
                 }
-                if(contenidoEditText.getText().toString().isEmpty())
+                if(contenidoEditText.getText().toString().equals(noticiaModificar.contenido_noticia))
                 {
-                    Toast.makeText(getBaseContext(), "Ingrese el contenido de la noticia", Toast.LENGTH_LONG).show();
-                    return;
+                    contenidoCambiado = false;
                 }
                 else
                 {
-                    noticia.contenido_noticia = contenidoEditText.getText().toString();
+                    contenidoCambiado = true;
                 }
-                if(categoria_noticia_selecionado == null)
+                if(categoriaCambiada || tituloCambiado || imagenCambiada || contenidoCambiado)
                 {
-                    Toast.makeText(getBaseContext(), "Selecione la categoria de la noticia", Toast.LENGTH_LONG).show();
-                    return;
+                    Noticia noticia = new Noticia();
+                    if(tituloEditText.getText().toString().isEmpty())
+                    {
+                        Toast.makeText(getBaseContext(), "Ingrese el titulo de la noticia", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    else
+                    {
+                        noticia.titulo_noticia = tituloEditText.getText().toString();
+                    }
+                    if(contenidoEditText.getText().toString().isEmpty())
+                    {
+                        Toast.makeText(getBaseContext(), "Ingrese el contenido de la noticia", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    else
+                    {
+                        noticia.contenido_noticia = contenidoEditText.getText().toString();
+                    }
+                    if(categoria_noticia_selecionado == null)
+                    {
+                        Toast.makeText(getBaseContext(), "Selecione la categoria de la noticia", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    else
+                    {
+                        noticia.categoria_noticia_manual_noticia = categoria_noticia_selecionado.id_categoria_noticia_manual;
+                    }
+                    modificarNoticia(noticia);
                 }
                 else
                 {
-                    noticia.categoria_noticia_manual_noticia = categoria_noticia_selecionado.id_categoria_noticia_manual;
+                    Toast.makeText(getBaseContext(),"No se registro ningun cambio.", Toast.LENGTH_LONG).show();
                 }
-                modificarNoticia(noticia);
             }
         });
         cargarImagenButton.setOnClickListener(new View.OnClickListener() {
@@ -143,10 +166,19 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
                 if(position > 0)
                 {
                     categoria_noticia_selecionado = categoria_noticiaArrayList.get(position - 1);
+                    if(categoria_noticia_selecionado.id_categoria_noticia_manual == noticiaModificar.categoria_noticia_manual_noticia)
+                    {
+                        categoriaCambiada = false;
+                    }
+                    else
+                    {
+                        categoriaCambiada = true;
+                    }
                 }
                 else
                 {
                     categoria_noticia_selecionado = null;
+                    categoriaCambiada = true;
                 }
             }
 
@@ -168,6 +200,7 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
             imageUri = data.getData();
             foto_gallery.setImageURI(imageUri);
             try {
+                imagenCambiada = true;
                 bitmap = MediaStore.Images.Media.getBitmap(getBaseContext().getContentResolver(), imageUri);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -196,16 +229,16 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
 
     private void modificarNoticia(Noticia noticia)
     {
-        id_noticia = -1;
         noticia.administrador_noticia = Gestion_administrador.getAdministrador_actual().id_administrador;
-        HashMap<String, String> hashMap = new Gestion_noticia().registrar_noticia_manual(noticia);
+        noticia.id_notiticia = noticiaModificar.id_notiticia;
+        HashMap<String, String> hashMap = new Gestion_noticia().update(noticia);
         Log.d("parametros", hashMap.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
     {
         @Override
         public void onResponse(String response) {
             //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
-            registrar_noticia(response);
+            noticiaRegistrada(response);
         }
     };
         Response.ErrorListener errorListener = new Response.ErrorListener() {
@@ -218,7 +251,7 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
         MySocialMediaSingleton.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
     }
 
-    private void registrar_noticia(String response)
+    private void noticiaRegistrada(String response)
     {
         int valor = -1;
         try
@@ -231,32 +264,53 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
         }
         if(valor > 0)
         {
-
-            if(bitmap != null)
-            {
-                id_noticia = valor;
+            /*if(bitmap != null)
+            {*/
                 registrar_imagen(valor);
-                Toast.makeText(getBaseContext(), "Noticia y imagen registrada con exito", Toast.LENGTH_LONG).show();
-            }
+                Toast.makeText(getBaseContext(), "Noticia y imagen registrada con exito.", Toast.LENGTH_LONG).show();
+            /*}
             else
             {
-                Toast.makeText(getBaseContext(), "Noticia registrada con exito", Toast.LENGTH_LONG).show();
-            }
-            limpiar_campos();
+                Toast.makeText(getBaseContext(), "Cambios registrado con exito.", Toast.LENGTH_LONG).show();
+            }*/
+            //limpiar_campos();
         }
         else
         {
-            Toast.makeText(getBaseContext(), "Error al registrar noticia", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "Error al registrar noticia.", Toast.LENGTH_LONG).show();
         }
 
     }
 
     private void registrar_imagen(int id)
     {
-        Imagen_noticia imagen_noticia = new Imagen_noticia();
-        imagen_noticia.url_imagen_noticia = bitmap_conver_to_String(bitmap);
+        if(imagen_noticia != null)
+        {
+            if(imagen_noticia.url_imagen_noticia.contains("http://31.220.63.102/WScomfacesar/"))
+            {
+                imagen_noticia.url_imagen_anterior_noticia = imagen_noticia.url_imagen_noticia.replace("http://31.220.63.102/WScomfacesar/","");
+            }
+            else
+            {
+                imagen_noticia.url_imagen_noticia = "-1";
+            }
+
+        }
+        else
+        {
+            imagen_noticia = new Imagen_noticia();
+            imagen_noticia.url_imagen_anterior_noticia = "-1";
+        }
+        if(bitmap != null)
+        {
+            imagen_noticia.url_imagen_noticia = bitmap_conver_to_String(bitmap);
+        }
+        else
+        {
+            imagen_noticia.url_imagen_noticia = "-1";
+        }
         imagen_noticia.noticia_imagen_noticia = id;
-        HashMap<String, String> hashMap = new Gestion_imagen_noticia().registrar_imagen_con_archivo(imagen_noticia);
+        HashMap<String, String> hashMap = new Gestion_imagen_noticia().subir_y_eliminar_imagen(imagen_noticia);
         Log.d("parametros imagen", hashMap.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {

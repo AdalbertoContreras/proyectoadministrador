@@ -23,6 +23,12 @@ public class Gestion_imagen_noticia {
         aux = new Imagen_noticia();
     }
 
+    public HashMap<String, String> subir_y_eliminar_imagen(Imagen_noticia imagen_noticia)
+    {
+        tipo_consulta = "subir_y_eliminar_imagen";
+        return construir_parametros(imagen_noticia);
+    }
+
     public HashMap<String, String> registrar_imagen_con_archivo(Imagen_noticia imagen_noticia)
     {
         tipo_consulta = "registrar_imagen_con_archivo";
@@ -67,6 +73,8 @@ public class Gestion_imagen_noticia {
         try {
             obj.addProperty("id_imagen_noticia", elemento.id_imagen_noticia);
             obj.addProperty("url_imagen_noticia", elemento.url_imagen_noticia);
+            obj.addProperty("url_imagen_anterior_noticia", elemento.url_imagen_anterior_noticia);
+
             obj.addProperty("fecha_registro_imagen_noticia", elemento.fecha_registro_imagen_noticia);
             obj.addProperty("hora_registro_imagen_noticia", elemento.hora_registro_imagen_noticia);
             obj.addProperty("noticia_imagen_noticia", elemento.noticia_imagen_noticia);

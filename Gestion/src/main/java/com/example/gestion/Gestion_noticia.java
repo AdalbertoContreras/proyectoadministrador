@@ -30,42 +30,10 @@ public class Gestion_noticia {
         return construir_parametros(noticia);
     }
 
-    public HashMap<String, String> update(Noticia noticia, Imagen_noticia imagen_noticia)
+    public HashMap<String, String> update(Noticia noticia)
     {
         tipo_consulta = "update";
-        JsonObject obj = new JsonObject();
-        try {
-            obj.addProperty("id_notiticia", noticia.id_notiticia);
-            obj.addProperty("id_generacion_noticia", "");
-            obj.addProperty("titulo_noticia", noticia.titulo_noticia);
-            obj.addProperty("contenido_noticia", noticia.contenido_noticia);
-            obj.addProperty("num_imagenes_noticia", "");
-            obj.addProperty("fecha_registro_noticia", "");
-            obj.addProperty("hora_registro_noticia", "");
-            obj.addProperty("tipo_creacion_noticia", "");
-            obj.addProperty("numero_visistas_noticia", "");
-            obj.addProperty("administrador_noticia", "");
-            obj.addProperty("categoria_noticia_manual_noticia", noticia.categoria_noticia_manual_noticia);
-            obj.addProperty("fecha1",fecha1);
-            obj.addProperty("fecha2",fecha2);
-            obj.addProperty("tipo_consulta","update");
-            obj.addProperty("llave_ws",llave_ws);
-            if(Gestion_administrador.getAdministrador_actual() != null)
-            {
-                obj.addProperty("nombre_admnistrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
-                obj.addProperty("contraseña_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
-            }
-            else
-            {
-                obj.addProperty("nombre_admnistrador_ol","");
-                obj.addProperty("contraseña_administrador_ol","");
-            }
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
-        }
-        HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("json",obj.toString());
-        return hashMap;
+        return construir_parametros(noticia);
     }
 
     public HashMap<String, String> consultar_num_noticia()
@@ -101,7 +69,7 @@ public class Gestion_noticia {
     {
         return new Noticia(){{
             try {
-                id_notiticia = jsonObject.get("id_generacion_noticia").getAsInt();
+                id_notiticia = jsonObject.get("id_notiticia").getAsInt();
                 id_generacion_noticia = jsonObject.get("id_generacion_noticia").getAsInt();
                 titulo_noticia = jsonObject.get("titulo_noticia").getAsString();
                 contenido_noticia = jsonObject.get("contenido_noticia").getAsString();
