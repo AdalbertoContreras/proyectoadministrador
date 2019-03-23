@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/fondo2">
+        >
 
         <TextView
             android:id="@+id/nombreUsuarioTextView"
@@ -80,7 +80,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="8dp"
-                android:background="@drawable/icon_enviar" />
+                android:background="@drawable/ic_icono_enviar_3" />
         </LinearLayout>
 
     </LinearLayout>

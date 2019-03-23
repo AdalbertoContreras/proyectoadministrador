@@ -72,7 +72,6 @@ public class Gestion_imagen_noticia {
         JsonObject obj = new JsonObject();
         try {
             obj.addProperty("id_imagen_noticia", elemento.id_imagen_noticia);
-            obj.addProperty("url_imagen_noticia", elemento.url_imagen_noticia);
             obj.addProperty("url_imagen_anterior_noticia", elemento.url_imagen_anterior_noticia);
 
             obj.addProperty("fecha_registro_imagen_noticia", elemento.fecha_registro_imagen_noticia);
@@ -92,6 +91,7 @@ public class Gestion_imagen_noticia {
                 obj.addProperty("nombre_admnistrador_ol","");
                 obj.addProperty("contraseña_administrador_ol","");
             }
+            obj.addProperty("url_imagen_noticia", elemento.url_imagen_noticia);
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }

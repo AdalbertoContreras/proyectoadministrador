@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -59,6 +60,12 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
         recyclerView_chat_asesoria = findViewById(R.id.mensajes_chat_asesoria_recyclerview);
         recyclerView_chat_asesoria.setLayoutManager(new GridLayoutManager(getBaseContext(),1));
         nombreUsuarioTextView = findViewById(R.id.nombreUsuarioTextView);
+
+        Toolbar toolbar = findViewById(R.id.toolbar_chat);
+        toolbar.setBackgroundResource(R.color.Gris3);
+        ShowToolbar("Nombre Administrador",true);
+
+
         mensajeEditText = findViewById(R.id.mensajeEdittext);
         enviarButton = findViewById(R.id.enviarButton);
         try
@@ -117,6 +124,15 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void ShowToolbar(String Tittle, boolean upButton)
+    {
+        Toolbar toolbar = findViewById(R.id.toolbar_chat);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(Tittle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(upButton);
+
     }
 
     private void chatVisto()
