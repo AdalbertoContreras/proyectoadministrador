@@ -263,8 +263,8 @@ public class Navigation extends AppCompatActivity
                 String time1 = item.ultima_hora_usuario_chat_asesoria;
                 String date2 = item.ultima_fecha_vista_administrador_chat_asesoria;
                 String time2 = item.ultima_hora_vista_administrador_chat_asesoria;
-                Calendar calendar = Calculo.String_a_Date( date1, time1);
-                Calendar calendar2 = Calculo.String_a_Date(date2, time2);
+                Calendar calendar = new Calculo().String_a_Date( date1, time1);
+                Calendar calendar2 = new Calculo().String_a_Date(date2, time2);
                 if(!(date1 + time1).equals(date2+time2))
                 {
                     if(Calculo.compararCalendar(calendar,calendar2) == 1)
