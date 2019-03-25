@@ -1,5 +1,6 @@
 package com.example.serviamigoadmin.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -51,6 +52,7 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
     private boolean fragment_activo;
     private TextView nombreUsuarioTextView;
     private int id_chat_notificacion;
+    private CambioEstado cambioEstado;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,6 +126,11 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public interface CambioEstado
+    {
+        void cambio(boolean estado, Activity activity);
     }
 
     public void ShowToolbar(String Tittle, boolean upButton)
@@ -271,14 +278,22 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
         super.onResume();
         fragment_activo = true;
         mensaje_enviado = false;
-        chatVisto();
         iniciar_conexion_chat();
+        if(cambioEstado != null)
+        {
+            cambioEstado.cambio(true, this);
+        }
+        chatVisto();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         fragment_activo = false;
+        if(cambioEstado != null)
+        {
+            cambioEstado.cambio(false, this);
+        }
     }
 
     @Override
