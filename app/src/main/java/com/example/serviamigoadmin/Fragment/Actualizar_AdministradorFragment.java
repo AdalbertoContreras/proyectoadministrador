@@ -118,7 +118,7 @@ public class Actualizar_AdministradorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view =  inflater.inflate(R.layout.actualizar_mis_datos, container, false);
+        view =  inflater.inflate(R.layout.fragment_actualizar_mis_datos, container, false);
         actualizar_perfil();
         progressDialog = new ProgressDialog(getContext());
         nombresEditText = view.findViewById(R.id.nombresAsesorEditText);

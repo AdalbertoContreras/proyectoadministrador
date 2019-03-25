@@ -52,7 +52,7 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
     private boolean fragment_activo;
     private TextView nombreUsuarioTextView;
     private int id_chat_notificacion;
-    private CambioEstado cambioEstado;
+    public static CambioEstado cambioEstado;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +65,7 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar_chat);
         toolbar.setBackgroundResource(R.color.Gris3);
-        ShowToolbar("Nombre Administrador",true);
+        ShowToolbar(".",true);
 
 
         mensajeEditText = findViewById(R.id.mensajeEdittext);
@@ -84,7 +84,7 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
         if(!usuarios.isEmpty())
         {
             Usuario usuario = usuarios.get(0);
-            nombreUsuarioTextView.setText(usuario.nombre_cuenta_usuario);
+            ShowToolbar(usuario.nombre_cuenta_usuario,true);
         }
         enviarButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,6 +184,7 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
         mensaje_chat_asesorias = new Gestion_mensaje_chat_asesoria().generar_json(response);
         //Collections.reverse(mensaje_chat_asesorias);
         adapter_mensajes_chat_asesoria = new Adapter_Mensajes_Chat(mensaje_chat_asesorias, chat_asesoria);
+        cambioEstado.cambio(true, this);
         if(!mensaje_chat_asesorias.isEmpty())
         {
             recyclerView_chat_asesoria.smoothScrollToPosition(mensaje_chat_asesorias.size() - 1);

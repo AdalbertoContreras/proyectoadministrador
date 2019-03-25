@@ -120,6 +120,11 @@ public class CambiarContrasenaFragment extends Fragment {
         return view;
     }
 
+    private void validar_cuenta()
+    {
+
+    }
+
     private void carmbiar_contraseña(Administrador administrador)
     {
         HashMap<String, String> hashMap = new Gestion_administrador().cambiar_contrasena(administrador);

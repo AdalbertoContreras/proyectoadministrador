@@ -33,13 +33,12 @@ public class Adapter_Mensajes_Chat extends  RecyclerView.Adapter<Adapter_Mensaje
     private Chat_asesoria chat_asesoria;
     protected static boolean seguir;
     protected static Activity activity;
-    public ChatAsesoriaActivity.CambioEstado cambioEstado;
 
     public Adapter_Mensajes_Chat(ArrayList<Mensaje_chat_asesoria> mensaje_chat_asesorias, Chat_asesoria chat_asesoria)
     {
         this.mensaje_chat_asesorias = mensaje_chat_asesorias;
         this.chat_asesoria = chat_asesoria;
-        cambioEstado = new ChatAsesoriaActivity.CambioEstado() {
+        ChatAsesoriaActivity.cambioEstado  = new ChatAsesoriaActivity.CambioEstado() {
             @Override
             public void cambio(boolean estado, Activity activity) {
                 Adapter_Mensajes_Chat.this.seguir = estado;
