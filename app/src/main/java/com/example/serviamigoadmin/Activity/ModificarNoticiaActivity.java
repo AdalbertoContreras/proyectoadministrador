@@ -126,7 +126,6 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
                 {
                     imagenCambiada = false;
                 }
-
                 if(categoriaCambiada || tituloCambiado || imagenCambiada || contenidoCambiado)
                 {
                     Noticia noticia = new Noticia();

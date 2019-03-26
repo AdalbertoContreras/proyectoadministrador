@@ -51,6 +51,7 @@ import com.example.serviamigoadmin.Fragment.MisAsesoriasFragment;
 import com.example.serviamigoadmin.Fragment.Modificar_noticiaFragment;
 import com.example.serviamigoadmin.Fragment.Registrar_AdministradorFragment;
 import com.example.serviamigoadmin.Fragment.Registrar_noticiaFragment;
+import com.example.serviamigoadmin.Fragment.Vista_vacia_fragment;
 import com.example.servimaigoadmin.R;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 public class Navigation extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ConsultaAlertasTempranasFragment.OnFragmentInteractionListener, Registrar_noticiaFragment.OnFragmentInteractionListener, MisAsesoriasFragment.OnFragmentInteractionListener, ChatUsuarioFragment.OnFragmentInteractionListener, Registrar_AdministradorFragment.OnFragmentInteractionListener, CambiarContrasenaFragment.OnFragmentInteractionListener, Actualizar_AdministradorFragment.OnFragmentInteractionListener, EstadisticaUsuariosFragment.OnFragmentInteractionListener, ConsultarAsesoresFragment.OnFragmentInteractionListener, ListaNoticiasFragment.OnFragmentInteractionListener, Modificar_noticiaFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ConsultaAlertasTempranasFragment.OnFragmentInteractionListener, Registrar_noticiaFragment.OnFragmentInteractionListener, MisAsesoriasFragment.OnFragmentInteractionListener, ChatUsuarioFragment.OnFragmentInteractionListener, Registrar_AdministradorFragment.OnFragmentInteractionListener, CambiarContrasenaFragment.OnFragmentInteractionListener, Actualizar_AdministradorFragment.OnFragmentInteractionListener, EstadisticaUsuariosFragment.OnFragmentInteractionListener, ConsultarAsesoresFragment.OnFragmentInteractionListener, ListaNoticiasFragment.OnFragmentInteractionListener, Modificar_noticiaFragment.OnFragmentInteractionListener, Vista_vacia_fragment.OnFragmentInteractionListener {
     private ConsultaAlertasTempranasFragment consultaAlertasTempranasFragment;
     private NotificationManagerCompat notificationManagerCompat;
     private static ArrayList<Chat_asesoria> chat_asesorias_local;
@@ -113,14 +114,7 @@ public class Navigation extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 1)
-        {
-            getSupportFragmentManager().beginTransaction().add(R.id.framengMaster,new ConsultaAlertasTempranasFragment()).commit();
-        }
-        else
-        {
-            getSupportFragmentManager().beginTransaction().add(R.id.framengMaster,new MisAsesoriasFragment()).commit();
-        }
+        getSupportFragmentManager().beginTransaction().add(R.id.framengMaster,new Vista_vacia_fragment()).commit();
         Log.d("administrador", "valido");
         hilo_notificaciones_activo = true;
         if(!hilo_notificacion_iniciado)
@@ -185,8 +179,6 @@ public class Navigation extends AppCompatActivity
                     {
                         if(chat_asesorias_local == null)
                         {
-                            chat_asesorias_local = new ArrayList<>();
-                            chat_asesorias_local.addAll(chat_asesorias_remoto);
                             for(Chat_asesoria item :  chat_asesorias_remoto)
                             {
                                 ArrayList<Usuario> usuarios = new Gestion_usuario().generar_json(item.usuario);
@@ -198,7 +190,6 @@ public class Navigation extends AppCompatActivity
                                     Especialidad especialidad = especialidads.get(0);
                                     titulo = usuario.nombre_cuenta_usuario + " <<" + especialidad.nombre_especialidad + ">>";
                                 }
-                                chat_asesorias_local.add(item);
                                 if(!usuarios.isEmpty() && !especialidads.isEmpty())
                                 {
                                     aux(item, titulo);
@@ -221,7 +212,6 @@ public class Navigation extends AppCompatActivity
                                 }
                                 if(chat_asesoria == null)
                                 {
-                                    chat_asesorias_local.add(item);
                                     if(!usuarios.isEmpty() && !especialidads.isEmpty())
                                     {
                                         aux(item, titulo);
