@@ -1,5 +1,6 @@
 package com.example.serviamigoadmin.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -51,6 +52,7 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
     private boolean fragment_activo;
     private TextView nombreUsuarioTextView;
     private int id_chat_notificacion;
+    public static CambioEstado cambioEstado;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +65,7 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar_chat);
         toolbar.setBackgroundResource(R.color.Gris3);
-        ShowToolbar("Nombre Administrador",true);
+        ShowToolbar(".",true);
 
 
         mensajeEditText = findViewById(R.id.mensajeEdittext);
@@ -82,7 +84,7 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
         if(!usuarios.isEmpty())
         {
             Usuario usuario = usuarios.get(0);
-            nombreUsuarioTextView.setText(usuario.nombre_cuenta_usuario);
+            ShowToolbar(usuario.nombre_cuenta_usuario,true);
         }
         enviarButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +126,11 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public interface CambioEstado
+    {
+        void cambio(boolean estado, Activity activity);
     }
 
     public void ShowToolbar(String Tittle, boolean upButton)
@@ -177,6 +184,7 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
         mensaje_chat_asesorias = new Gestion_mensaje_chat_asesoria().generar_json(response);
         //Collections.reverse(mensaje_chat_asesorias);
         adapter_mensajes_chat_asesoria = new Adapter_Mensajes_Chat(mensaje_chat_asesorias, chat_asesoria);
+        cambioEstado.cambio(true, this);
         if(!mensaje_chat_asesorias.isEmpty())
         {
             recyclerView_chat_asesoria.smoothScrollToPosition(mensaje_chat_asesorias.size() - 1);
@@ -271,14 +279,22 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
         super.onResume();
         fragment_activo = true;
         mensaje_enviado = false;
-        chatVisto();
         iniciar_conexion_chat();
+        if(cambioEstado != null)
+        {
+            cambioEstado.cambio(true, this);
+        }
+        chatVisto();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         fragment_activo = false;
+        if(cambioEstado != null)
+        {
+            cambioEstado.cambio(false, this);
+        }
     }
 
     @Override

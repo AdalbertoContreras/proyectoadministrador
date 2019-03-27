@@ -95,8 +95,8 @@ public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.ViewHolderDat
                 Especialidad especialidad = especialidades.get(0);
                 tipoAsesoriaTextView.setText(especialidad.nombre_especialidad);
             }
-            ultima_fechaTextView.setText(chat_asesoria.ultima_fecha_vista_administrador_chat_asesoria + " " + chat_asesoria.ultima_hora_vista_administrador_chat_asesoria);
-            ultimo_mensajeTextView.setText(chat_asesoria.ultimo_mensaje_usuario_chat_asesoria);
+            ultima_fechaTextView.setText(chat_asesoria.ultima_fecha_chat_asesoria + " " + chat_asesoria.ultima_hora_chat_asesoria);
+            ultimo_mensajeTextView.setText(chat_asesoria.ultimo_mensaje_chat_asesoria);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

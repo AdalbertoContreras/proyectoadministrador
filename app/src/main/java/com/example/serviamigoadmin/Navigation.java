@@ -27,11 +27,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.extra.Calculo;
 import com.example.extra.MySocialMediaSingleton;
 import com.example.extra.WebService;
 import com.example.gestion.Gestion_administrador;
+import com.example.gestion.Gestion_alerta_temprana;
 import com.example.gestion.Gestion_chat_asesoria;
 import com.example.gestion.Gestion_especialidad;
 import com.example.gestion.Gestion_usuario;
@@ -51,6 +53,8 @@ import com.example.serviamigoadmin.Fragment.MisAsesoriasFragment;
 import com.example.serviamigoadmin.Fragment.Modificar_noticiaFragment;
 import com.example.serviamigoadmin.Fragment.Registrar_AdministradorFragment;
 import com.example.serviamigoadmin.Fragment.Registrar_noticiaFragment;
+import com.example.serviamigoadmin.Fragment.Vista_vacia_fragment;
+import com.example.servimaigoadmin.ListaAsesoriaVacia;
 import com.example.servimaigoadmin.R;
 
 import java.util.ArrayList;
@@ -58,7 +62,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 public class Navigation extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ConsultaAlertasTempranasFragment.OnFragmentInteractionListener, Registrar_noticiaFragment.OnFragmentInteractionListener, MisAsesoriasFragment.OnFragmentInteractionListener, ChatUsuarioFragment.OnFragmentInteractionListener, Registrar_AdministradorFragment.OnFragmentInteractionListener, CambiarContrasenaFragment.OnFragmentInteractionListener, Actualizar_AdministradorFragment.OnFragmentInteractionListener, EstadisticaUsuariosFragment.OnFragmentInteractionListener, ConsultarAsesoresFragment.OnFragmentInteractionListener, ListaNoticiasFragment.OnFragmentInteractionListener, Modificar_noticiaFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ConsultaAlertasTempranasFragment.OnFragmentInteractionListener, Registrar_noticiaFragment.OnFragmentInteractionListener, MisAsesoriasFragment.OnFragmentInteractionListener, ChatUsuarioFragment.OnFragmentInteractionListener, Registrar_AdministradorFragment.OnFragmentInteractionListener, CambiarContrasenaFragment.OnFragmentInteractionListener, Actualizar_AdministradorFragment.OnFragmentInteractionListener, EstadisticaUsuariosFragment.OnFragmentInteractionListener, ConsultarAsesoresFragment.OnFragmentInteractionListener, ListaNoticiasFragment.OnFragmentInteractionListener, Modificar_noticiaFragment.OnFragmentInteractionListener, Vista_vacia_fragment.OnFragmentInteractionListener {
     private ConsultaAlertasTempranasFragment consultaAlertasTempranasFragment;
     private NotificationManagerCompat notificationManagerCompat;
     private static ArrayList<Chat_asesoria> chat_asesorias_local;
@@ -113,14 +117,7 @@ public class Navigation extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 1)
-        {
-            getSupportFragmentManager().beginTransaction().add(R.id.framengMaster,new ConsultaAlertasTempranasFragment()).commit();
-        }
-        else
-        {
-            getSupportFragmentManager().beginTransaction().add(R.id.framengMaster,new MisAsesoriasFragment()).commit();
-        }
+        getSupportFragmentManager().beginTransaction().add(R.id.framengMaster,new Vista_vacia_fragment()).commit();
         Log.d("administrador", "valido");
         hilo_notificaciones_activo = true;
         if(!hilo_notificacion_iniciado)
@@ -183,10 +180,8 @@ public class Navigation extends AppCompatActivity
                     chat_asesorias_remoto = new Gestion_chat_asesoria().generar_json(response);
                     if(chat_asesorias_remoto != null)
                     {
-                        if(chat_asesorias_local == null)
+                        if(Gestion_chat_asesoria.getChat_asesorias() == null)
                         {
-                            chat_asesorias_local = new ArrayList<>();
-                            chat_asesorias_local.addAll(chat_asesorias_remoto);
                             for(Chat_asesoria item :  chat_asesorias_remoto)
                             {
                                 ArrayList<Usuario> usuarios = new Gestion_usuario().generar_json(item.usuario);
@@ -198,7 +193,6 @@ public class Navigation extends AppCompatActivity
                                     Especialidad especialidad = especialidads.get(0);
                                     titulo = usuario.nombre_cuenta_usuario + " <<" + especialidad.nombre_especialidad + ">>";
                                 }
-                                chat_asesorias_local.add(item);
                                 if(!usuarios.isEmpty() && !especialidads.isEmpty())
                                 {
                                     aux(item, titulo);
@@ -221,7 +215,6 @@ public class Navigation extends AppCompatActivity
                                 }
                                 if(chat_asesoria == null)
                                 {
-                                    chat_asesorias_local.add(item);
                                     if(!usuarios.isEmpty() && !especialidads.isEmpty())
                                     {
                                         aux(item, titulo);
@@ -236,6 +229,7 @@ public class Navigation extends AppCompatActivity
                                 }
                             }
                         }
+                        Gestion_chat_asesoria.setChat_asesorias(chat_asesorias_remoto);
                     }
                 }
             };
@@ -263,8 +257,8 @@ public class Navigation extends AppCompatActivity
                 String time1 = item.ultima_hora_usuario_chat_asesoria;
                 String date2 = item.ultima_fecha_vista_administrador_chat_asesoria;
                 String time2 = item.ultima_hora_vista_administrador_chat_asesoria;
-                Calendar calendar = Calculo.String_a_Date( date1, time1);
-                Calendar calendar2 = Calculo.String_a_Date(date2, time2);
+                Calendar calendar = new Calculo().String_a_Date( date1, time1);
+                Calendar calendar2 = new Calculo().String_a_Date(date2, time2);
                 if(!(date1 + time1).equals(date2+time2))
                 {
                     if(Calculo.compararCalendar(calendar,calendar2) == 1)
@@ -278,14 +272,13 @@ public class Navigation extends AppCompatActivity
 
     private void agregar_notificacion(Chat_asesoria item, String titulo)
     {
-        reemplazar_chat_local(item);
         createNotificationChanel();
         createNotification(item.ultimo_mensaje_usuario_chat_asesoria, titulo, item.id_chat_asesoria);
     }
 
     public static Chat_asesoria chat_asesoria_por_id(final int ID)
     {
-        for(Chat_asesoria item : chat_asesorias_local)
+        for(Chat_asesoria item : Gestion_chat_asesoria.getChat_asesorias())
         {
             if(item.id_chat_asesoria == ID)
             {
@@ -425,9 +418,7 @@ public class Navigation extends AppCompatActivity
             tiulo_tollba.setText("Crear Noticia");
         }
         if (id == R.id.ver_mis_Asesorias) {
-            fragment = new MisAsesoriasFragment();
-            selecionado = true;
-            tiulo_tollba.setText("Mis Asesorias");
+            tengoAsesorias();
 
         }
         if (id == R.id.registrar_asesor) {
@@ -487,6 +478,22 @@ public class Navigation extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void tengoAsesorias()
+    {
+        Fragment fragment = null;
+        if(Gestion_chat_asesoria.getChat_asesorias().isEmpty())
+        {
+            fragment = new MisAsesoriasFragment();
+            tiulo_tollba.setText("Mis Asesorias");
+        }
+        else
+        {
+            fragment = new ListaAsesoriaVacia();
+            tiulo_tollba.setText("Mis Asesorias");
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.framengMaster,fragment).commit();
     }
 
     @Override

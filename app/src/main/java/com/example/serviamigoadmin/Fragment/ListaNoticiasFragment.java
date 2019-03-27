@@ -10,13 +10,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.extra.MySocialMediaSingleton;
 import com.example.extra.WebService;
+import com.example.gestion.Gestion_categoria_noticia;
 import com.example.gestion.Gestion_noticia;
+import com.example.modelo.Categoria_noticia_manual;
 import com.example.modelo.Noticia;
 import com.example.serviamigoadmin.Adapter.AdaptaderNoticiaModificar;
 import com.example.serviamigoadmin.Adapter.AdapterItemAlertaTemprana;
@@ -39,6 +45,10 @@ public class ListaNoticiasFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private RecyclerView noticiasRecyclerView;
+    private ArrayList<Categoria_noticia_manual> categoria_noticiaArrayList;
+    private Categoria_noticia_manual categoria_noticia_selecionado;
+    private ArrayList<Noticia> noticias;
+    private Spinner categoriaSpinner;
     private View view;
 
     // TODO: Rename and change types of parameters
@@ -84,9 +94,59 @@ public class ListaNoticiasFragment extends Fragment {
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_lista_noticias, container, false);
         noticiasRecyclerView = view.findViewById(R.id.noticiasRecyclerView);
+        categoriaSpinner = view.findViewById(R.id.categoriaSpinner);
         noticiasRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),1));
         consultar_noticias();
+        cargar_categorias();
         return view;
+    }
+
+    private void eventoSpinner()
+    {
+        categoriaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position > 0)
+                {
+                    categoria_noticia_selecionado = categoria_noticiaArrayList.get(position - 1);
+                    filtrarArticulos(categoria_noticia_selecionado.id_categoria_noticia_manual);
+                }
+                else
+                {
+                    categoria_noticia_selecionado = null;
+                    filtrarArticulos(-1);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void filtrarArticulos(int id)
+    {
+        if(id > 0)
+        {
+            ArrayList<Noticia> noticias_filtradas = new ArrayList<>();
+            for(Noticia item : noticias)
+            {
+                if(item.categoria_noticia_manual_noticia == id)
+                {
+                    noticias_filtradas.add(item);
+                }
+            }
+            AdaptaderNoticiaModificar adapterItemCliente = new AdaptaderNoticiaModificar(noticias_filtradas, ListaNoticiasFragment.this.getFragmentManager());
+            noticiasRecyclerView.setAdapter(adapterItemCliente);
+            noticiasRecyclerView.setHasFixedSize(true);
+        }
+        else
+        {
+            AdaptaderNoticiaModificar adapterItemCliente = new AdaptaderNoticiaModificar(noticias, ListaNoticiasFragment.this.getFragmentManager());
+            noticiasRecyclerView.setAdapter(adapterItemCliente);
+            noticiasRecyclerView.setHasFixedSize(true);
+        }
     }
 
     private void consultar_noticias()
@@ -97,13 +157,8 @@ public class ListaNoticiasFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
-                ArrayList<Noticia> noticias = new Gestion_noticia().generar_json(response);
-                if(!noticias.isEmpty())
-                {
-                    AdaptaderNoticiaModificar adapterItemCliente = new AdaptaderNoticiaModificar(noticias, ListaNoticiasFragment.this.getFragmentManager());
-                    noticiasRecyclerView.setAdapter(adapterItemCliente);
-                    noticiasRecyclerView.setHasFixedSize(true);
-                }
+                noticias = new Gestion_noticia().generar_json(response);
+                filtrarArticulos(0);
             }
         };
         Response.ErrorListener errorListener =  new Response.ErrorListener() {
@@ -134,6 +189,66 @@ public class ListaNoticiasFragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
+
+    private void cargar_categorias()
+    {
+        HashMap<String, String> hashMap = new Gestion_categoria_noticia().consultar_categorias();
+        Log.d("parametros", hashMap.toString());
+        Response.Listener<String> stringListener = new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response) {
+                //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
+                llenar_categorias(response);
+                eventoSpinner();
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(view.getContext(),"Error en la conexion.", Toast.LENGTH_LONG).show();
+                eventoSpinner();
+            }
+        };
+        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, errorListener);
+        MySocialMediaSingleton.getInstance(view.getContext()).addToRequestQueue(stringRequest);
+    }
+
+    private void llenar_categorias(String json)
+    {
+
+        categoria_noticiaArrayList = new Gestion_categoria_noticia().generar_json(json);
+        String[] categoria_array = null;
+        if(categoria_noticiaArrayList.isEmpty())
+        {
+            categoria_array = llenar_categorias_vacio();
+        }
+        else
+        {
+            categoria_array = pasar_categorias_a_string(categoria_noticiaArrayList);
+        }
+        ArrayAdapter arrayAdapter = new ArrayAdapter<String>(this.getContext(),android.R.layout.simple_spinner_item, categoria_array);
+        categoriaSpinner.setAdapter(arrayAdapter);
+    }
+
+    private String[] pasar_categorias_a_string(ArrayList<Categoria_noticia_manual> categoria_noticias)
+    {
+        String[] categorias = new String[categoria_noticias.size() + 1];
+        categorias[0] = "Selecione una categoria";
+        int cont = 1;
+        for(Categoria_noticia_manual item :  categoria_noticias)
+        {
+            categorias[cont] = item.nombre_categoria_noticia;
+            cont ++;
+        }
+        return categorias;
+    }
+
+    private String[] llenar_categorias_vacio()
+    {
+        return new String[]{"No hay categoria"};
+    }
+
 
     @Override
     public void onDetach() {

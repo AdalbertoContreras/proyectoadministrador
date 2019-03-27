@@ -11,7 +11,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Gestion_chat_asesoria {
+    private static ArrayList<Chat_asesoria> chat_asesorias = null;
     private static Chat_asesoria aux = new Chat_asesoria();
+    public static ArrayChatCambiado arrayChatCambiado;
+    public interface ArrayChatCambiado
+    {
+        void chatCambiado();
+    }
     private static String llave_ws = "chat_asesoria";
     private static String fecha1;
     private static String fecha2;
@@ -36,6 +42,9 @@ public class Gestion_chat_asesoria {
     private static String ULTIMA_HORA_VISTA_ADMINISTRADOR_CHAT_ASESORIA = "R";
     private static String ULTIMA_FECHA_VISTA_USUARIO_CHAT_ASESORIA = "S";
     private static String ULTIMA_HORA_VISTA_USUARIO_CHAT_ASESORIA = "T";
+    private static String ULTIMO_MENSAJE_CHAT_ASESORIA = "U";
+    private static String ULTIMA_FECHA_CHAT_ASESORIA = "V";
+    private static String ULTIMA_HORA_CHAT_ASESORIA = "X";
     private static String NOMBRE_ADMINISTRADOR_OL = "NA";
     private static String CONTRASENA_ADMINISTRADOR = "CA";
     private static String TIPO_CONSULTA = "TC";
@@ -214,6 +223,18 @@ public class Gestion_chat_asesoria {
                 {
                     especialidad = jsonObject.get("especialidad").getAsString();
                 }
+                if(!jsonObject.get(ULTIMO_MENSAJE_CHAT_ASESORIA).isJsonNull())
+                {
+                    ultimo_mensaje_chat_asesoria = jsonObject.get(ULTIMO_MENSAJE_CHAT_ASESORIA).getAsString();
+                }
+                if(!jsonObject.get(ULTIMA_FECHA_CHAT_ASESORIA).isJsonNull())
+                {
+                    ultima_fecha_chat_asesoria = jsonObject.get(ULTIMA_FECHA_CHAT_ASESORIA).getAsString();
+                }
+                if(!jsonObject.get(ULTIMA_HORA_CHAT_ASESORIA).isJsonNull())
+                {
+                    ultima_hora_chat_asesoria = jsonObject.get(ULTIMA_HORA_CHAT_ASESORIA).getAsString();
+                }
             } catch (JsonSyntaxException | IllegalStateException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -249,5 +270,89 @@ public class Gestion_chat_asesoria {
         HashMap<String,String> hashMap = new HashMap<>();
         hashMap.put("json",obj.toString());
         return hashMap;
+    }
+
+    public static void setChat_asesorias(ArrayList<Chat_asesoria> chat_asesorias_aux)
+    {
+        boolean cambio = false;
+        if(chat_asesorias_aux != null)
+        {
+            if(chat_asesorias != null)
+            {
+                for(Chat_asesoria item :  chat_asesorias_aux)
+                {
+                    Chat_asesoria chat_asesoria = buscarChatAsesoria(item.id_chat_asesoria);
+                    if(chat_asesoria != null)
+                    {
+                        try
+                        {
+                            if(!chat_asesoria.ultima_fecha_chat_asesoria.equals(item.ultima_fecha_chat_asesoria) || !chat_asesoria.ultima_hora_chat_asesoria.equals(item.ultima_hora_chat_asesoria))
+                            {
+                                cambio = true;
+                            }
+                        }
+                        catch(NullPointerException exc)
+                        {
+
+                        }
+
+                    }
+                }
+            }
+
+            chat_asesorias = new ArrayList<>();
+            for(Chat_asesoria item : chat_asesorias_aux)
+            {
+                addChat_asesoria(item);
+            }
+            if(cambio)
+            {
+                if(arrayChatCambiado != null && Gestion_administrador.getAdministrador_actual() != null)
+                {
+                    arrayChatCambiado.chatCambiado();
+                }
+            }
+        }
+        else
+        {
+            chat_asesorias = null;
+        }
+    }
+
+    public static void addChat_asesoria(Chat_asesoria chat_asesoria) {
+        if (buscarChatAsesoria(chat_asesoria.id_chat_asesoria) == null) {
+            chat_asesorias.add(chat_asesoria);
+        }
+    }
+
+    public static void addChat_asesoriaPosicion(Chat_asesoria chat_asesoria, int pos)
+    {
+        chat_asesorias.set(pos,chat_asesoria);
+    }
+
+    public static ArrayList<Chat_asesoria> getChat_asesorias()
+    {
+        return chat_asesorias;
+    }
+
+    public static void limpiarChatAsesoria()
+    {
+        chat_asesorias.clear();
+        chat_asesorias = null;
+    }
+
+    private static Chat_asesoria buscarChatAsesoria(int id)
+    {
+        if(chat_asesorias != null)
+        {
+            for(Chat_asesoria item : chat_asesorias)
+            {
+                if(item.id_chat_asesoria == id)
+                {
+                    return item;
+                }
+            }
+        }
+        return  null;
     }
 }
