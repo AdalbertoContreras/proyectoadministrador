@@ -227,7 +227,7 @@ public class ListaNoticiasFragment extends Fragment {
         {
             categoria_array = pasar_categorias_a_string(categoria_noticiaArrayList);
         }
-        ArrayAdapter arrayAdapter = new ArrayAdapter<String>(this.getContext(),android.R.layout.simple_spinner_item, categoria_array);
+        ArrayAdapter arrayAdapter = new ArrayAdapter<String>(view.getContext(),android.R.layout.simple_spinner_item, categoria_array);
         categoriaSpinner.setAdapter(arrayAdapter);
     }
 

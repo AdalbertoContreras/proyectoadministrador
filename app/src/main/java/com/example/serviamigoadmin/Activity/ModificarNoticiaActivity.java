@@ -68,7 +68,7 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
         categoriaSpinner = findViewById(R.id.categoriaspinnerRegistrar_noticia);
         tituloEditText = findViewById(R.id.tituloEditTextRegistrarNoticia);
         cargarImagenButton = findViewById(R.id.cargarimagenButtonRegistrarNoticia);
-        registrarNoticiaButton = findViewById(R.id.registrar_noticiaButtonRegistrarNoticia);
+        registrarNoticiaButton = findViewById(R.id.modificar_noticiaButtonRegistrarNoticia);
         foto_gallery = findViewById(R.id.imagenImageViewRegistrarImagen);
         iniciareventos();
         cargarDatosNoticia();
