@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.gestion.Gestion_administrador;
@@ -62,7 +63,7 @@ public class AdaptaderNoticiaModificar extends  RecyclerView.Adapter<AdaptaderNo
     public static class ViewHolderDatos extends RecyclerView.ViewHolder{
         private TextView tituloArticuloTextView;
         private TextView numeroMeGustaTextView;
-        private CircleImageView imagenArticuloCircleImageView;
+        private ImageView imagenArticuloCircleImageView;
         private View view;
 
         public ViewHolderDatos(@NonNull final View itemView) {
