@@ -22,22 +22,16 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.extra.Calculo;
 import com.example.extra.MySocialMediaSingleton;
 import com.example.extra.WebService;
 import com.example.gestion.Gestion_administrador;
-import com.example.gestion.Gestion_alerta_temprana;
 import com.example.gestion.Gestion_chat_asesoria;
 import com.example.gestion.Gestion_especialidad;
 import com.example.gestion.Gestion_usuario;
-import com.example.modelo.Administrador;
 import com.example.modelo.Chat_asesoria;
 import com.example.modelo.Especialidad;
 import com.example.modelo.Usuario;
@@ -56,7 +50,6 @@ import com.example.serviamigoadmin.Fragment.Registrar_noticiaFragment;
 import com.example.serviamigoadmin.Fragment.Vista_vacia_fragment;
 import com.example.servimaigoadmin.ListaAsesoriaVacia;
 import com.example.servimaigoadmin.R;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -483,6 +476,7 @@ public class Navigation extends AppCompatActivity
                 }
                 aplicacion_terminada = true;
                 onBackPressed();
+                id_ultimo_fragment = -1;
                 return;
             default:
                 id_ultimo_fragment = -1;
