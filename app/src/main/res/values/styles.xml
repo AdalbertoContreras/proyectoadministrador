@@ -17,6 +17,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ButtonGris" parent="Theme.AppCompat.Light">
+        <item name="colorButtonNormal">@color/Gris2</item>
+        <item name="colorControlHighlight">@color/Gris</item>
+        <item name="android:textColor">@android:color/white</item>
+
+    </style>
+
     <style name="Button" parent="Theme.AppCompat.Light">
         <item name="colorButtonNormal">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/colorPrimaryDark</item>
