@@ -151,6 +151,7 @@ public class Actualizar_AdministradorFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 imagen_eliminada = true;
+                imagen_modificada = false;
                 bitmap = null;
                 Picasso.with(getContext()).load(R.drawable.perfil2).into(fotoPerfilImageView);
             }
@@ -204,6 +205,10 @@ public class Actualizar_AdministradorFragment extends Fragment {
                         administrador.url_foto_perfil_administrador = bitmap_conver_to_String(bitmap);
                     }
                 }
+                if(imagen_eliminada)
+                {
+                    administrador.url_foto_perfil_administrador = "-1";
+                }
                 administrador.id_administrador = Gestion_administrador.getAdministrador_actual().id_administrador;
                 administrador.nombres_administrador = nombresEditText.getText().toString();
                 administrador.apellidos_administrador = apellidosEditText.getText().toString();
@@ -247,6 +252,7 @@ public class Actualizar_AdministradorFragment extends Fragment {
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(view.getContext().getContentResolver(), imageUri);
                 imagen_modificada = true;
+                imagen_eliminada = false;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -256,6 +262,7 @@ public class Actualizar_AdministradorFragment extends Fragment {
             bitmap = (Bitmap) extras.get("data");
             fotoPerfilImageView.setImageBitmap(bitmap);
             imagen_modificada = true;
+            imagen_eliminada = false;
         }
     }
 
@@ -277,7 +284,8 @@ public class Actualizar_AdministradorFragment extends Fragment {
         telefonoEditText.setText(administrador.numero_telefono_administrador);
         correoElectronicoEditText.setText(administrador.correo_electronico_administrador);
         fechaNacimientoEditText.setText(administrador.fecha_nacimiento_administrador);
-
+        imagen_eliminada = false;
+        imagen_modificada = false;
         if(administrador.sexo_administrador == 0)
         {
             masculinoRadioButton.setChecked(true);
@@ -305,6 +313,7 @@ public class Actualizar_AdministradorFragment extends Fragment {
                         Toast.makeText(getContext(), "Cuenta actualizada con exito", Toast.LENGTH_SHORT).show();
                         Gestion_administrador.setAdministrador_actual(administrador);
                         actualizar_perfil();
+                        cargar_datos_administrador();
                     }
                     else
                     {

@@ -62,7 +62,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 public class Navigation extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ConsultaAlertasTempranasFragment.OnFragmentInteractionListener, Registrar_noticiaFragment.OnFragmentInteractionListener, MisAsesoriasFragment.OnFragmentInteractionListener, ChatUsuarioFragment.OnFragmentInteractionListener, Registrar_AdministradorFragment.OnFragmentInteractionListener, CambiarContrasenaFragment.OnFragmentInteractionListener, Actualizar_AdministradorFragment.OnFragmentInteractionListener, EstadisticaUsuariosFragment.OnFragmentInteractionListener, ConsultarAsesoresFragment.OnFragmentInteractionListener, ListaNoticiasFragment.OnFragmentInteractionListener, Modificar_noticiaFragment.OnFragmentInteractionListener, Vista_vacia_fragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ConsultaAlertasTempranasFragment.OnFragmentInteractionListener, Registrar_noticiaFragment.OnFragmentInteractionListener, MisAsesoriasFragment.OnFragmentInteractionListener, ChatUsuarioFragment.OnFragmentInteractionListener, Registrar_AdministradorFragment.OnFragmentInteractionListener, CambiarContrasenaFragment.OnFragmentInteractionListener, Actualizar_AdministradorFragment.OnFragmentInteractionListener, EstadisticaUsuariosFragment.OnFragmentInteractionListener, ConsultarAsesoresFragment.OnFragmentInteractionListener, ListaNoticiasFragment.OnFragmentInteractionListener, Modificar_noticiaFragment.OnFragmentInteractionListener, Vista_vacia_fragment.OnFragmentInteractionListener, ListaAsesoriaVacia.OnFragmentInteractionListener {
     private ConsultaAlertasTempranasFragment consultaAlertasTempranasFragment;
     private NotificationManagerCompat notificationManagerCompat;
     private static ArrayList<Chat_asesoria> chat_asesorias_local;
@@ -483,7 +483,7 @@ public class Navigation extends AppCompatActivity
     private void tengoAsesorias()
     {
         Fragment fragment = null;
-        if(Gestion_chat_asesoria.getChat_asesorias().isEmpty())
+        if(!Gestion_chat_asesoria.getChat_asesorias().isEmpty())
         {
             fragment = new MisAsesoriasFragment();
             tiulo_tollba.setText("Mis Asesorias");
