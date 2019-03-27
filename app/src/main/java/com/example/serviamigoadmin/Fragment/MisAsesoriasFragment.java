@@ -202,7 +202,6 @@ public class MisAsesoriasFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 Log.d("response", response);
-                //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
                 cargar_chat(response);
             }
         };
@@ -213,7 +212,6 @@ public class MisAsesoriasFragment extends Fragment {
     private void cargar_chat(String json)
     {
         chat_asesoria_general = Gestion_chat_asesoria.getChat_asesorias();
-        chat_asesoria_filtrada = chat_asesoria_general;
         chat_asesorRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),1));
         if(especialidad_selecionada != null)
         {
@@ -249,7 +247,7 @@ public class MisAsesoriasFragment extends Fragment {
     public void onResume() {
         super.onResume();
         consultar_especializaciones();
-        consultar_chat();
+        cargar_chat("");
     }
 
     @Override

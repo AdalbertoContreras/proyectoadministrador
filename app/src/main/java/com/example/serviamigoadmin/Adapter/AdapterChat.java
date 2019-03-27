@@ -101,7 +101,7 @@ public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.ViewHolderDat
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(view.getContext(), ChatAsesoriaActivity.class);
-                    intent.putExtra("chat", chat_asesoria.id_chat_asesoria);
+                    ChatAsesoriaActivity.chat_asesoria = chat_asesoria;
                     (view.getContext()).startActivity(intent);
                 }
             });

@@ -151,6 +151,16 @@ public class CambiarContrasenaFragment extends Fragment {
                             Toast.makeText(view.getContext(), "Ingrese la nueva contraseña de su cuenta.", Toast.LENGTH_LONG).show();
                             return;
                         }
+                        else if(contraseñaNuevaEditText.getText().toString().length() < 4)
+                        {
+                            Toast.makeText(view.getContext(), "La contraseña solo permite como minimo 4 caracteres y un maximo de 32 caracteres.", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        else if(contraseñaNuevaEditText.getText().toString().length() > 32)
+                        {
+                            Toast.makeText(view.getContext(), "La contraseña solo permite como minimo 4 caracteres y un maximo de 32 caracteres.", Toast.LENGTH_LONG).show();
+                            return;
+                        }
                         if(comprobarContraseñaNuevaEditText.getText().toString().isEmpty())
                         {
                             Toast.makeText(view.getContext(), "Ingrese de nuevo la nueva contraseña.", Toast.LENGTH_LONG).show();

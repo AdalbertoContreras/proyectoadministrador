@@ -295,11 +295,9 @@ public class Gestion_chat_asesoria {
                         {
 
                         }
-
                     }
                 }
             }
-
             chat_asesorias = new ArrayList<>();
             for(Chat_asesoria item : chat_asesorias_aux)
             {
@@ -307,9 +305,12 @@ public class Gestion_chat_asesoria {
             }
             if(cambio)
             {
-                if(arrayChatCambiado != null && Gestion_administrador.getAdministrador_actual() != null)
+                if(Gestion_administrador.getAdministrador_actual() != null)
                 {
-                    arrayChatCambiado.chatCambiado();
+                    if(arrayChatCambiado != null)
+                    {
+                        arrayChatCambiado.chatCambiado();
+                    }
                 }
             }
         }

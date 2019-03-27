@@ -81,7 +81,6 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
     private View view_permanente;
     private RecyclerView recyclerView_alertas_tempranas;
     private ArrayList<Alerta_temprana> alerta_tempranaArrayList = new ArrayList<>();
-    private static int num_alertas = 0;
     private boolean seguir;
     private int cont_m;
     private int id_maximo = 0;
@@ -195,7 +194,6 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
         }
         if(!agregar_nuevas_alertas)
         {
-            num_alertas = alerta_tempranaArrayList.size();
             recyclerView_alertas_tempranas = view_permanente.findViewById(R.id.alertas_tempranas_Recycler_view);
             recyclerView_alertas_tempranas.setLayoutManager(new GridLayoutManager(getContext(),1));
             adapterItemCliente = new AdapterItemAlertaTemprana(alerta_tempranaArrayList);

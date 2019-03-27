@@ -73,7 +73,7 @@ public class AdapterItemAlertaTemprana extends  RecyclerView.Adapter<AdapterItem
             descripcion = itemView.findViewById(R.id.descripcionTextViewConsultaAlertaTemprana);
             asunto = itemView.findViewById(R.id.asuntoTextViiewCobsultaAlertaTemprana);
             atendidoCheckBox = itemView.findViewById(R.id.atendidoCheckBox);
-
+            view = itemView;
         }
 
         private void atenderAlertaTemprana(Alerta_temprana alerta_temprana, boolean atender)
@@ -150,16 +150,28 @@ public class AdapterItemAlertaTemprana extends  RecyclerView.Adapter<AdapterItem
             {
                 atendidoCheckBox.setChecked(true);
                 atendidoCheckBox.setText("Atendido");
+                atendidoCheckBox.setTextColor(view.getResources().getColor(R.color.verde));
             }
             else
             {
                 atendidoCheckBox.setChecked(false);
                 atendidoCheckBox.setText("No atendido");
+                atendidoCheckBox.setTextColor(view.getResources().getColor(R.color.rojo));
             }
 
             atendidoCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked)
+                    {
+                        atendidoCheckBox.setText("Atendido");
+                        atendidoCheckBox.setTextColor(view.getResources().getColor(R.color.verde));
+                    }
+                    else
+                    {
+                        atendidoCheckBox.setText("No atendido");
+                        atendidoCheckBox.setTextColor(view.getResources().getColor(R.color.rojo));
+                    }
                     atenderAlertaTemprana(alerta_temprana, isChecked);
                 }
             });

@@ -339,6 +339,7 @@ public class Navigation extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        cargarFragment(id_ultimo_fragment);
     }
 
     @Override
@@ -370,8 +371,9 @@ public class Navigation extends AppCompatActivity
             if (drawer.isDrawerOpen(GravityCompat.START))
             {
                 drawer.closeDrawer(GravityCompat.START);
-            } else
-                {
+            }
+            else
+            {
                 drawer.openDrawer(GravityCompat.START);
             }
         }
@@ -396,88 +398,101 @@ public class Navigation extends AppCompatActivity
         }
         return super.onOptionsItemSelected(item);
     }
-
+    private int id_ultimo_fragment = 0;
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        cargarFragment(id);
+        return true;
+    }
+
+    private void cargarFragment(int id)
+    {
         Fragment fragment = null;
         boolean selecionado = false;
 
-
-        if (id == R.id.consulta_alertas_tempranas) {
-            fragment = consultaAlertasTempranasFragment;
-            selecionado = true;
-            tiulo_tollba.setText("Lista Alertas");
-
-        }
-        if (id == R.id.crear_noticia) {
-            fragment = new Registrar_noticiaFragment();
-            selecionado = true;
-            tiulo_tollba.setText("Crear Noticia");
-        }
-        if (id == R.id.ver_mis_Asesorias) {
-            tengoAsesorias();
-
-        }
-        if (id == R.id.registrar_asesor) {
-            fragment = new Registrar_AdministradorFragment();
-            selecionado = true;
-            tiulo_tollba.setText("Registro Asesor");
-        }
-        if (id == R.id.ver_asesores) {
-            fragment = new ConsultarAsesoresFragment();
-            selecionado = true;
-            tiulo_tollba.setText("Lista Asesores");
-        }
-        if (id == R.id.cambiar_contraseña) {
-            fragment = new CambiarContrasenaFragment();
-            selecionado = true;
-            tiulo_tollba.setText("Cambiar Contraseña");
-        }
-        if (id == R.id.actualizar_mis_datos) {
-            fragment = new Actualizar_AdministradorFragment();
-            selecionado = true;
-            tiulo_tollba.setText("Actualizar Datos");
-        }
-        if (id == R.id.estadistica_numero_usuario) {
-            fragment = new EstadisticaUsuariosFragment();
-            selecionado = true;
-            tiulo_tollba.setText("Estadisticas");
-        }
-        if(id == R.id.cosultar_noticias)
+        switch (id)
         {
-            fragment = new ListaNoticiasFragment();
-            selecionado = true;
-            tiulo_tollba.setText("Lista Noticias");
-        }
-        if (id == R.id.cerrar_sesion) {
-            Log.d("administrador", "null");
-            hilo_notificaciones_activo = false;
-            hilo_notificacion_iniciado = false;
-            notificationManagerCompat = NotificationManagerCompat.from(this);
-            if(chat_asesorias_local != null)
-            {
-                for(Chat_asesoria chat : chat_asesorias_local)
+            case R.id.consulta_alertas_tempranas:
+                fragment = new ConsultaAlertasTempranasFragment();
+                selecionado = true;
+                tiulo_tollba.setText("Lista Alertas");
+                id_ultimo_fragment = R.id.consulta_alertas_tempranas;
+                break;
+            case R.id.crear_noticia:
+                fragment = new Registrar_noticiaFragment();
+                selecionado = true;
+                tiulo_tollba.setText("Crear Noticia");
+                id_ultimo_fragment = R.id.crear_noticia;
+                break;
+            case R.id.ver_mis_Asesorias:
+                tengoAsesorias();
+                id_ultimo_fragment = R.id.ver_mis_Asesorias;
+                break;
+            case R.id.registrar_asesor:
+                fragment = new Registrar_AdministradorFragment();
+                selecionado = true;
+                tiulo_tollba.setText("Registro Asesor");
+                id_ultimo_fragment = R.id.registrar_asesor;
+                break;
+            case R.id.ver_asesores:
+                fragment = new ConsultarAsesoresFragment();
+                selecionado = true;
+                tiulo_tollba.setText("Lista Asesores");
+                id_ultimo_fragment = R.id.ver_asesores;
+                break;
+            case R.id.cambiar_contraseña:
+                fragment = new CambiarContrasenaFragment();
+                selecionado = true;
+                tiulo_tollba.setText("Cambiar Contraseña");
+                id_ultimo_fragment = R.id.cambiar_contraseña;
+                break;
+            case R.id.actualizar_mis_datos:
+                fragment = new Actualizar_AdministradorFragment();
+                selecionado = true;
+                tiulo_tollba.setText("Actualizar Datos");
+                id_ultimo_fragment = R.id.actualizar_mis_datos;
+                break;
+            case R.id.estadistica_numero_usuario:
+                fragment = new EstadisticaUsuariosFragment();
+                selecionado = true;
+                tiulo_tollba.setText("Estadisticas");
+                id_ultimo_fragment = R.id.estadistica_numero_usuario;
+                break;
+            case R.id.cosultar_noticias:
+                fragment = new ListaNoticiasFragment();
+                selecionado = true;
+                tiulo_tollba.setText("Lista Noticias");
+                id_ultimo_fragment = R.id.cosultar_noticias;
+                break;
+            case R.id.cerrar_sesion:
+                Log.d("administrador", "null");
+                hilo_notificaciones_activo = false;
+                hilo_notificacion_iniciado = false;
+                notificationManagerCompat = NotificationManagerCompat.from(this);
+                if(chat_asesorias_local != null)
                 {
-                    notificationManagerCompat.cancel(chat.id_chat_asesoria);
+                    for(Chat_asesoria chat : chat_asesorias_local)
+                    {
+                        notificationManagerCompat.cancel(chat.id_chat_asesoria);
+                    }
+                    chat_asesorias_local.clear();
+                    chat_asesorias_local = null;
                 }
-                chat_asesorias_local.clear();
-                chat_asesorias_local = null;
-            }
-            aplicacion_terminada = true;
-            onBackPressed();
-            return false;
+                aplicacion_terminada = true;
+                onBackPressed();
+                return;
+            default:
+                id_ultimo_fragment = -1;
         }
         if(selecionado)
         {
             getSupportFragmentManager().beginTransaction().replace(R.id.framengMaster,fragment).commit();
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     private void tengoAsesorias()
