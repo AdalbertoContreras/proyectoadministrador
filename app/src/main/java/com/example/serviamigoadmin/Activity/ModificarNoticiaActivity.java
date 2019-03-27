@@ -265,7 +265,6 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
         try
         {
             valor = Integer.parseInt(response);
-            urlNoticia = imagen_noticia.url_imagen_noticia;
         }
         catch (NumberFormatException exc)
         {

@@ -50,6 +50,7 @@ public class MisAsesoriasFragment extends Fragment {
     private ArrayList<Chat_asesoria> chat_asesoria_general;
     private ArrayList<Chat_asesoria> chat_asesoria_filtrada;
     private AdapterChat adapterChat;
+    private Especialidad especialidad_selecionada;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -94,8 +95,12 @@ public class MisAsesoriasFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_mis_asesorias, container, false);
         chat_asesorRecyclerView = view.findViewById(R.id.mis_asesoriasRecyclerView);
         tipo_asesoriasSpinner = view.findViewById(R.id.tipo_asesoriasSpinner);
-
-
+        Gestion_chat_asesoria.arrayChatCambiado = new Gestion_chat_asesoria.ArrayChatCambiado() {
+            @Override
+            public void chatCambiado() {
+                cargar_chat("");
+            }
+        };
         return view;
     }
 
@@ -106,10 +111,12 @@ public class MisAsesoriasFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position > 0)
                 {
-                    filtrar_chat(especialidades.get(position - 1).id_especialidad);
+                    especialidad_selecionada = especialidades.get(position - 1);
+                    filtrar_chat(especialidad_selecionada.id_especialidad);
                 }
                 else
                 {
+                    especialidad_selecionada = null;
                     chat_asesoria_filtrada = chat_asesoria_general;
                 }
                 adapterChat = new AdapterChat(chat_asesoria_filtrada, getFragmentManager());
@@ -205,12 +212,19 @@ public class MisAsesoriasFragment extends Fragment {
 
     private void cargar_chat(String json)
     {
-        chat_asesoria_general = new Gestion_chat_asesoria().generar_json(json);
+        chat_asesoria_general = Gestion_chat_asesoria.getChat_asesorias();
         chat_asesoria_filtrada = chat_asesoria_general;
         chat_asesorRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),1));
+        if(especialidad_selecionada != null)
+        {
+            filtrar_chat(especialidad_selecionada.id_especialidad);
+        }
+        else
+        {
+            chat_asesoria_filtrada = chat_asesoria_general;
+        }
         adapterChat = new AdapterChat(chat_asesoria_filtrada, getFragmentManager());
         chat_asesorRecyclerView.setAdapter(adapterChat);
-        chat_asesorRecyclerView.setHasFixedSize(true);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

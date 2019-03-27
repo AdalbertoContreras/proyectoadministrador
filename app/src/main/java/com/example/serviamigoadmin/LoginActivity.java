@@ -142,6 +142,11 @@ public class    LoginActivity extends AppCompatActivity {
                         Toast.makeText(getBaseContext(), "Los datos ingresados no coindicen", Toast.LENGTH_LONG).show();
                         progressDialog.dismiss();
                     }
+                    else if(val == -1)
+                    {
+                        Toast.makeText(getBaseContext(), "Esta cuenta no cuenta con permisos para iniciar sesion.", Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
+                    }
                     else
                     {
                         asignar_aministrador(val);
@@ -180,8 +185,16 @@ public class    LoginActivity extends AppCompatActivity {
                     ArrayList<Administrador> arrayList = new Gestion_administrador().generar_json(response);
                     if(!arrayList.isEmpty())
                     {
-                        Toast.makeText(getBaseContext(), "Administrador conectado", Toast.LENGTH_LONG).show();
+
                         Administrador administrador = arrayList.get(0);
+                        if(administrador.tipo_administrador == 0)
+                        {
+                            Toast.makeText(getBaseContext(), "Administrador conectado", Toast.LENGTH_LONG).show();
+                        }
+                        if(administrador.tipo_administrador == 2)
+                        {
+                            Toast.makeText(getBaseContext(), "Asesor conectado", Toast.LENGTH_LONG).show();
+                        }
                         administrador.contrasena_administrador = contraseñaEditText.getText().toString();
                         Gestion_administrador.setAdministrador_actual(administrador);
                         Intent intent = new Intent(LoginActivity.this, Navigation.class);

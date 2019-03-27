@@ -69,6 +69,7 @@ public class Gestion_administrador{
     {
         void administradorCambiado(Administrador administrador);
     }
+
     private void adjuntar_aseso()
     {
         if(getAdministrador_actual() != null)
@@ -83,6 +84,22 @@ public class Gestion_administrador{
         obj = new JsonObject();
         try {
             obj.addProperty(TIPO_CONSULTA,"consultar_asesores");
+            obj.addProperty(LLAVE_WS,llave_ws);
+            adjuntar_aseso();
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put(JSON,obj.toString());
+        return hashMap;
+    }
+
+    public HashMap<String, String> consultar_por_nombre_cuenta_num(String nombre_cuenta)
+    {
+        obj = new JsonObject();
+        try {
+            obj.addProperty(NOMBRE_CUENTA_ADMINISTRADOR,nombre_cuenta);
+            obj.addProperty(TIPO_CONSULTA,"consultar_por_nombre_cuenta_num");
             obj.addProperty(LLAVE_WS,llave_ws);
             adjuntar_aseso();
         } catch (JsonSyntaxException e) {
@@ -327,7 +344,14 @@ public class Gestion_administrador{
                 estado_administrador = jsonObject.get(ESTADO_ADMINISTRADOR).getAsInt();
                 fecha_registro_administrador = jsonObject.get(FECHA_REGISTRO_ADMINISTRADOR).getAsString();
                 hora_registro_administrador = jsonObject.get(HORA_REGISTRO_ADMINISTRADOR).getAsString();
-                url_foto_perfil_administrador = jsonObject.get(URL_FOTO_PERFIL_ADMINISTRADOR).getAsString();
+                if(!jsonObject.get(URL_FOTO_PERFIL_ADMINISTRADOR).isJsonNull())
+                {
+                    url_foto_perfil_administrador = jsonObject.get(URL_FOTO_PERFIL_ADMINISTRADOR).getAsString();
+                }
+                else
+                {
+                    url_foto_perfil_administrador = "";
+                }
                 numero_asesorias_dadas_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_ADMINISTRADOR).getAsInt();
                 numero_asesorias_dadas_primera_infancia_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_PRIMERA_INFANCIA_ADMINISTRADOR).getAsInt();
                 numero_asesorias_dadas_infancia_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_INFANCIA_ADMINISTRADOR).getAsInt();

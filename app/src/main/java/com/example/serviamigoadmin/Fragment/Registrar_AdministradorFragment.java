@@ -131,6 +131,19 @@ public class Registrar_AdministradorFragment extends Fragment {
                 showDatePickerDialog();
             }
         });
+        nombreCuentaEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                    nombreCuentaEditText.setTextColor(getResources().getColor(R.color.Black));
+                }
+                else
+                {
+                    existeNombreCuenta();
+                }
+            }
+        });
         especialidadesEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,57 +153,151 @@ public class Registrar_AdministradorFragment extends Fragment {
         registrarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(nombresEditText.getText().toString().isEmpty())
-                {
-                    Toast.makeText(view.getContext(), "Ingrese los nombres del asesor", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(apellidosEditText.getText().toString().isEmpty())
-                {
-                    Toast.makeText(view.getContext(), "Ingrese los apellidos del asesor", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(fechaNacimientoEditText.getText().toString().isEmpty())
-                {
-                    Toast.makeText(view.getContext(), "Ingrese la fecha de cacimiento del asesor", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(nombreCuentaEditText.getText().toString().isEmpty())
-                {
-                    Toast.makeText(view.getContext(), "Ingrese el nombre de la cuenta del asesor", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(contraseñaEditText.getText().toString().isEmpty())
-                {
-                    Toast.makeText(view.getContext(), "Ingrese la contraseña de la cuenta del asesor", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(!sexualidarReproductivaSelecionada && !identidadSelecionada && !nutricionSelecionada && !embarazoSelecionada)
-                {
-                    Toast.makeText(view.getContext(), "Escoja una o varias especialidades para el asesor", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Administrador administrador = new Administrador();
-                administrador.nombres_administrador = nombresEditText.getText().toString();
-                administrador.apellidos_administrador = apellidosEditText.getText().toString();
-                administrador.numero_telefono_administrador = telefonoEditText.getText().toString();
-                administrador.direccion_administrador = direccionEditText.getText().toString();
-                administrador.correo_electronico_administrador = correoElectronicoEditText.getText().toString();
-                administrador.fecha_nacimiento_administrador = fechaNacimientoEditText.getText().toString();
-                if(masculinoRadioButton.isChecked())
-                {
-                    administrador.sexo_administrador = 0;
-                }
-                else
-                {
-                    administrador.sexo_administrador = 1;
-                }
-                administrador.nombre_cuenta_administrador = nombreCuentaEditText.getText().toString();
-                administrador.contrasena_administrador = contraseñaEditText.getText().toString();
-                registrar_administrador(administrador);
+                validarDatosRegistro();
             }
         });
         return view;
+    }
+
+
+
+    private void existeNombreCuenta()
+    {
+        final HashMap<String, String> hashMap = new Gestion_administrador().consultar_por_nombre_cuenta_num(nombreCuentaEditText.getText().toString());
+        Log.d("parametros", hashMap.toString());
+        Response.Listener<String> stringListener = new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {
+                try
+                {
+                    int val = 0;
+                    val = Integer.parseInt(response);
+                    if(val > 0)
+                    {
+                        nombreCuentaEditText.setTextColor(getResources().getColor(R.color.rojo));
+                    }
+                    else
+                    {
+                        nombreCuentaEditText.setTextColor(getResources().getColor(R.color.Black));
+                    }
+                }
+                catch(NumberFormatException exc)
+                {
+                    nombreCuentaEditText.setTextColor(getResources().getColor(R.color.Black));
+                }
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                nombreCuentaEditText.setTextColor(getResources().getColor(R.color.Black));
+            }
+        };
+        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, errorListener);
+        MySocialMediaSingleton.getInstance(view.getContext()).addToRequestQueue(stringRequest);
+    }
+
+
+    private void validarDatosRegistro()
+    {
+        if(nombresEditText.getText().toString().isEmpty())
+        {
+            Toast.makeText(view.getContext(), "Ingrese los nombres del asesor", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(apellidosEditText.getText().toString().isEmpty())
+        {
+            Toast.makeText(view.getContext(), "Ingrese los apellidos del asesor", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(fechaNacimientoEditText.getText().toString().isEmpty())
+        {
+            Toast.makeText(view.getContext(), "Ingrese la fecha de cacimiento del asesor", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(nombreCuentaEditText.getText().toString().isEmpty())
+        {
+            Toast.makeText(view.getContext(), "Ingrese el nombre de la cuenta del asesor", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else
+        {
+            validarNombreCuentaRegistro();
+        }
+    }
+
+    private void validarDatosRegistros_I()
+    {
+        if(contraseñaEditText.getText().toString().isEmpty())
+        {
+            Toast.makeText(view.getContext(), "Ingrese la contraseña de la cuenta del asesor", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(!sexualidarReproductivaSelecionada && !identidadSelecionada && !nutricionSelecionada && !embarazoSelecionada)
+        {
+            Toast.makeText(view.getContext(), "Escoja una o varias especialidades para el asesor", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Administrador administrador = new Administrador();
+        administrador.nombres_administrador = nombresEditText.getText().toString();
+        administrador.apellidos_administrador = apellidosEditText.getText().toString();
+        administrador.numero_telefono_administrador = telefonoEditText.getText().toString();
+        administrador.direccion_administrador = direccionEditText.getText().toString();
+        administrador.correo_electronico_administrador = correoElectronicoEditText.getText().toString();
+        administrador.fecha_nacimiento_administrador = fechaNacimientoEditText.getText().toString();
+        if(masculinoRadioButton.isChecked())
+        {
+            administrador.sexo_administrador = 0;
+        }
+        else
+        {
+            administrador.sexo_administrador = 1;
+        }
+        administrador.nombre_cuenta_administrador = nombreCuentaEditText.getText().toString();
+        administrador.contrasena_administrador = contraseñaEditText.getText().toString();
+        registrar_administrador(administrador);
+    }
+
+    private void validarNombreCuentaRegistro()
+    {
+        final HashMap<String, String> hashMap = new Gestion_administrador().consultar_por_nombre_cuenta_num(nombreCuentaEditText.getText().toString());
+        Log.d("parametros", hashMap.toString());
+        Response.Listener<String> stringListener = new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {
+                try
+                {
+                    int val = 0;
+                    val = Integer.parseInt(response);
+                    if(val > 0)
+                    {
+                        Toast.makeText(view.getContext(), "Este nombre de cuenta esta siendo utilizado por otro usuario.", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        nombreCuentaEditText.setTextColor(getResources().getColor(R.color.Black));
+                        validarDatosRegistros_I();
+                    }
+                }
+                catch(NumberFormatException exc)
+                {
+                    Toast.makeText(view.getContext(), "Ocurrio un error en el servidor", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(view.getContext(), "Ocurrio un error en el servidor", Toast.LENGTH_SHORT).show();
+            }
+        };
+        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, errorListener);
+        MySocialMediaSingleton.getInstance(view.getContext()).addToRequestQueue(stringRequest);
     }
 
     private void registrar_administrador(Administrador administrador)
