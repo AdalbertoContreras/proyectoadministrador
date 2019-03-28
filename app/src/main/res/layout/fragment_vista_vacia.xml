@@ -37,6 +37,7 @@
             >
 
             <TextView
+                android:id="@+id/biemvenidoTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="BIENVENIDO"
@@ -48,14 +49,14 @@
                 />
 
             <TextView
+                android:id="@+id/nombreAdministradorTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Jean Carlos Contreras"
                 android:layout_marginTop="5dp"
-                android:textSize="20sp"
+                android:textSize="17sp"
                 android:gravity="center"
-                android:textColor="@color/Gris2"
-                />
+                android:textColor="@color/Gris2"/>
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/fotoPerfilImageView"
