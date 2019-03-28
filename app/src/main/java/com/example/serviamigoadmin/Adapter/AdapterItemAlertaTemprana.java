@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -76,6 +77,12 @@ public class AdapterItemAlertaTemprana extends  RecyclerView.Adapter<AdapterItem
             asunto = itemView.findViewById(R.id.asuntoTextViiewCobsultaAlertaTemprana);
             atendidoCheckBox = itemView.findViewById(R.id.atendidoCheckBox);
             view = itemView;
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(view.getContext(), "abrir chat", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         private void atenderAlertaTemprana(Alerta_temprana alerta_temprana, boolean atender)

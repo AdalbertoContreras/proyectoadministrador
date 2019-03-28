@@ -80,18 +80,19 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
         {
 
         }
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+
         ArrayList<Usuario> usuarios = new Gestion_usuario().generar_json(chat_asesoria.usuario);
         if(!usuarios.isEmpty())
         {
             Usuario usuario = usuarios.get(0);
             ShowToolbar(usuario.nombre_cuenta_usuario,true);
         }
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         enviarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

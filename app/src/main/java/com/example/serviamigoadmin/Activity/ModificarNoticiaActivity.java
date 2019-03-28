@@ -51,13 +51,13 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
     private ImageView foto_gallery;
     private Imagen_noticia imagen_noticia;
     private Bitmap bitmap;
-    public static Noticia noticiaModificar;
     private boolean categoriaCambiada = false;
     private boolean tituloCambiado = false;
     private boolean imagenCambiada = false;
     private boolean contenidoCambiado = false;
-    public static NoticiaActualizada noticiaActualizada;
     private String urlNoticia;
+    public static Noticia noticiaModificar;
+    public static NoticiaActualizada noticiaActualizada;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +72,6 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
         foto_gallery = findViewById(R.id.imagenImageViewRegistrarImagen);
         iniciareventos();
         cargarDatosNoticia();
-
     }
 
     private void cargarDatosNoticia()
@@ -289,7 +288,6 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
         {
             Toast.makeText(getBaseContext(), "Error al registrar noticia.", Toast.LENGTH_LONG).show();
         }
-
     }
 
     private void registrar_imagen(int id)
