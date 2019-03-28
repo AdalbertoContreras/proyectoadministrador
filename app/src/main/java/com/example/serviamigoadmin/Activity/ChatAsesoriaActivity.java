@@ -132,6 +132,7 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
                 }
             }
         });
+        Gestion_chat_asesoria.chat_abiero(chat_asesoria.id_chat_asesoria);
     }
 
     public interface CambioEstado

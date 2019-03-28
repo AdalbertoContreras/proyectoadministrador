@@ -279,6 +279,10 @@ public class Gestion_chat_asesoria {
         {
             if(chat_asesorias != null)
             {
+                if(chat_asesorias.size() < chat_asesorias_aux.size())
+                {
+                    cambio = true;
+                }
                 for(Chat_asesoria item :  chat_asesorias_aux)
                 {
                     Chat_asesoria chat_asesoria = buscarChatAsesoria(item.id_chat_asesoria);
@@ -298,6 +302,7 @@ public class Gestion_chat_asesoria {
                     }
                 }
             }
+
             chat_asesorias = new ArrayList<>();
             for(Chat_asesoria item : chat_asesorias_aux)
             {
