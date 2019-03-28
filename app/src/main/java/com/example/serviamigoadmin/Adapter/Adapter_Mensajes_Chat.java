@@ -131,7 +131,7 @@ public class Adapter_Mensajes_Chat extends  RecyclerView.Adapter<Adapter_Mensaje
                 if(!administrador.isEmpty())
                 {
                     Picasso.with(view.getContext()).load(administrador.get(0).url_foto_perfil_administrador).placeholder(R.drawable.perfil2)
-                            .error(R.drawable.perfil2).into(circleImageView);
+                            .error(view.getResources().getDrawable(R.drawable.ic_iconousuario)).into(circleImageView);
                 }
             }
         }

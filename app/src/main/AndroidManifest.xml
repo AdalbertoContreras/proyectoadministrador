@@ -17,6 +17,7 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name="com.example.serviamigoadmin.Activity.ModificarNoticiaActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/title_activity_modificar_noticia"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"></activity>

@@ -90,7 +90,7 @@ public class Navigation extends AppCompatActivity
             setContentView(R.layout.navigation_administrador);
 
         }
-        else
+        else if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 2)
         {
             setContentView(R.layout.navigation_asesor);
 
@@ -126,7 +126,6 @@ public class Navigation extends AppCompatActivity
                 /***
                  * Cierra la notificacion segun el chat abierto por el usuario
                  */
-                Toast.makeText(getBaseContext(), "Chat a cerrar " + id_chat, Toast.LENGTH_SHORT).show();
                 notificationManagerCompat = NotificationManagerCompat.from(Navigation.this);
                 notificationManagerCompat.cancel(id_chat);
             }

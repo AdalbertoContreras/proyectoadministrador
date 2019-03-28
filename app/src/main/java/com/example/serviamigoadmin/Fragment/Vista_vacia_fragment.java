@@ -7,8 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.example.gestion.Gestion_administrador;
+import com.example.modelo.Administrador;
 import com.example.servimaigoadmin.R;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -61,12 +67,28 @@ public class Vista_vacia_fragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    private View view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_vista_vacia, container, false);
+        view =  inflater.inflate(R.layout.fragment_vista_vacia, container, false);
+        TextView biemvenidoTextView = view.findViewById(R.id.biemvenidoTextView);
+        TextView nombreAdministrador = view.findViewById(R.id.nombreAdministradorTextView);
+        CircleImageView fotoPerfilAdministradorCircleImageView = view.findViewById(R.id.fotoPerfilImageView);
+        Administrador administrador = Gestion_administrador.getAdministrador_actual();
+        if(administrador.sexo_administrador == 0)
+        {
+            biemvenidoTextView.setText("BIENVENIDO");
+        }
+        else
+        {
+            biemvenidoTextView.setText("BIENVENIDA");
+        }
+        nombreAdministrador.setText(administrador.nombres_administrador + " " + administrador.apellidos_administrador);
+        Picasso.with(view.getContext()).load(administrador.url_foto_perfil_administrador).placeholder(R.drawable.perfil2)
+                .error(R.drawable.perfil2).into(fotoPerfilAdministradorCircleImageView);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
