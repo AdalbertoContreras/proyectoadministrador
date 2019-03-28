@@ -5,10 +5,71 @@
     android:layout_height="match_parent"
     tools:context="com.example.serviamigoadmin.Fragment.Vista_vacia_fragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:background="@color/Gris3"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:layout_gravity="center"
+            android:padding="60dp"
+            >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bienvenido_comfacesar"
+                />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BIENVENIDO"
+                android:layout_marginTop="20dp"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/tipo_one"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Jean Carlos Contreras"
+                android:layout_marginTop="5dp"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:textColor="@color/Gris2"
+                />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/fotoPerfilImageView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:elevation="5dp"
+                android:src="@drawable/ic_iconousuario" />
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </FrameLayout>
