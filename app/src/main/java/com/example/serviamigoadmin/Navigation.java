@@ -23,6 +23,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.example.extra.Calculo;
@@ -124,6 +126,7 @@ public class Navigation extends AppCompatActivity
                 /***
                  * Cierra la notificacion segun el chat abierto por el usuario
                  */
+                Toast.makeText(getBaseContext(), "Chat a cerrar " + id_chat, Toast.LENGTH_SHORT).show();
                 notificationManagerCompat = NotificationManagerCompat.from(Navigation.this);
                 notificationManagerCompat.cancel(id_chat);
             }

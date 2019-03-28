@@ -1,5 +1,7 @@
 package com.example.serviamigoadmin.Adapter;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -148,12 +150,14 @@ public class AdapterItemAlertaTemprana extends  RecyclerView.Adapter<AdapterItem
             descripcion.setText(alerta_temprana.descripcion_alerta_temprana);
             if(alerta_temprana.estado_atendido == 1)
             {
+                atendidoCheckBox.setButtonTintList(ColorStateList.valueOf(Color.GREEN));
                 atendidoCheckBox.setChecked(true);
                 atendidoCheckBox.setText("Atendido");
                 atendidoCheckBox.setTextColor(view.getResources().getColor(R.color.verde));
             }
             else
             {
+                atendidoCheckBox.setButtonTintList(ColorStateList.valueOf(Color.BLACK));
                 atendidoCheckBox.setChecked(false);
                 atendidoCheckBox.setText("No atendido");
                 atendidoCheckBox.setTextColor(view.getResources().getColor(R.color.rojo));
@@ -164,11 +168,13 @@ public class AdapterItemAlertaTemprana extends  RecyclerView.Adapter<AdapterItem
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked)
                     {
+                        atendidoCheckBox.setButtonTintList(ColorStateList.valueOf(Color.GREEN));
                         atendidoCheckBox.setText("Atendido");
                         atendidoCheckBox.setTextColor(view.getResources().getColor(R.color.verde));
                     }
                     else
                     {
+                        atendidoCheckBox.setButtonTintList(ColorStateList.valueOf(Color.BLACK));
                         atendidoCheckBox.setText("No atendido");
                         atendidoCheckBox.setTextColor(view.getResources().getColor(R.color.rojo));
                     }

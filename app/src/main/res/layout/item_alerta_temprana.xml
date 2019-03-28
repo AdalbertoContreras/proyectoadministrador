@@ -154,7 +154,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:text="No atendido"
-            android:layout_marginRight="15dp"/>
+            android:layout_marginRight="15dp"
+            android:buttonTint="@color/Black" />
 
     </LinearLayout>
 
