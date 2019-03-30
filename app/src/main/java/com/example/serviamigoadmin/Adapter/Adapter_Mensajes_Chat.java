@@ -122,7 +122,16 @@ public class Adapter_Mensajes_Chat extends  RecyclerView.Adapter<Adapter_Mensaje
                 ArrayList<Usuario> usuarios = new Gestion_usuario().generar_json(chat_asesoria.usuario);
                 if(!usuarios.isEmpty())
                 {
-                    Picasso.with(view.getContext()).load(usuarios.get(0).foto_perfil_usuario).into(circleImageView);
+                    Picasso.with(view.getContext()).load(usuarios.get(0).foto_perfil_usuario)
+                            .placeholder(R.drawable.perfil2)
+                            .error(R.drawable.ic_iconousuario)
+                            .into(circleImageView);
+                }
+                else
+                {
+                    Picasso.with(view.getContext())
+                            .load(R.drawable.perfil)
+                            .into(circleImageView);
                 }
             }
             else
@@ -130,8 +139,17 @@ public class Adapter_Mensajes_Chat extends  RecyclerView.Adapter<Adapter_Mensaje
                 ArrayList<Administrador> administrador = new Gestion_administrador().generar_json(chat_asesoria.administrador);
                 if(!administrador.isEmpty())
                 {
-                    Picasso.with(view.getContext()).load(administrador.get(0).url_foto_perfil_administrador).placeholder(R.drawable.perfil2)
-                            .error(view.getResources().getDrawable(R.drawable.ic_iconousuario)).into(circleImageView);
+                    Picasso.with(view.getContext())
+                            .load(administrador.get(0).url_foto_perfil_administrador)
+                            .placeholder(R.drawable.perfil2)
+                            .error(R.drawable.ic_iconousuario)
+                            .into(circleImageView);
+                }
+                else
+                {
+                    Picasso.with(view.getContext())
+                            .load(R.drawable.perfil2)
+                            .into(circleImageView);
                 }
             }
         }

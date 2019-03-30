@@ -126,13 +126,11 @@ public class    LoginActivity extends AppCompatActivity {
             administrador.contrasena_administrador = contraseñaEditText.getText().toString();
         }
         HashMap<String,String> params = new Gestion_administrador().validar_administrador(administrador);
-        Log.d("parametros", params.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override
             public void onResponse(String response) {
                 //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
-                Log.d("response", response);
                 int val = 0;
                 try
                 {
@@ -172,14 +170,15 @@ public class    LoginActivity extends AppCompatActivity {
 
     private void asignar_aministrador(int id_administrador)
     {
+        Administrador administrador = new Administrador();
+        administrador.nombre_cuenta_administrador = cuentaEditText.getText().toString();
+        administrador.contrasena_administrador = contraseñaEditText.getText().toString();
+        Gestion_administrador.setAdministrador_actual(administrador);
         HashMap<String,String> params = new Gestion_administrador().consultar_administrador_por_id(id_administrador);
-        Log.d("parametros", params.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override
             public void onResponse(String response) {
-                //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
-                Log.d("response", response);
                 if(!response.equals(""))
                 {
                     ArrayList<Administrador> arrayList = new Gestion_administrador().generar_json(response);

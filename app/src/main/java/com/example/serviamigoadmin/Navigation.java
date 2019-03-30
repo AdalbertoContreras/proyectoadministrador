@@ -113,7 +113,6 @@ public class Navigation extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         getSupportFragmentManager().beginTransaction().add(R.id.framengMaster,new Vista_vacia_fragment()).commit();
-        Log.d("administrador", "valido");
         hilo_notificaciones_activo = true;
         if(!hilo_notificacion_iniciado)
         {
@@ -463,7 +462,6 @@ public class Navigation extends AppCompatActivity
                 id_ultimo_fragment = R.id.cosultar_noticias;
                 break;
             case R.id.cerrar_sesion:
-                Log.d("administrador", "null");
                 hilo_notificaciones_activo = false;
                 hilo_notificacion_iniciado = false;
                 notificationManagerCompat = NotificationManagerCompat.from(this);

@@ -193,22 +193,6 @@ public class MisAsesoriasFragment extends Fragment {
         return array;
     }
 
-    private void consultar_chat()
-    {
-        HashMap<String,String> params = new Gestion_chat_asesoria().consultar_por_administrador(Gestion_administrador.getAdministrador_actual().id_administrador);
-        Log.d("Parametros", params.toString());
-        Response.Listener<String> stringListener = new Response.Listener<String>()
-        {
-            @Override
-            public void onResponse(String response) {
-                Log.d("response", response);
-                cargar_chat(response);
-            }
-        };
-        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, MySocialMediaSingleton.errorListener());
-        MySocialMediaSingleton.getInstance(view.getContext()).addToRequestQueue(stringRequest);
-    }
-
     private void cargar_chat(String json)
     {
         chat_asesoria_general = Gestion_chat_asesoria.getChat_asesorias();

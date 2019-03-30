@@ -239,7 +239,6 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
         noticia.administrador_noticia = Gestion_administrador.getAdministrador_actual().id_administrador;
         noticia.id_notiticia = noticiaModificar.id_notiticia;
         HashMap<String, String> hashMap = new Gestion_noticia().update(noticia);
-        Log.d("parametros", hashMap.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
     {
         @Override
@@ -311,7 +310,6 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
         imagen_noticia.url_imagen_noticia = bitmap_conver_to_String(bitmap);
         imagen_noticia.noticia_imagen_noticia = id;
         HashMap<String, String> hashMap = new Gestion_imagen_noticia().subir_y_eliminar_imagen(imagen_noticia);
-        Log.d("parametros imagen", hashMap.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override
@@ -340,7 +338,6 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
     private void cargar_categorias()
     {
         HashMap<String, String> hashMap = new Gestion_categoria_noticia().consultar_categorias();
-        Log.d("parametros", hashMap.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override

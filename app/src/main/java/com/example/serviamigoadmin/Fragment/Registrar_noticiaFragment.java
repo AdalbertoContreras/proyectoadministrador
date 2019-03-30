@@ -229,7 +229,6 @@ public class Registrar_noticiaFragment extends Fragment {
         id_noticia = -1;
         noticia.administrador_noticia = Gestion_administrador.getAdministrador_actual().id_administrador;
         HashMap<String, String> hashMap = new Gestion_noticia().registrar_noticia_manual(noticia);
-        Log.d("parametros", hashMap.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override
@@ -287,13 +286,10 @@ public class Registrar_noticiaFragment extends Fragment {
         imagen_noticia.url_imagen_noticia = bitmap_conver_to_String(bitmap);
         imagen_noticia.noticia_imagen_noticia = id;
         HashMap<String, String> hashMap = new Gestion_imagen_noticia().registrar_imagen_con_archivo(imagen_noticia);
-        Log.d("parametros imagen", hashMap.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override
             public void onResponse(String response) {
-                //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
-                Log.d("response imagen", response);
 
             }
         };
@@ -310,7 +306,6 @@ public class Registrar_noticiaFragment extends Fragment {
     private void cargar_categorias()
     {
         HashMap<String, String> hashMap = new Gestion_categoria_noticia().consultar_categorias();
-        Log.d("parametros", hashMap.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override

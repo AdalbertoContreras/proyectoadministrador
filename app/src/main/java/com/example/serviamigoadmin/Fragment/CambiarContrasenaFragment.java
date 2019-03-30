@@ -134,12 +134,10 @@ public class CambiarContrasenaFragment extends Fragment {
         administrador_con_contraseña_validad.contrasena_administrador = contraseñaCuentaEditText.getText().toString();
         Gestion_administrador.setAdministrador_actual(administrador_con_contraseña_validad);
         HashMap<String, String> hashMap = new Gestion_administrador().validar_administrador(administrador_con_contraseña_validad);
-        Log.d("parametros", hashMap.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override
             public void onResponse(String response) {
-                Log.d("Response : ", response);
                 int val = 0;
                 try
                 {
@@ -205,12 +203,10 @@ public class CambiarContrasenaFragment extends Fragment {
         administrador_espejo.contrasena_administrador = contraseñaNuevaEditText.getText().toString();
         Gestion_administrador.getAdministrador_actual().contrasena_administrador = contraseña_anterior;
         HashMap<String, String> hashMap = new Gestion_administrador().cambiar_contrasena(administrador_espejo);
-        Log.d("parametros", hashMap.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override
             public void onResponse(String response) {
-                Log.d("Response : ", response);
                 int val = 0;
                 try
                 {
@@ -247,7 +243,6 @@ public class CambiarContrasenaFragment extends Fragment {
     private void carmbiar_contraseña(Administrador administrador)
     {
         HashMap<String, String> hashMap = new Gestion_administrador().cambiar_contrasena(administrador);
-        Log.d("parametros", hashMap.toString());
         HashMap<String,String> params;
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
@@ -278,7 +273,6 @@ public class CambiarContrasenaFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(view.getContext(), "Error en el servidor", Toast.LENGTH_SHORT).show();
-                Log.d("Reponse.Error",error.toString());
             }
         };
         StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, errorListener);

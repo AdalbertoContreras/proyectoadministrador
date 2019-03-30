@@ -125,13 +125,11 @@ public class EstadisticaUsuariosFragment extends Fragment {
     private void cosultar_estadisticas()
     {
         final HashMap<String, String> hashMap = new Gestion_estadistica_usuario().consultar();
-        Log.d("parametros", hashMap.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override
             public void onResponse(String response)
             {
-                Log.d("respuesta", response);
                 cargar_estadisticas(response);
             }
         };

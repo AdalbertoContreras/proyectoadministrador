@@ -17,6 +17,7 @@ public class Gestion_especialidad {
     private static String fecha1;
     private static String fecha2;
     private static String tipo_consulta;
+    private JsonObject obj;
 
     public HashMap<String, String> consultar_especialidades()
     {
@@ -79,7 +80,7 @@ public class Gestion_especialidad {
 
     private HashMap<String,String> construir_parametros(Especialidad elemento)
     {
-        JsonObject obj = new JsonObject();
+        obj = new JsonObject();
         try {
             obj.addProperty("id_especialidad", elemento.id_especialidad);
             obj.addProperty("nombre_especialidad", elemento.nombre_especialidad);
@@ -87,21 +88,21 @@ public class Gestion_especialidad {
             obj.addProperty("fecha2",fecha2);
             obj.addProperty("tipo_consulta",tipo_consulta);
             obj.addProperty("llave_ws",llave_ws);
-            if(Gestion_administrador.getAdministrador_actual() != null)
-            {
-                obj.addProperty("nombre_admnistrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
-                obj.addProperty("contraseña_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
-            }
-            else
-            {
-                obj.addProperty("nombre_admnistrador_ol","");
-                obj.addProperty("contraseña_administrador_ol","");
-            }
+            adjuntarAcceso();
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
         HashMap<String,String> hashMap = new HashMap<>();
         hashMap.put("json",obj.toString());
         return hashMap;
+    }
+
+    private void adjuntarAcceso()
+    {
+        if(Gestion_administrador.getAdministrador_actual() != null)
+        {
+            obj.addProperty("NA",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
+            obj.addProperty("CA",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
+        }
     }
 }

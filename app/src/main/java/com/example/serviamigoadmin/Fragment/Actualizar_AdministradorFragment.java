@@ -39,6 +39,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static android.app.Activity.RESULT_OK;
 
 
@@ -70,7 +72,7 @@ public class Actualizar_AdministradorFragment extends Fragment {
     private RadioButton femeninoRadioButton;
     private RadioButton masculinoRadioButton;
     private Button actualizar_datos;
-    private ImageView fotoPerfilImageView;
+    private CircleImageView fotoPerfilImageView;
     private static final int PICK_IMAGE = 100;
     private Uri imageUri;
     private Bitmap bitmap = null;
@@ -138,6 +140,14 @@ public class Actualizar_AdministradorFragment extends Fragment {
         subirFotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(bitmap == null)
+                {
+                    Toast.makeText(view.getContext(), "Bipmap vacio", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(view.getContext(), "Bipmap lleno", Toast.LENGTH_SHORT).show();
+                }
                 openGallery();
             }
         });
@@ -154,6 +164,7 @@ public class Actualizar_AdministradorFragment extends Fragment {
                 imagen_modificada = false;
                 bitmap = null;
                 Picasso.with(getContext()).load(R.drawable.perfil2).into(fotoPerfilImageView);
+                Toast.makeText(view.getContext(), "Vaciar bitmap", Toast.LENGTH_SHORT).show();
             }
         });
         fechaNacimientoEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -231,16 +242,16 @@ public class Actualizar_AdministradorFragment extends Fragment {
         return view;
     }
 
+    private void openGallery(){
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, PICK_IMAGE);
+    }
+
     public void tomarFoto() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
-    }
-
-    private void openGallery(){
-        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(gallery, PICK_IMAGE);
     }
 
     @Override
@@ -252,9 +263,18 @@ public class Actualizar_AdministradorFragment extends Fragment {
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(view.getContext().getContentResolver(), imageUri);
                 imagen_modificada = true;
-                imagen_eliminada = false;
+                if(bitmap == null)
+                {
+                    Toast.makeText(view.getContext(), "Error bitmap mo cargado", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(view.getContext(), "Bipmap cargado", Toast.LENGTH_SHORT).show();
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
+                Toast.makeText(view.getContext(), "Error al cargar bitmap", Toast.LENGTH_SHORT).show();
             }
         }
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
@@ -262,7 +282,6 @@ public class Actualizar_AdministradorFragment extends Fragment {
             bitmap = (Bitmap) extras.get("data");
             fotoPerfilImageView.setImageBitmap(bitmap);
             imagen_modificada = true;
-            imagen_eliminada = false;
         }
     }
 
@@ -356,13 +375,10 @@ public class Actualizar_AdministradorFragment extends Fragment {
     {
 
         HashMap<String,String> params = new Gestion_administrador().consultar_administrador_por_id(Gestion_administrador.getAdministrador_actual().id_administrador);
-        Log.d("parametros", params.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override
             public void onResponse(String response) {
-                //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
-                Log.d("response", response);
                 if(!response.equals(""))
                 {
                     ArrayList<Administrador> arrayList = new Gestion_administrador().generar_json(response);
@@ -381,7 +397,6 @@ public class Actualizar_AdministradorFragment extends Fragment {
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.w("Response.error", error.toString());
             }
         };
         StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, errorListener);

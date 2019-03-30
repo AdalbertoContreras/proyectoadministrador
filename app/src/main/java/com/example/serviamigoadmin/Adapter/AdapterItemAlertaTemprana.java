@@ -77,12 +77,6 @@ public class AdapterItemAlertaTemprana extends  RecyclerView.Adapter<AdapterItem
             asunto = itemView.findViewById(R.id.asuntoTextViiewCobsultaAlertaTemprana);
             atendidoCheckBox = itemView.findViewById(R.id.atendidoCheckBox);
             view = itemView;
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(view.getContext(), "abrir chat", Toast.LENGTH_SHORT).show();
-                }
-            });
         }
 
         private void atenderAlertaTemprana(Alerta_temprana alerta_temprana, boolean atender)
@@ -96,7 +90,6 @@ public class AdapterItemAlertaTemprana extends  RecyclerView.Adapter<AdapterItem
             {
                 hashMap = new Gestion_alerta_temprana().no_atendido(alerta_temprana.id_alerta_temprana);
             }
-            Log.d("parametros", hashMap.toString());
             Response.Listener<String> stringListener = new Response.Listener<String>()
             {
                 @Override
@@ -108,7 +101,6 @@ public class AdapterItemAlertaTemprana extends  RecyclerView.Adapter<AdapterItem
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                    Log.d("Reponse.Error",error.toString());
                 }
             };
             StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, errorListener);

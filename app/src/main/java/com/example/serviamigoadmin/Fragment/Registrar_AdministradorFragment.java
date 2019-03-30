@@ -164,7 +164,6 @@ public class Registrar_AdministradorFragment extends Fragment {
     private void existeNombreCuenta()
     {
         final HashMap<String, String> hashMap = new Gestion_administrador().consultar_por_nombre_cuenta_num(nombreCuentaEditText.getText().toString());
-        Log.d("parametros", hashMap.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override
@@ -264,7 +263,6 @@ public class Registrar_AdministradorFragment extends Fragment {
     private void validarNombreCuentaRegistro()
     {
         final HashMap<String, String> hashMap = new Gestion_administrador().consultar_por_nombre_cuenta_num(nombreCuentaEditText.getText().toString());
-        Log.d("parametros", hashMap.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override
@@ -303,7 +301,6 @@ public class Registrar_AdministradorFragment extends Fragment {
     private void registrar_administrador(Administrador administrador)
     {
         final HashMap<String, String> hashMap = new Gestion_administrador().registrar_administrador(administrador, sexualidarReproductivaSelecionada, identidadSelecionada, nutricionSelecionada, embarazoSelecionada);
-        Log.d("parametros", hashMap.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override

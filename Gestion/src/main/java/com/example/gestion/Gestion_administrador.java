@@ -16,8 +16,8 @@ public class Gestion_administrador{
     private String llave_ws = "administrador";
     private JsonObject obj;
     //#############################################################################################\\
-    private final String NOMBRE_ADMINISTRADOR_OL = "nombre_administrador_ol";
-    private final String CONTRASENA_ADMINISTRADOR_OL = "contrasena_administrador_ol";
+    private final String NOMBRE_ADMINISTRADOR_OL = "NA";
+    private final String CONTRASENA_ADMINISTRADOR_OL = "CA";
     //#############################################################################################\\
     private final String ID_ADMINISTRADOR = "id_administrador";
     private final String TIPO_ADMINISTRADOR = "tipo_administrador";
@@ -100,22 +100,6 @@ public class Gestion_administrador{
         try {
             obj.addProperty(NOMBRE_CUENTA_ADMINISTRADOR,nombre_cuenta);
             obj.addProperty(TIPO_CONSULTA,"consultar_por_nombre_cuenta_num");
-            obj.addProperty(LLAVE_WS,llave_ws);
-            adjuntar_aseso();
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
-        }
-        HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put(JSON,obj.toString());
-        return hashMap;
-    }
-
-    public HashMap<String, String> consultar_administradores_por_especialidad(int especialidad)
-    {
-        obj = new JsonObject();
-        try {
-            obj.addProperty(ESPECIALIDAD, especialidad);
-            obj.addProperty(TIPO_CONSULTA,"consultar_por_especialidad");
             obj.addProperty(LLAVE_WS,llave_ws);
             adjuntar_aseso();
         } catch (JsonSyntaxException e) {

@@ -17,6 +17,7 @@ public class Gestion_categoria_noticia {
     private static String fecha1;
     private static String fecha2;
     private static String tipo_consulta;
+    private JsonObject obj;
 
     private static void iniciar_axu()
     {
@@ -81,7 +82,7 @@ public class Gestion_categoria_noticia {
 
     private HashMap<String,String> construir_parametros(Categoria_noticia_manual elemento)
     {
-        JsonObject obj = new JsonObject();
+        obj = new JsonObject();
         try {
             obj.addProperty("id_categoria_noticia_manual", elemento.id_categoria_noticia_manual);
             obj.addProperty("nombre_categoria_noticia", elemento.nombre_categoria_noticia);
@@ -89,21 +90,21 @@ public class Gestion_categoria_noticia {
             obj.addProperty("fecha2",fecha2);
             obj.addProperty("tipo_consulta",tipo_consulta);
             obj.addProperty("llave_ws",llave_ws);
-            if(Gestion_administrador.getAdministrador_actual() != null)
-            {
-                obj.addProperty("nombre_admnistrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
-                obj.addProperty("contraseña_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
-            }
-            else
-            {
-                obj.addProperty("nombre_admnistrador_ol","");
-                obj.addProperty("contraseña_administrador_ol","");
-            }
+            adjuntarAcceso();
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
         HashMap<String,String> hashMap = new HashMap<>();
         hashMap.put("json",obj.toString());
         return hashMap;
+    }
+
+    private void adjuntarAcceso()
+    {
+        if(Gestion_administrador.getAdministrador_actual() != null)
+        {
+            obj.addProperty("NA",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
+            obj.addProperty("CA",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
+        }
     }
 }

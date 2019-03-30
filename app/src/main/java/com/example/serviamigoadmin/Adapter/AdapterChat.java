@@ -83,12 +83,18 @@ public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.ViewHolderDat
             {
                 usuario = usuarios.get(0);
                 nombre_usuarioTextView.setText(usuario.nombres_usuario + " " + usuario.apellidos_usuario);
-                Picasso.with(view.getContext()).load(usuario.foto_perfil_usuario).placeholder(R.drawable.ic_iconousuario)
-                        .error(R.drawable.ic_iconousuario).into(asesoriaImageView);
+                Picasso.with(view.getContext())
+                        .load(usuario.foto_perfil_usuario)
+                        .placeholder(R.drawable.perfil2)
+                        .error(R.drawable.ic_iconousuario)
+                        .into(asesoriaImageView);
             }
             else
             {
                 nombre_usuarioTextView.setText(" ");
+                Picasso.with(view.getContext())
+                        .load(R.drawable.ic_iconousuario)
+                        .into(asesoriaImageView);
             }
             if(!especialidades.isEmpty())
             {

@@ -22,7 +22,6 @@ public class Config {
             int permissionCheck = ContextCompat.checkSelfPermission(
                     activity, android.Manifest.permission.READ_PHONE_STATE );
             if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                Log.i("Mensaje", "No se tiene permiso.");
                 if(permiso_pedido == 0)
                 {
                     ActivityCompat.requestPermissions(activity, new String[]{android.Manifest.permission.READ_PHONE_STATE }, 225);
@@ -30,7 +29,6 @@ public class Config {
                 }
 
             } else {
-                Log.i("Mensaje", "Se tiene permiso!");
                 imei = Settings.Secure.getString(activity.getBaseContext().getContentResolver(), Settings.Secure.ANDROID_ID);
             }
         } else{

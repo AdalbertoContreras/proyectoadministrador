@@ -155,20 +155,16 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
             agregar_nuevas_alertas = true;
             params = new Gestion_alerta_temprana().consultar_mayor(id_maximo);
         }
-        Log.d("parametros", params.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override
             public void onResponse(String response) {
-                //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
-                Log.d("respuesta", response);
                 llenar_alertas_tempranas(response);
             }
         };
         Response.ErrorListener errorListener =  new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("Reponse.Error",error.toString() + " Alerta temprana no consultada");
             }
         };
         StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, errorListener);
@@ -191,6 +187,7 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
         else
         {
             alerta_tempranaArrayList = aux;
+            id_maximo = alerta_tempranaArrayList.get(0).id_alerta_temprana;
         }
         if(!agregar_nuevas_alertas)
         {

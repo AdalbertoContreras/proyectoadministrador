@@ -101,20 +101,16 @@ public class ConsultarAsesoresFragment extends Fragment {
     private void consultar_asesores()
     {
         HashMap<String,String> params = new Gestion_administrador().consultar_asesores();
-        Log.d("parametros", params.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override
             public void onResponse(String response) {
-                //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
-                Log.d("respuesta", response);
                 llenar_asesores(response);
             }
         };
         Response.ErrorListener errorListener =  new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("Reponse.Error",error.toString());
             }
         };
         StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, errorListener);

@@ -164,7 +164,6 @@ public class ListaNoticiasFragment extends Fragment {
         Response.ErrorListener errorListener =  new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("Reponse.Error",error.toString() + " Alerta temprana no consultada");
             }
         };
         StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, errorListener);
@@ -193,7 +192,6 @@ public class ListaNoticiasFragment extends Fragment {
     private void cargar_categorias()
     {
         HashMap<String, String> hashMap = new Gestion_categoria_noticia().consultar_categorias();
-        Log.d("parametros", hashMap.toString());
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override
