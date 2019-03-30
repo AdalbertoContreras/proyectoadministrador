@@ -454,6 +454,7 @@ public class Navigation extends AppCompatActivity
         }
         if (id == R.id.cerrar_sesion) {
             Log.d("administrador", "null");
+            Gestion_administrador.setAdministrador_actual(null);
             hilo_notificaciones_activo = false;
             hilo_notificacion_iniciado = false;
             notificationManagerCompat = NotificationManagerCompat.from(this);
