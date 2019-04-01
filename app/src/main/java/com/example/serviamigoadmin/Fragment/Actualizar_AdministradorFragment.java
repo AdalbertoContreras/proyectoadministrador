@@ -134,14 +134,6 @@ public class Actualizar_AdministradorFragment extends Fragment {
         subirFotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(bitmap == null)
-                {
-                    Toast.makeText(view.getContext(), "Bipmap vacio", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    Toast.makeText(view.getContext(), "Bipmap lleno", Toast.LENGTH_SHORT).show();
-                }
                 openGallery();
             }
         });
@@ -158,7 +150,6 @@ public class Actualizar_AdministradorFragment extends Fragment {
                 imagen_modificada = false;
                 bitmap = null;
                 Picasso.with(getContext()).load(R.drawable.perfil2).into(fotoPerfilImageView);
-                Toast.makeText(view.getContext(), "Vaciar bitmap", Toast.LENGTH_SHORT).show();
             }
         });
         fechaNacimientoEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -257,18 +248,8 @@ public class Actualizar_AdministradorFragment extends Fragment {
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(view.getContext().getContentResolver(), imageUri);
                 imagen_modificada = true;
-                if(bitmap == null)
-                {
-                    Toast.makeText(view.getContext(), "Error bitmap mo cargado", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    Toast.makeText(view.getContext(), "Bipmap cargado", Toast.LENGTH_SHORT).show();
-                }
-
             } catch (IOException e) {
                 e.printStackTrace();
-                Toast.makeText(view.getContext(), "Error al cargar bitmap", Toast.LENGTH_SHORT).show();
             }
         }
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {

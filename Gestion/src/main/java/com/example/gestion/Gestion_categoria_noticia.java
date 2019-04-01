@@ -1,6 +1,5 @@
 package com.example.gestion;
 
-import com.example.modelo.Boton;
 import com.example.modelo.Categoria_noticia_manual;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

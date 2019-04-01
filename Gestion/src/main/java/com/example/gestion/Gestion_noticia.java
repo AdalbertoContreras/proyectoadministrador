@@ -1,7 +1,5 @@
 package com.example.gestion;
 
-import com.example.modelo.Imagen_noticia;
-import com.example.modelo.Movil_registro;
 import com.example.modelo.Noticia;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

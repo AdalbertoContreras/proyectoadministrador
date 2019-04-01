@@ -2,7 +2,9 @@ package com.example.serviamigoadmin;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,14 +51,14 @@ public class    LoginActivity extends AppCompatActivity {
     private EditText cuentaEditText;
     private EditText contraseñaEditText;
     private ProgressDialog progressDialog;
-
+    private static SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Navigation.hilo_notificacion_iniciado = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
-
+        recuperarSesion();
         progressDialog = new ProgressDialog(LoginActivity.this);
         cuentaEditText = findViewById(R.id.nombreCuentaEditTextLogin);
         contraseñaEditText = (EditText) findViewById(R.id.contraseñaEditTextLogin);
@@ -125,6 +127,11 @@ public class    LoginActivity extends AppCompatActivity {
         {
             administrador.contrasena_administrador = contraseñaEditText.getText().toString();
         }
+        iniciarSesion(administrador);
+    }
+
+    private void iniciarSesion(Administrador administrador)
+    {
         HashMap<String,String> params = new Gestion_administrador().validar_administrador(administrador);
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
@@ -147,7 +154,7 @@ public class    LoginActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        asignar_aministrador(val);
+                        prepararAdministrador(val, contraseñaEditText.getText().toString());
                     }
                 }
                 catch(NumberFormatException exc)
@@ -160,6 +167,7 @@ public class    LoginActivity extends AppCompatActivity {
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                quitarSesionAdministrador();
                 Toast.makeText(getBaseContext(), "Ocurrio un error en el servidor", Toast.LENGTH_LONG).show();
                 progressDialog.dismiss();
             }
@@ -168,11 +176,16 @@ public class    LoginActivity extends AppCompatActivity {
         MySocialMediaSingleton.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
     }
 
-    private void asignar_aministrador(int id_administrador)
+    private void prepararAdministrador(int id_administrador, final String contrasena)
     {
         Administrador administrador = new Administrador();
         administrador.nombre_cuenta_administrador = cuentaEditText.getText().toString();
         administrador.contrasena_administrador = contraseñaEditText.getText().toString();
+        asignarAdministrador(administrador, contrasena, id_administrador);
+    }
+
+    private void asignarAdministrador(Administrador administrador, final String contrasena, int id_administrador)
+    {
         Gestion_administrador.setAdministrador_actual(administrador);
         HashMap<String,String> params = new Gestion_administrador().consultar_administrador_por_id(id_administrador);
         Response.Listener<String> stringListener = new Response.Listener<String>()
@@ -181,21 +194,21 @@ public class    LoginActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 if(!response.equals(""))
                 {
+                    Log.d("response", response);
                     ArrayList<Administrador> arrayList = new Gestion_administrador().generar_json(response);
                     if(!arrayList.isEmpty())
                     {
-
-                        Administrador administrador = arrayList.get(0);
-                        if(administrador.tipo_administrador == 0)
+                        arrayList.get(0).contrasena_administrador = contrasena;
+                        Gestion_administrador.setAdministrador_actual(arrayList.get(0));
+                        if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 1)
                         {
                             Toast.makeText(getBaseContext(), "Administrador conectado", Toast.LENGTH_LONG).show();
                         }
-                        if(administrador.tipo_administrador == 2)
+                        if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 2)
                         {
                             Toast.makeText(getBaseContext(), "Asesor conectado", Toast.LENGTH_LONG).show();
                         }
-                        administrador.contrasena_administrador = contraseñaEditText.getText().toString();
-                        Gestion_administrador.setAdministrador_actual(administrador);
+                        salvarSesion();
                         Intent intent = new Intent(LoginActivity.this, Navigation.class);
                         progressDialog.dismiss();
                         contraseñaEditText.setText("");
@@ -217,6 +230,7 @@ public class    LoginActivity extends AppCompatActivity {
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                quitarSesionAdministrador();
                 Toast.makeText(getBaseContext(), "Ocurrio un error en el servidor", Toast.LENGTH_LONG).show();
                 progressDialog.dismiss();
             }
@@ -225,15 +239,45 @@ public class    LoginActivity extends AppCompatActivity {
         MySocialMediaSingleton.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
     }
 
+    public static void quitarSesionAdministrador()
+    {
+        SharedPreferences.Editor myEditor = prefs.edit();
+        myEditor.putInt("ID", -1);
+        myEditor.putString("USER", "-1");
+        myEditor.putString("PASS", "-1");
+        myEditor.commit();
+    }
+
+    private void salvarSesion()
+    {
+        prefs = getSharedPreferences("SESION", Context.MODE_PRIVATE);
+        SharedPreferences.Editor myEditor = prefs.edit();
+        myEditor.putInt("ID", Gestion_administrador.getAdministrador_actual().id_administrador);
+        myEditor.putString("USER", Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
+        myEditor.putString("PASS", Gestion_administrador.getAdministrador_actual().contrasena_administrador);
+        myEditor.commit();
+    }
+
+    private void recuperarSesion()
+    {
+        prefs = getSharedPreferences("SESION", Context.MODE_PRIVATE);
+        int id = prefs.getInt("ID", -1);
+        String user = prefs.getString("USER", "-1");
+        String pass = prefs.getString("PASS", "-1");
+        if(id != -1 && !user.equals("-1") && !pass.equals("-1"))
+        {
+            Administrador administrador = new Administrador();
+            administrador.id_administrador = id;
+            administrador.nombre_cuenta_administrador = user;
+            administrador.contrasena_administrador = pass;
+            asignarAdministrador(administrador, administrador.contrasena_administrador, administrador.id_administrador);
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        if(Gestion_administrador.getAdministrador_actual() != null)
-        {
-            Intent intent = new Intent(LoginActivity.this, Navigation.class);
-            contraseñaEditText.setText("");
-            startActivity(intent);
-        }
+
     }
 }
 

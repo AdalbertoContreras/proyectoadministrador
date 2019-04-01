@@ -4,7 +4,9 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -95,7 +97,7 @@ public class Navigation extends AppCompatActivity
             setContentView(R.layout.navigation_administrador);
 
         }
-        else
+        else if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 2)
         {
             setContentView(R.layout.navigation_asesor);
 
@@ -468,6 +470,7 @@ public class Navigation extends AppCompatActivity
                 chat_asesorias_local = null;
             }
             aplicacion_terminada = true;
+            LoginActivity.quitarSesionAdministrador();
             onBackPressed();
             return false;
         }

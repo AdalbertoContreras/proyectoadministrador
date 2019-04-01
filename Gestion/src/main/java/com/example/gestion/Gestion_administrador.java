@@ -370,7 +370,7 @@ public class Gestion_administrador{
         return administrador_actual;
     }
 
-    public static void setAdministrador_actual(Administrador administrador_actual) {
-        Gestion_administrador.administrador_actual = administrador_actual;
+    public static void setAdministrador_actual(Administrador administrador_actual_e) {
+        administrador_actual = administrador_actual_e;
     }
 }

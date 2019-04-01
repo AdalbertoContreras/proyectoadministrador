@@ -68,14 +68,13 @@
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="65dp"
+                android:layout_height="70dp"
                 android:background="@color/Gris3"
-                android:elevation="20dp"
-                >
+                android:elevation="20dp">
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
                     android:paddingTop="15dp"
                     android:paddingRight="10dp">
@@ -84,6 +83,7 @@
                         android:id="@+id/tituloEditTextRegistrarNoticia"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
                         android:hint="Titulo:"
                         android:textSize="14sp" />
 

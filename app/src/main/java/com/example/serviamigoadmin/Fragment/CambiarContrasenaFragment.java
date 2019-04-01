@@ -1,6 +1,7 @@
 package com.example.serviamigoadmin.Fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -164,6 +165,12 @@ public class CambiarContrasenaFragment extends Fragment {
                             Toast.makeText(view.getContext(), "Ingrese de nuevo la nueva contraseña.", Toast.LENGTH_LONG).show();
                             return;
                         }
+                        if(contraseñaNuevaEditText.getText().toString().equals(comprobarContraseñaNuevaEditText.getText().toString())
+                                && contraseñaNuevaEditText.getText().toString().equals(contraseñaCuentaEditText.getText().toString()))
+                        {
+                            Toast.makeText(view.getContext(), "Las contraseñas ingresadas tanto de la actual y la nueva son iguales, por favor ingrese una contraseña diferente a la actual.", Toast.LENGTH_LONG).show();
+                            return;
+                        }
                         if(!contraseñaNuevaEditText.getText().toString().equals(comprobarContraseñaNuevaEditText.getText().toString()))
                         {
                             Toast.makeText(view.getContext(), "Las contraseñas ingresadas no coinciden.", Toast.LENGTH_LONG).show();
@@ -183,7 +190,7 @@ public class CambiarContrasenaFragment extends Fragment {
                 catch (NumberFormatException exc)
                 {
                     Toast.makeText(view.getContext(), "No cuenta con acceso a cambiar la contraseña de esta cuenta", Toast.LENGTH_LONG).show();
-                    Gestion_usuario.getUsuario_online().contrasena_usuario = contraseña_anterior;
+                    Gestion_administrador.getAdministrador_actual().contrasena_administrador = contraseña_anterior;
                 }
             }
         };
@@ -191,7 +198,7 @@ public class CambiarContrasenaFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(view.getContext(),"Ha ocurrido un error en el servidor", Toast.LENGTH_LONG).show();
-                Gestion_usuario.getUsuario_online().contrasena_usuario = contraseña_anterior;
+                Gestion_administrador.getAdministrador_actual().contrasena_administrador = contraseña_anterior;
             }
         };
         StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, errorListener);
@@ -214,6 +221,7 @@ public class CambiarContrasenaFragment extends Fragment {
                     if(val > 0)
                     {
                         Gestion_administrador.getAdministrador_actual().contrasena_administrador = administrador_espejo.contrasena_administrador;
+                        salvarSesion();
                         limpiar_contraseñas();
                         Toast.makeText(view.getContext(),"Datos de la cuenta actualizados", Toast.LENGTH_LONG).show();
                     }
@@ -232,6 +240,16 @@ public class CambiarContrasenaFragment extends Fragment {
         };
         StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, errorListener);
         MySocialMediaSingleton.getInstance(view.getContext()).addToRequestQueue(stringRequest);
+    }
+
+    private void salvarSesion()
+    {
+        SharedPreferences prefs = getActivity().getSharedPreferences("SESION", Context.MODE_PRIVATE);
+        SharedPreferences.Editor myEditor = prefs.edit();
+        myEditor.putInt("ID", Gestion_administrador.getAdministrador_actual().id_administrador);
+        myEditor.putString("USER", Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
+        myEditor.putString("PASS", Gestion_administrador.getAdministrador_actual().contrasena_administrador);
+        myEditor.commit();
     }
 
     private void limpiar_contraseñas()
