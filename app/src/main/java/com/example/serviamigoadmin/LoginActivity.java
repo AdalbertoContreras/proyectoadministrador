@@ -58,7 +58,7 @@ public class    LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        recuperarSesion();
+
         progressDialog = new ProgressDialog(LoginActivity.this);
         cuentaEditText = findViewById(R.id.nombreCuentaEditTextLogin);
         contraseñaEditText = (EditText) findViewById(R.id.contraseñaEditTextLogin);
@@ -103,6 +103,7 @@ public class    LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void abrir_ventana_principal()
     {
@@ -277,7 +278,7 @@ public class    LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        recuperarSesion();
     }
 }
 

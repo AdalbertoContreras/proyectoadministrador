@@ -68,55 +68,52 @@ public class Navigation extends AppCompatActivity
     private ConsultaAlertasTempranasFragment consultaAlertasTempranasFragment;
     private NotificationManagerCompat notificationManagerCompat;
     private static ArrayList<Chat_asesoria> chat_asesorias_local;
-    private ArrayList<Chat_asesoria> chat_asesorias_remoto;
     private boolean hilo_notificaciones_activo = false;
     private final String CHANEL_ID = "NOTIFICACION";
     private DrawerLayout drawer;
     public static boolean hilo_notificacion_iniciado;
-    private final int CICLO_NOTIFICACIONES = 3000;
+    private final int CICLO_NOTIFICACIONES = 5000;
     private final int SUMA = 100;
     private boolean aplicacion_terminada;
-
     private TextView tiulo_tollba;
-
-
-
 
     public Navigation()
     {
     }
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 1)
+        if(Gestion_administrador.getAdministrador_actual() != null)
         {
-            setContentView(R.layout.navigation_administrador);
-
+            if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 1)
+            {
+                setContentView(R.layout.navigation_administrador);
+            }
+            else if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 2)
+            {
+                setContentView(R.layout.navigation_asesor);
+            }
+            iniciarActividadesNormales();
         }
-        else if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 2)
+        else
         {
-            setContentView(R.layout.navigation_asesor);
-
+            recuperarSesion();
         }
 
+    }
 
+    private void iniciarActividadesNormales()
+    {
         tiulo_tollba= findViewById(R.id.titulo_toolbar);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         consultaAlertasTempranasFragment = new ConsultaAlertasTempranasFragment();
-
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         getSupportFragmentManager().beginTransaction().add(R.id.framengMaster,new Vista_vacia_fragment()).commit();
@@ -138,6 +135,101 @@ public class Navigation extends AppCompatActivity
             }
         });
         aplicacion_terminada = false;
+    }
+
+    private void recuperarSesion()
+    {
+        SharedPreferences prefs = getSharedPreferences("SESION", Context.MODE_PRIVATE);
+        int id = prefs.getInt("ID", -1);
+        String user = prefs.getString("USER", "-1");
+        String pass = prefs.getString("PASS", "-1");
+        if(id != -1 && !user.equals("-1") && !pass.equals("-1"))
+        {
+            Administrador administrador = new Administrador();
+            administrador.id_administrador = id;
+            administrador.nombre_cuenta_administrador = user;
+            administrador.contrasena_administrador = pass;
+            asignarAdministrador(administrador, administrador.contrasena_administrador, administrador.id_administrador);
+        }
+        else
+        {
+            cerrarSesion();
+        }
+    }
+
+    private void salvarSesion()
+    {
+        SharedPreferences prefs = getSharedPreferences("SESION", Context.MODE_PRIVATE);
+        SharedPreferences.Editor myEditor = prefs.edit();
+        myEditor.putInt("ID", Gestion_administrador.getAdministrador_actual().id_administrador);
+        myEditor.putString("USER", Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
+        myEditor.putString("PASS", Gestion_administrador.getAdministrador_actual().contrasena_administrador);
+        myEditor.commit();
+    }
+
+    private void asignarAdministrador(Administrador administrador, final String contrasena, int id_administrador)
+    {
+        Gestion_administrador.setAdministrador_actual(administrador);
+        HashMap<String,String> params = new Gestion_administrador().consultar_administrador_por_id(id_administrador);
+        Response.Listener<String> stringListener = new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response) {
+                if(!response.equals(""))
+                {
+                    Log.d("response", response);
+                    ArrayList<Administrador> arrayList = new Gestion_administrador().generar_json(response);
+                    if(!arrayList.isEmpty())
+                    {
+                        arrayList.get(0).contrasena_administrador = contrasena;
+                        Gestion_administrador.setAdministrador_actual(arrayList.get(0));
+                        salvarSesion();
+                        if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 1)
+                        {
+                            setContentView(R.layout.navigation_administrador);
+                        }
+                        else if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 2)
+                        {
+                            setContentView(R.layout.navigation_asesor);
+                        }
+                        iniciarActividadesNormales();
+                    }
+                    else
+                    {
+                        cerrarSesion();
+                    }
+                }
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                quitarSesionAdministrador();
+                cerrarSesion();
+            }
+        };
+        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, errorListener);
+        MySocialMediaSingleton.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
+    }
+
+    private void cerrarSesion()
+    {
+        setContentView(R.layout.navigation_administrador);
+        tiulo_tollba= findViewById(R.id.titulo_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Gestion_administrador.setAdministrador_actual(null);
+        onBackPressed();
+        finish();
+    }
+
+    public void quitarSesionAdministrador()
+    {
+        SharedPreferences prefs = getSharedPreferences("SESION", Context.MODE_PRIVATE);
+        SharedPreferences.Editor myEditor = prefs.edit();
+        myEditor.putInt("ID", -1);
+        myEditor.putString("USER", "-1");
+        myEditor.putString("PASS", "-1");
+        myEditor.commit();
     }
 
     private void iniciar_hilo_notificaciones()
@@ -179,7 +271,7 @@ public class Navigation extends AppCompatActivity
             {
                 @Override
                 public void onResponse(String response) {
-                    chat_asesorias_remoto = new Gestion_chat_asesoria().generar_json(response);
+                    ArrayList<Chat_asesoria> chat_asesorias_remoto = new Gestion_chat_asesoria().generar_json(response);
                     if(chat_asesorias_remoto != null)
                     {
                         if(Gestion_chat_asesoria.getChat_asesorias() == null)
@@ -290,18 +382,6 @@ public class Navigation extends AppCompatActivity
         return null;
     }
 
-    public void reemplazar_chat_local(Chat_asesoria chat_asesoria)
-    {
-        final int TAM = chat_asesorias_local.size();
-        for(int i = 0; i < TAM; i ++)
-        {
-            if(chat_asesorias_local.get(i).id_chat_asesoria == chat_asesoria.id_chat_asesoria)
-            {
-                chat_asesorias_local.add(i, chat_asesoria);
-            }
-        }
-    }
-
     private void createNotificationChanel()
     {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -363,7 +443,6 @@ public class Navigation extends AppCompatActivity
     {
         if(aplicacion_terminada)
         {
-            Gestion_administrador.setAdministrador_actual(null);
             Intent intent = new Intent(getBaseContext(), LoginActivity.class);
             startActivity(intent);
         }
