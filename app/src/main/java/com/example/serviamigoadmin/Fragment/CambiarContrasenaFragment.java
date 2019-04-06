@@ -222,8 +222,16 @@ public class CambiarContrasenaFragment extends Fragment {
                     {
                         Gestion_administrador.getAdministrador_actual().contrasena_administrador = administrador_espejo.contrasena_administrador;
                         salvarSesion();
-                        limpiar_contraseñas();
+                        //limpiar_contraseñas();
                         Toast.makeText(view.getContext(),"Datos de la cuenta actualizados", Toast.LENGTH_LONG).show();
+                        if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 1)
+                        {
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framengMaster,new ConsultaAlertasTempranasFragment()).commit();
+                        }
+                        else
+                        {
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framengMaster,new MisAsesoriasFragment()).commit();
+                        }
                     }
                 }
                 catch (NumberFormatException exc)

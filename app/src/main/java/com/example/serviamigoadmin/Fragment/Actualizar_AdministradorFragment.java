@@ -115,7 +115,7 @@ public class Actualizar_AdministradorFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_actualizar_mis_datos, container, false);
-        actualizar_perfil();
+        actualizar_foto_perfil();
         progressDialog = new ProgressDialog(getContext());
         nombresEditText = view.findViewById(R.id.nombresAsesorEditText);
         apellidosEditText = view.findViewById(R.id.apellidosAsesorEditText);
@@ -305,9 +305,21 @@ public class Actualizar_AdministradorFragment extends Fragment {
                     {
                         progressDialog.dismiss();
                         Toast.makeText(getContext(), "Cuenta actualizada con exito", Toast.LENGTH_SHORT).show();
-                        Gestion_administrador.setAdministrador_actual(administrador);
-                        actualizar_perfil();
-                        cargar_datos_administrador();
+                        Gestion_administrador.getAdministrador_actual().nombres_administrador = administrador.nombres_administrador;
+                        Gestion_administrador.getAdministrador_actual().apellidos_administrador = administrador.apellidos_administrador;
+                        Gestion_administrador.getAdministrador_actual().fecha_nacimiento_administrador = administrador.fecha_nacimiento_administrador;
+                        Gestion_administrador.getAdministrador_actual().sexo_administrador = administrador.sexo_administrador;
+                        Gestion_administrador.getAdministrador_actual().direccion_administrador = administrador.direccion_administrador;
+                        Gestion_administrador.getAdministrador_actual().numero_telefono_administrador = administrador.numero_telefono_administrador;
+                        Gestion_administrador.getAdministrador_actual().correo_electronico_administrador = administrador.numero_telefono_administrador;
+                        if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 1)
+                        {
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framengMaster,new ConsultaAlertasTempranasFragment()).commit();
+                        }
+                        else
+                        {
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framengMaster,new MisAsesoriasFragment()).commit();
+                        }
                     }
                     else
                     {
@@ -346,7 +358,7 @@ public class Actualizar_AdministradorFragment extends Fragment {
         newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
     }
 
-    private void actualizar_perfil()
+    private void actualizar_foto_perfil()
     {
 
         HashMap<String,String> params = new Gestion_administrador().consultar_administrador_por_id(Gestion_administrador.getAdministrador_actual().id_administrador);
@@ -363,9 +375,6 @@ public class Actualizar_AdministradorFragment extends Fragment {
                         Gestion_administrador.getAdministrador_actual().url_foto_perfil_administrador = administrador.url_foto_perfil_administrador;
                         Picasso.with(view.getContext()).load(Gestion_administrador.getAdministrador_actual().url_foto_perfil_administrador).placeholder(view.getContext().getResources().getDrawable(R.drawable.perfil2)).error(R.drawable.perfil2).into(fotoPerfilImageView);
                     }
-                }
-                else
-                {
                 }
             }
         };

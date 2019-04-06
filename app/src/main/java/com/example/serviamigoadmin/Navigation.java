@@ -488,7 +488,7 @@ public class Navigation extends AppCompatActivity
 
 
         if (id == R.id.consulta_alertas_tempranas) {
-            fragment = consultaAlertasTempranasFragment;
+            fragment = new ConsultaAlertasTempranasFragment();
             selecionado = true;
             tiulo_tollba.setText("Lista Alertas");
 

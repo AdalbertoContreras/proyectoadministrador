@@ -86,6 +86,7 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
     private int id_maximo = 0;
     private AdapterItemAlertaTemprana adapterItemCliente;
     private boolean agregar_nuevas_alertas = false;
+    private static int semilla = 0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -99,6 +100,7 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        semilla ++;
         cont_m = 5000;
         seguir = true;
         generando_consulta = false;
@@ -106,7 +108,8 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while(seguir)
+                int semillaCapturada = semilla;
+                while(semillaCapturada == semilla)
                 {
                     if(cont_m >= 5000)
                     {
@@ -187,7 +190,14 @@ public class ConsultaAlertasTempranasFragment extends Fragment {
         else
         {
             alerta_tempranaArrayList = aux;
-            id_maximo = alerta_tempranaArrayList.get(0).id_alerta_temprana;
+            if(!alerta_tempranaArrayList.isEmpty())
+            {
+                id_maximo = alerta_tempranaArrayList.get(0).id_alerta_temprana;
+            }
+            else
+            {
+                id_maximo = 0;
+            }
         }
         if(!agregar_nuevas_alertas)
         {

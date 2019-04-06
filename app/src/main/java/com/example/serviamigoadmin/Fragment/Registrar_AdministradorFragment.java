@@ -58,6 +58,7 @@ public class Registrar_AdministradorFragment extends Fragment {
     private EditText nombreCuentaEditText;
     private EditText fechaNacimientoEditText;
     private EditText contraseñaEditText;
+    private EditText verificarContraseñaEditText;
     private Button especialidadesEditText;
     private RadioButton femeninoRadioButton;
     private RadioButton masculinoRadioButton;
@@ -112,6 +113,7 @@ public class Registrar_AdministradorFragment extends Fragment {
         especialidadesEditText = view.findViewById(R.id.verEspecialidadesTextView);
         nombreCuentaEditText = view.findViewById(R.id.nombreCuentaAsesorEditText);
         contraseñaEditText = view.findViewById(R.id.contraseñaAsesorEditText);
+        verificarContraseñaEditText = view.findViewById(R.id.verificarContraseñaAsesorEditText);
         registrarButton = view.findViewById(R.id.registrarAsesorButton);
         masculinoRadioButton = view.findViewById(R.id.masculinoAsesorRadioButton);
         femeninoRadioButton = view.findViewById(R.id.femeninoAsesorRadioButton);
@@ -235,6 +237,16 @@ public class Registrar_AdministradorFragment extends Fragment {
             Toast.makeText(view.getContext(), "Ingrese la contraseña de la cuenta del asesor", Toast.LENGTH_SHORT).show();
             return;
         }
+        if(verificarContraseñaEditText.getText().toString().isEmpty())
+        {
+            Toast.makeText(view.getContext(), "Por favor ingrese la contraseña a verificar", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(!verificarContraseñaEditText.getText().toString().equals(contraseñaEditText.getText().toString()))
+        {
+            Toast.makeText(view.getContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if(!sexualidarReproductivaSelecionada && !identidadSelecionada && !nutricionSelecionada && !embarazoSelecionada)
         {
             Toast.makeText(view.getContext(), "Escoja una o varias especialidades para el asesor", Toast.LENGTH_SHORT).show();
@@ -344,6 +356,7 @@ public class Registrar_AdministradorFragment extends Fragment {
         correoElectronicoEditText.setText("");
         nombreCuentaEditText.setText("");
         contraseñaEditText.setText("");
+        verificarContraseñaEditText.setText("");
         sexualidarReproductivaSelecionada = false;
         nutricionSelecionada = false;
         embarazoSelecionada = false;

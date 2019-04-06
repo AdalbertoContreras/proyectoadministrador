@@ -82,7 +82,7 @@ public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.ViewHolderDat
             if(!usuarios.isEmpty())
             {
                 usuario = usuarios.get(0);
-                nombre_usuarioTextView.setText(usuario.nombres_usuario + " " + usuario.apellidos_usuario);
+                nombre_usuarioTextView.setText(usuario.nombres_usuario);
                 Picasso.with(view.getContext())
                         .load(usuario.foto_perfil_usuario)
                         .placeholder(R.drawable.perfil2)
