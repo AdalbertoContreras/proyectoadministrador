@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.serviamigoadmin.Fragment.Vista_vacia_fragment">
+    tools:context="com.comfacesar.serviamigoadmin.Fragment.Vista_vacia_fragment">
 
     <LinearLayout
         android:layout_width="match_parent"

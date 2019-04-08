@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.servimaigoadmin">
+    package="com.comfacesar.servimaigoadmin">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -16,17 +16,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name="com.example.serviamigoadmin.Activity.ModificarNoticiaActivity"
+            android:name="com.comfacesar.serviamigoadmin.Activity.ModificarNoticiaActivity"
             android:windowSoftInputMode="stateHidden"
             android:label="@string/title_activity_modificar_noticia"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name="com.example.serviamigoadmin.Activity.ChatAsesoriaActivity"
+            android:name="com.comfacesar.serviamigoadmin.Activity.ChatAsesoriaActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.example.serviamigoadmin.LoginActivity"
+            android:name="com.comfacesar.serviamigoadmin.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -36,7 +36,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.serviamigoadmin.Navigation"
+            android:name="com.comfacesar.serviamigoadmin.Navigation"
             android:label="@string/title_activity_navigation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"

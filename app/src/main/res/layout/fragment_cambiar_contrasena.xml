@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.serviamigoadmin.Fragment.CambiarContrasenaFragment">
+    tools:context="com.comfacesar.serviamigoadmin.Fragment.CambiarContrasenaFragment">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
