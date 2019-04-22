@@ -9,14 +9,19 @@ import com.google.gson.JsonSyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import jdk.nashorn.internal.parser.Token;
+
 public class Gestion_administrador{
-    private static Administrador administrador_actual = null;
-    private String llave_ws = "administrador";
-    private JsonObject obj;
-    //#############################################################################################\\
-    private final String NOMBRE_ADMINISTRADOR_OL = "NA";
-    private final String CONTRASENA_ADMINISTRADOR_OL = "CA";
-    //#############################################################################################\\
+    //############################################################################################\\
+    //###############################PROPIEDADES GLOBALES##########################################\\
+    private String LLAVE_ADMINISTRADOR = Propiedades.LLAVE_ADMINISTRADOR;
+    private final String TIPO_CONSULTA = Propiedades.TIPO_CONSULTA;
+    private final String LLAVE_WS = Propiedades.LLAVE_WS;
+    private final String JSON = Propiedades.JSON;
+    private final String URL_SERVER = Propiedades.URL_SERVER;
+    private final String TOKEN = Propiedades.TOKEN;
+    //############################################################################################\\
+    //###############################PROPIEDADES DE ADMINISTRADOR##################################\\
     private final String ID_ADMINISTRADOR = "id_administrador";
     private final String TIPO_ADMINISTRADOR = "tipo_administrador";
     private final String NOMBRE_CUENTA_ADMINISTRADOR = "nombre_cuenta_administrador";
@@ -53,36 +58,58 @@ public class Gestion_administrador{
     private final String NUMERO_ASESORIAS_DADAS_ADULTEZ_F_ADMINISTRADOR = "numero_asesorias_dadas_adultez_f_administrador";
     private final String NUMERO_ASESORIAS_DADAS_MAYOR_F_ADMINISTRADOR = "numero_asesorias_dadas_mayor_f_administrador";
     private final String NUMERO_ESPECIALIDAD_ADMINISTRADOR = "numero_especialidad_administrador";
-    //#############################################################################################\\
-    private final String TIPO_CONSULTA = "tipo_consulta";
-    private final String LLAVE_WS = "llave_ws";
-    private final String JSON = "json";
+    //############################################################################################\\
+    //###############################PROPIEDADES DE RELACION#######################################\\
     private final String ESPECIALIDAD = "especialidad";
     private final String SEXUALIDAD = "sexualidad";
     private final String IDENTIDAD = "identidad";
     private final String NUTRICION = "nutricion";
     private final String EMBARAZO = "embarazo";
-    public static CambioAdministrador cambioAdministrador = null;
-    public interface CambioAdministrador
-    {
-        void administradorCambiado(Administrador administrador);
-    }
+    //############################################################################################\\
+    //###############################CONSULTAS####################################################\\
+    private final String CONSULTAR_ASESORES = "consultar_asesores";
+    private final String CONSULTAR_POR_NOMBRE_CUENTA_NUM = "consultar_por_nombre_cuenta_num";
+    private final String CAMBIAR_CONTRASENA = "cambiar_contrasena";
+    private final String ACTUALIZAR_DATOS = "actualizar_datos";
+    private final String ADMINISTRADOR_POR_ID = "administrador_por_id";
+    private final String VALIDAR_ADMINISTRADOR = "validar_administrador";
+    private final String HABILITAR_ADMINISTRADOR = "habilitar_administrador";
+    private final String DESHABILITAR_ASESOR = "deshabilitar_asesor";
+    private final String INSERT = "insert";
+    private final String VALIDARTOKENOBTENERADMINISTRADOR = "validartokenobteneradministrador";
+    private final String CERRAR_SESION = "cerrar_sesion";
+    private JsonObject obj;
+    private static Administrador administrador_actual = null;
 
     private void adjuntar_aseso()
     {
         if(getAdministrador_actual() != null)
         {
-            obj.addProperty(NOMBRE_ADMINISTRADOR_OL,administrador_actual.nombre_cuenta_administrador);
-            obj.addProperty(CONTRASENA_ADMINISTRADOR_OL,administrador_actual.contrasena_administrador);
+            obj.addProperty(TOKEN,administrador_actual.token);
         }
+    }
+
+    public HashMap<String, String> cerrar_sesion()
+    {
+        obj = new JsonObject();
+        try {
+            obj.addProperty(TIPO_CONSULTA,CERRAR_SESION);
+            obj.addProperty(LLAVE_WS, LLAVE_ADMINISTRADOR);
+            adjuntar_aseso();
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put(JSON,obj.toString());
+        return hashMap;
     }
 
     public HashMap<String, String> consultar_asesores()
     {
         obj = new JsonObject();
         try {
-            obj.addProperty(TIPO_CONSULTA,"consultar_asesores");
-            obj.addProperty(LLAVE_WS,llave_ws);
+            obj.addProperty(TIPO_CONSULTA,CONSULTAR_ASESORES);
+            obj.addProperty(LLAVE_WS, LLAVE_ADMINISTRADOR);
             adjuntar_aseso();
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
@@ -97,8 +124,8 @@ public class Gestion_administrador{
         obj = new JsonObject();
         try {
             obj.addProperty(NOMBRE_CUENTA_ADMINISTRADOR,nombre_cuenta);
-            obj.addProperty(TIPO_CONSULTA,"consultar_por_nombre_cuenta_num");
-            obj.addProperty(LLAVE_WS,llave_ws);
+            obj.addProperty(TIPO_CONSULTA,CONSULTAR_POR_NOMBRE_CUENTA_NUM);
+            obj.addProperty(LLAVE_WS, LLAVE_ADMINISTRADOR);
             adjuntar_aseso();
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
@@ -114,8 +141,8 @@ public class Gestion_administrador{
         try {
             obj.addProperty(ID_ADMINISTRADOR, administrador.id_administrador);
             obj.addProperty(CONTRASENA_ADMINISTRADOR,administrador.contrasena_administrador);
-            obj.addProperty(TIPO_CONSULTA,"cambiar_contrasena");
-            obj.addProperty(LLAVE_WS,llave_ws);
+            obj.addProperty(TIPO_CONSULTA,CAMBIAR_CONTRASENA);
+            obj.addProperty(LLAVE_WS, LLAVE_ADMINISTRADOR);
             adjuntar_aseso();
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
@@ -131,11 +158,11 @@ public class Gestion_administrador{
         try {
             if(administrador.url_foto_perfil_administrador.equals(administrador.url_foto_perfil_anterior))
             {
-                administrador.url_foto_perfil_administrador = administrador.url_foto_perfil_administrador.replace("http://31.220.63.102/WScomfacesar/","");
+                administrador.url_foto_perfil_administrador = administrador.url_foto_perfil_administrador.replace(URL_SERVER,"");
             }
-            if(administrador.url_foto_perfil_anterior.contains("http://31.220.63.102/WScomfacesar/"))
+            if(administrador.url_foto_perfil_anterior.contains(URL_SERVER))
             {
-                administrador.url_foto_perfil_anterior = administrador.url_foto_perfil_anterior.replace("http://31.220.63.102/WScomfacesar/", "");
+                administrador.url_foto_perfil_anterior = administrador.url_foto_perfil_anterior.replace(URL_SERVER, "");
             }
             obj.addProperty(ID_ADMINISTRADOR, administrador.id_administrador);
             obj.addProperty(NOMBRES_ADMINISTRADOR,administrador.nombres_administrador);
@@ -146,8 +173,8 @@ public class Gestion_administrador{
             obj.addProperty(CORREO_ELECTRONICO_ADMINISTRADOR,administrador.correo_electronico_administrador);
             obj.addProperty(SEXO_ADMINISTRADOR,administrador.sexo_administrador);
             adjuntar_aseso();
-            obj.addProperty(TIPO_CONSULTA,"actualizar_datos");
-            obj.addProperty(LLAVE_WS,llave_ws);
+            obj.addProperty(TIPO_CONSULTA,ACTUALIZAR_DATOS);
+            obj.addProperty(LLAVE_WS, LLAVE_ADMINISTRADOR);
             obj.addProperty(URL_FOTO_PERFIL_ANTERIOR,administrador.url_foto_perfil_anterior);
             obj.addProperty(URL_FOTO_PERFIL_ADMINISTRADOR,administrador.url_foto_perfil_administrador);
         } catch (JsonSyntaxException e) {
@@ -164,8 +191,8 @@ public class Gestion_administrador{
         try {
             obj.addProperty(ID_ADMINISTRADOR, id_administrador);
             adjuntar_aseso();
-            obj.addProperty(TIPO_CONSULTA,"administrador_por_id");
-            obj.addProperty(LLAVE_WS,llave_ws);
+            obj.addProperty(TIPO_CONSULTA,ADMINISTRADOR_POR_ID);
+            obj.addProperty(LLAVE_WS, LLAVE_ADMINISTRADOR);
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
@@ -180,8 +207,23 @@ public class Gestion_administrador{
         try {
             obj.addProperty(NOMBRE_CUENTA_ADMINISTRADOR,administrador.nombre_cuenta_administrador);
             obj.addProperty(CONTRASENA_ADMINISTRADOR,administrador.contrasena_administrador);
-            obj.addProperty(TIPO_CONSULTA,"validar_administrador");
-            obj.addProperty(LLAVE_WS,llave_ws);
+            obj.addProperty(TIPO_CONSULTA,VALIDAR_ADMINISTRADOR);
+            obj.addProperty(LLAVE_WS, LLAVE_ADMINISTRADOR);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put(JSON,obj.toString());
+        return hashMap;
+    }
+
+    public HashMap<String, String> validartokenobteneradministrador(String token)
+    {
+        obj = new JsonObject();
+        try {
+            obj.addProperty(TOKEN,token);
+            obj.addProperty(TIPO_CONSULTA,VALIDARTOKENOBTENERADMINISTRADOR);
+            obj.addProperty(LLAVE_WS, LLAVE_ADMINISTRADOR);
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
@@ -196,8 +238,8 @@ public class Gestion_administrador{
         try {
             obj.addProperty(ID_ADMINISTRADOR, id_administrador);
             adjuntar_aseso();
-            obj.addProperty(TIPO_CONSULTA,"habilitar_administrador");
-            obj.addProperty(LLAVE_WS,llave_ws);
+            obj.addProperty(TIPO_CONSULTA,HABILITAR_ADMINISTRADOR);
+            obj.addProperty(LLAVE_WS, LLAVE_ADMINISTRADOR);
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
@@ -212,38 +254,8 @@ public class Gestion_administrador{
         try {
             obj.addProperty(ID_ADMINISTRADOR, id_administrador);
             adjuntar_aseso();
-            obj.addProperty(TIPO_CONSULTA,"deshabilitar_asesor");
-            obj.addProperty("llave_ws",llave_ws);
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
-        }
-        HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put(JSON,obj.toString());
-        return hashMap;
-    }
-
-    public HashMap<String, String> consultar_activos()
-    {
-        obj = new JsonObject();
-        try {
-            adjuntar_aseso();
-            obj.addProperty(TIPO_CONSULTA,"consultar_activos");
-            obj.addProperty(LLAVE_WS,llave_ws);
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
-        }
-        HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put(JSON,obj.toString());
-        return hashMap;
-    }
-
-    public HashMap<String, String> consultar_bloqueados()
-    {
-        obj = new JsonObject();
-        try {
-            adjuntar_aseso();
-            obj.addProperty(TIPO_CONSULTA,"consultar_bloqueados");
-            obj.addProperty(LLAVE_WS,llave_ws);
+            obj.addProperty(TIPO_CONSULTA,DESHABILITAR_ASESOR);
+            obj.addProperty(LLAVE_WS, LLAVE_ADMINISTRADOR);
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
@@ -282,8 +294,8 @@ public class Gestion_administrador{
             {
                 obj.addProperty(EMBARAZO,1);
             }
-            obj.addProperty(TIPO_CONSULTA,"insert");
-            obj.addProperty(LLAVE_WS,llave_ws);
+            obj.addProperty(TIPO_CONSULTA,INSERT);
+            obj.addProperty(LLAVE_WS, LLAVE_ADMINISTRADOR);
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
@@ -334,6 +346,10 @@ public class Gestion_administrador{
                 {
                     url_foto_perfil_administrador = "";
                 }
+                if(!jsonObject.get(TOKEN).isJsonNull())
+                {
+                    token = jsonObject.get(TOKEN).getAsString();
+                }
                 numero_asesorias_dadas_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_ADMINISTRADOR).getAsInt();
                 numero_asesorias_dadas_primera_infancia_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_PRIMERA_INFANCIA_ADMINISTRADOR).getAsInt();
                 numero_asesorias_dadas_infancia_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_INFANCIA_ADMINISTRADOR).getAsInt();
@@ -354,9 +370,9 @@ public class Gestion_administrador{
                 numero_asesorias_dadas_adultez_f_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_ADULTEZ_F_ADMINISTRADOR).getAsInt();
                 numero_asesorias_dadas_mayor_f_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_MAYOR_F_ADMINISTRADOR).getAsInt();
                 numero_especialidad_administrador = jsonObject.get(NUMERO_ESPECIALIDAD_ADMINISTRADOR).getAsInt();
-                if(jsonObject.has("especialidad"))
+                if(jsonObject.has(ESPECIALIDAD))
                 {
-                    especialidades = jsonObject.get("especialidad").getAsString();
+                    especialidades = jsonObject.get(ESPECIALIDAD).getAsString();
                 }
             } catch (JsonSyntaxException | IllegalStateException | NullPointerException e) {
                 e.printStackTrace();

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -44,33 +45,25 @@ public class Gestion_sesion {
     public void salvarSesion()
     {
         SharedPreferences.Editor myEditor = prefs.edit();
-        myEditor.putInt("ID", Gestion_administrador.getAdministrador_actual().id_administrador);
-        myEditor.putString("USER", Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
-        myEditor.putString("PASS", Gestion_administrador.getAdministrador_actual().contrasena_administrador);
+        myEditor.putString("TOKEN", Gestion_administrador.getAdministrador_actual().token);
         myEditor.commit();
     }
 
     public void recuperarSesion()
     {
-        int id = prefs.getInt("ID", -1);
-        String user = prefs.getString("USER", "-1");
-        String pass = prefs.getString("PASS", "-1");
+        String token = prefs.getString("TOKEN", "-1");
         administrador = null;
-        if(id != -1 && !user.equals("-1") && !pass.equals("-1"))
+        if(!token.equals("-1"))
         {
             administrador = new Administrador();
-            administrador.id_administrador = id;
-            administrador.nombre_cuenta_administrador = user;
-            administrador.contrasena_administrador = pass;
+            administrador.token = token;
         }
     }
 
     public void quitarSesionAdministrador()
     {
         SharedPreferences.Editor myEditor = prefs.edit();
-        myEditor.putInt("ID", -1);
-        myEditor.putString("USER", "-1");
-        myEditor.putString("PASS", "-1");
+        myEditor.putString("TOKEN", "-1");
         myEditor.commit();
     }
 
@@ -79,7 +72,7 @@ public class Gestion_sesion {
         if(administrador != null)
         {
             Gestion_administrador.setAdministrador_actual(administrador);
-            HashMap<String,String> params = new Gestion_administrador().consultar_administrador_por_id(administrador.id_administrador);
+            HashMap<String,String> params = new Gestion_administrador().validartokenobteneradministrador(administrador.token);
             Response.Listener<String> stringListener = new Response.Listener<String>()
             {
                 @Override
@@ -98,7 +91,7 @@ public class Gestion_sesion {
                                 Gestion_administrador.setAdministrador_actual(arrayList.get(0));
                                 salvarSesion();
                             } else {
-
+                                quitarSesionAdministrador();
                             }
                         }
                     }

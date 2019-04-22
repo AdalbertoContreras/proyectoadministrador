@@ -11,19 +11,34 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Gestion_especialidad_administrador {
-    private static Especialidad_administrador aux = new Especialidad_administrador();
-    private static String llave_ws = "especialidad_administrador";
-    private static String fecha1;
-    private static String fecha2;
-    private static String tipo_consulta;
+    private String tipo_consulta;
     private JsonObject obj;
+    //############################################################################################\\
+    //###############################PROPIEDADES GLOBALES##########################################\\
+    private final String LLAVE_ESPECIALIDAD_ADMINISTRADOR= Propiedades.LLAVE_ESPECIALIDAD_ADMINISTRADOR;
+    private final String TIPO_CONSULTA = Propiedades.TIPO_CONSULTA;
+    private final String LLAVE_WS = Propiedades.LLAVE_WS;
+    private final String JSON = Propiedades.JSON;
+    private final String TOKEN = Propiedades.TOKEN;
+    //############################################################################################\\
+    //###############################PROPIEDADES DE CATEGORIA NOTICIA MANUAL#######################\\
+    private final String ID_ESPECIALIDAD_ADMINISTRADOR = "id_especialidad_administrador";
+    private final String ESPECIALIDAD_ESPECIALIDAD_ADMNISTRADOR = "especialidad_especialidad_admnistrador";
+    private final String ADMINISTRADOR_ESPECIALIDAD_ADMINISTRADOR = "administrador_especialidad_administrador";
+    private final String FECHA_ESPECILIDAD_ADMINISTRADOR = "fecha_especilidad_administrador";
+    private final String HORA_ESPECIALIDAD_ADMINISTRADOR = "hora_especialidad_administrador";
+    //############################################################################################\\
+    //###############################CONSULTAS#######################\\
+    private final String INSERT = "insert";
+    private final String DELETE = "delete";
+
 
     public HashMap<String, String> registrar_especialidad_administrador(Especialidad_administrador especialidad_administrador){
-        tipo_consulta = "insert";
+        tipo_consulta = INSERT;
         return construir_parametros(especialidad_administrador);
     }
     public HashMap<String, String> eliminar_especialidad_administrador(Especialidad_administrador especialidad_administrador){
-        tipo_consulta = "delete";
+        tipo_consulta = DELETE;
         return construir_parametros(especialidad_administrador);
     }
 
@@ -49,11 +64,11 @@ public class Gestion_especialidad_administrador {
     {
         return new Especialidad_administrador(){{
             try {
-                id_especialidad_administrador = jsonObject.get("id_especialidad_administrador").getAsInt();
-                especialidad_especialidad_admnistrador = jsonObject.get("especialidad_especialidad_admnistrador").getAsInt();
-                administrador_especialidad_administrador = jsonObject.get("administrador_especialidad_administrador").getAsInt();
-                fecha_especilidad_administrador = jsonObject.get("fecha_especilidad_administrador").getAsString();
-                hora_especialidad_administrador = jsonObject.get("hora_especialidad_administrador").getAsString();
+                id_especialidad_administrador = jsonObject.get(ID_ESPECIALIDAD_ADMINISTRADOR).getAsInt();
+                especialidad_especialidad_admnistrador = jsonObject.get(ESPECIALIDAD_ESPECIALIDAD_ADMNISTRADOR).getAsInt();
+                administrador_especialidad_administrador = jsonObject.get(ADMINISTRADOR_ESPECIALIDAD_ADMINISTRADOR).getAsInt();
+                fecha_especilidad_administrador = jsonObject.get(FECHA_ESPECILIDAD_ADMINISTRADOR).getAsString();
+                hora_especialidad_administrador = jsonObject.get(HORA_ESPECIALIDAD_ADMINISTRADOR).getAsString();
             } catch (JsonSyntaxException | IllegalStateException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -64,21 +79,19 @@ public class Gestion_especialidad_administrador {
     {
         obj = new JsonObject();
         try {
-            obj.addProperty("id_especialidad_administrador", elemento.id_especialidad_administrador);
-            obj.addProperty("especialidad_especialidad_admnistrador", elemento.especialidad_especialidad_admnistrador);
-            obj.addProperty("administrador_especialidad_administrador", elemento.administrador_especialidad_administrador);
-            obj.addProperty("fecha_especilidad_administrador", elemento.fecha_especilidad_administrador);
-            obj.addProperty("hora_especialidad_administrador", elemento.hora_especialidad_administrador);
-            obj.addProperty("fecha1",fecha1);
-            obj.addProperty("fecha2",fecha2);
-            obj.addProperty("tipo_consulta",tipo_consulta);
-            obj.addProperty("llave_ws",llave_ws);
+            obj.addProperty(ID_ESPECIALIDAD_ADMINISTRADOR, elemento.id_especialidad_administrador);
+            obj.addProperty(ESPECIALIDAD_ESPECIALIDAD_ADMNISTRADOR, elemento.especialidad_especialidad_admnistrador);
+            obj.addProperty(ADMINISTRADOR_ESPECIALIDAD_ADMINISTRADOR, elemento.administrador_especialidad_administrador);
+            obj.addProperty(FECHA_ESPECILIDAD_ADMINISTRADOR, elemento.fecha_especilidad_administrador);
+            obj.addProperty(HORA_ESPECIALIDAD_ADMINISTRADOR, elemento.hora_especialidad_administrador);
+            obj.addProperty(TIPO_CONSULTA,tipo_consulta);
+            obj.addProperty(LLAVE_WS,LLAVE_ESPECIALIDAD_ADMINISTRADOR);
             adjuntarAcceso();
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
         HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("json",obj.toString());
+        hashMap.put(JSON,obj.toString());
         return hashMap;
     }
 
@@ -86,8 +99,7 @@ public class Gestion_especialidad_administrador {
     {
         if(Gestion_administrador.getAdministrador_actual() != null)
         {
-            obj.addProperty("NA",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
-            obj.addProperty("CA",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
+            obj.addProperty(TOKEN,Gestion_administrador.getAdministrador_actual().token);
         }
     }
 }

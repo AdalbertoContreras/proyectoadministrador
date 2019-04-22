@@ -11,20 +11,44 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Gestion_estadistica_usuario {
-    private static Estadistica_usuario aux = new Estadistica_usuario();
-    private static String llave_ws = "estadistica_usuario";
-    private static String fecha1;
-    private static String fecha2;
     private static String tipo_consulta;
-
-    private static void iniciar_axu()
-    {
-        aux = new Estadistica_usuario();
-    }
-
+    //############################################################################################\\
+    //###############################PROPIEDADES GLOBALES##########################################\\
+    private final String LLAVE_ESTADISTICA_USUARIO= Propiedades.LLAVE_ESTADISTICA_USUARIO;
+    private final String TIPO_CONSULTA = Propiedades.TIPO_CONSULTA;
+    private final String LLAVE_WS = Propiedades.LLAVE_WS;
+    private final String JSON = Propiedades.JSON;
+    private final String TOKEN = Propiedades.TOKEN;
+    //############################################################################################\\
+    //###############################PROPIEDADES DE CATEGORIA NOTICIA MANUAL#######################\\
+    private final String ID_ESTADISTICA_USUARIO = "id_estadistica_usuario";
+    private final String NUMERO_USUARIOS_TOTAL = "numero_usuarios_total";
+    private final String NUMERO_USUARIOS_FEMENINOS = "numero_usuarios_femeninos";
+    private final String NUMERO_USUARIOS_MASCULINOS = "numero_usuarios_masculinos";
+    private final String NUMERO_USUARIOS_PRIMERA_INFANCIA = "numero_usuarios_primera_infancia";
+    private final String NUMERO_USUARIOS_PRIMERA_INFANCIA_FEMENINO = "numero_usuarios_primera_infancia_femenino";
+    private final String NUMERO_USUARIOS_PRIMERA_INFANCIA_MASCULINO = "numero_usuarios_primera_infancia_masculino";
+    private final String NUMERO_USUARIOS_INFANCIA = "numero_usuarios_infancia";
+    private final String NUMERO_USUARIOS_INFANCIA_FEMENINO = "numero_usuarios_infancia_femenino";
+    private final String NUMERO_USUARIOS_INFANCIA_MASCULINO = "numero_usuarios_infancia_masculino";
+    private final String NUMERO_USUARIOS_ADOLECENTE = "numero_usuarios_adolecente";
+    private final String NUMERO_USUARIOS_ADOLECENTE_FEMENINO = "numero_usuarios_adolecente_femenino";
+    private final String NUMERO_USUARIOS_ADOLECENTE_MASCULINO = "numero_usuarios_adolecente_masculino";
+    private final String NUMERO_USUARIOS_JOVEN = "numero_usuarios_joven";
+    private final String NUMERO_USUARIOS_JOVEN_FEMENINO = "numero_usuarios_joven_femenino";
+    private final String NUMERO_USUARIOS_JOVEN_MASCULINO = "numero_usuarios_joven_masculino";
+    private final String NUMERO_USUARIOS_ADULTO = "numero_usuarios_adulto";
+    private final String NUMERO_USUARIOS_ADULTO_FEMENINO = "numero_usuarios_adulto_femenino";
+    private final String NUMERO_USUARIOS_ADULTO_MASCULINO = "numero_usuarios_adulto_masculino";
+    private final String NUMERO_USUARIOS_MAYOR = "numero_usuarios_mayor";
+    private final String NUMERO_USUARIOS_MAYOR_FEMENINO = "numero_usuarios_mayor_femenino";
+    private final String NUMERO_USUARIOS_MAYOR_MASCULINO = "numero_usuarios_mayor_masculino";
+    //############################################################################################\\
+    //###############################PROPIEDADES DE CATEGORIA NOTICIA MANUAL#######################\\
+    private final String CONSULTAR = "consultar";
     public HashMap<String, String> consultar()
     {
-        tipo_consulta = "consultar";
+        tipo_consulta = CONSULTAR;
         return construir_parametros();
     }
 
@@ -49,103 +73,49 @@ public class Gestion_estadistica_usuario {
     {
         return new Estadistica_usuario(){{
             try {
-                id_estadistica_usuario = jsonObject.get("id_estadistica_usuario").getAsInt();
-                numero_usuarios_total = jsonObject.get("numero_usuarios_total").getAsInt();
-                numero_usuarios_femeninos = jsonObject.get("numero_usuarios_femeninos").getAsInt();
-                numero_usuarios_masculinos = jsonObject.get("numero_usuarios_masculinos").getAsInt();
-                numero_usuarios_primera_infancia = jsonObject.get("numero_usuarios_primera_infancia").getAsInt();
-                numero_usuarios_primera_infancia_femenino = jsonObject.get("numero_usuarios_primera_infancia_femenino").getAsInt();
-                numero_usuarios_primera_infancia_masculino = jsonObject.get("numero_usuarios_primera_infancia_masculino").getAsInt();
-                numero_usuarios_infancia = jsonObject.get("numero_usuarios_infancia").getAsInt();
-                numero_usuarios_infancia_femenino = jsonObject.get("numero_usuarios_infancia_femenino").getAsInt();
-                numero_usuarios_infancia_masculino = jsonObject.get("numero_usuarios_infancia_masculino").getAsInt();
-                numero_usuarios_adolecente = jsonObject.get("numero_usuarios_adolecente").getAsInt();
-                numero_usuarios_adolecente_femenino = jsonObject.get("numero_usuarios_adolecente_femenino").getAsInt();
-                numero_usuarios_adolecente_masculino = jsonObject.get("numero_usuarios_adolecente_masculino").getAsInt();
-                numero_usuarios_joven = jsonObject.get("numero_usuarios_joven").getAsInt();
-                numero_usuarios_joven_femenino = jsonObject.get("numero_usuarios_joven_femenino").getAsInt();
-                numero_usuarios_joven_masculino = jsonObject.get("numero_usuarios_joven_masculino").getAsInt();
-                numero_usuarios_adulto = jsonObject.get("numero_usuarios_adulto").getAsInt();
-                numero_usuarios_adulto_femenino = jsonObject.get("numero_usuarios_adulto_femenino").getAsInt();
-                numero_usuarios_adulto_masculino = jsonObject.get("numero_usuarios_adulto_masculino").getAsInt();
-                numero_usuarios_mayor = jsonObject.get("numero_usuarios_mayor").getAsInt();
-                numero_usuarios_mayor_femenino = jsonObject.get("numero_usuarios_mayor_femenino").getAsInt();
-                numero_usuarios_mayor_masculino = jsonObject.get("numero_usuarios_mayor_masculino").getAsInt();
+                id_estadistica_usuario = jsonObject.get(ID_ESTADISTICA_USUARIO).getAsInt();
+                numero_usuarios_total = jsonObject.get(NUMERO_USUARIOS_TOTAL).getAsInt();
+                numero_usuarios_femeninos = jsonObject.get(NUMERO_USUARIOS_FEMENINOS).getAsInt();
+                numero_usuarios_masculinos = jsonObject.get(NUMERO_USUARIOS_MASCULINOS).getAsInt();
+                numero_usuarios_primera_infancia = jsonObject.get(NUMERO_USUARIOS_PRIMERA_INFANCIA).getAsInt();
+                numero_usuarios_primera_infancia_femenino = jsonObject.get(NUMERO_USUARIOS_PRIMERA_INFANCIA_FEMENINO).getAsInt();
+                numero_usuarios_primera_infancia_masculino = jsonObject.get(NUMERO_USUARIOS_PRIMERA_INFANCIA_MASCULINO).getAsInt();
+                numero_usuarios_infancia = jsonObject.get(NUMERO_USUARIOS_INFANCIA).getAsInt();
+                numero_usuarios_infancia_femenino = jsonObject.get(NUMERO_USUARIOS_INFANCIA_FEMENINO).getAsInt();
+                numero_usuarios_infancia_masculino = jsonObject.get(NUMERO_USUARIOS_INFANCIA_MASCULINO).getAsInt();
+                numero_usuarios_adolecente = jsonObject.get(NUMERO_USUARIOS_ADOLECENTE).getAsInt();
+                numero_usuarios_adolecente_femenino = jsonObject.get(NUMERO_USUARIOS_ADOLECENTE_FEMENINO).getAsInt();
+                numero_usuarios_adolecente_masculino = jsonObject.get(NUMERO_USUARIOS_ADOLECENTE_MASCULINO).getAsInt();
+                numero_usuarios_joven = jsonObject.get(NUMERO_USUARIOS_JOVEN).getAsInt();
+                numero_usuarios_joven_femenino = jsonObject.get(NUMERO_USUARIOS_JOVEN_FEMENINO).getAsInt();
+                numero_usuarios_joven_masculino = jsonObject.get(NUMERO_USUARIOS_JOVEN_MASCULINO).getAsInt();
+                numero_usuarios_adulto = jsonObject.get(NUMERO_USUARIOS_ADULTO).getAsInt();
+                numero_usuarios_adulto_femenino = jsonObject.get(NUMERO_USUARIOS_ADULTO_FEMENINO).getAsInt();
+                numero_usuarios_adulto_masculino = jsonObject.get(NUMERO_USUARIOS_ADULTO_MASCULINO).getAsInt();
+                numero_usuarios_mayor = jsonObject.get(NUMERO_USUARIOS_MAYOR).getAsInt();
+                numero_usuarios_mayor_femenino = jsonObject.get(NUMERO_USUARIOS_MAYOR_FEMENINO).getAsInt();
+                numero_usuarios_mayor_masculino = jsonObject.get(NUMERO_USUARIOS_MAYOR_MASCULINO).getAsInt();
             } catch (JsonSyntaxException | IllegalStateException | NullPointerException e) {
                 e.printStackTrace();
             }
         }};
     }
 
-    private HashMap<String,String> construir_parametros(Estadistica_usuario elemento)
-    {
-        JsonObject obj = new JsonObject();
-        try {
-            obj.addProperty("id_estadistica_usuario", elemento.id_estadistica_usuario);
-            obj.addProperty("numero_usuarios_total", elemento.numero_usuarios_total);
-            obj.addProperty("numero_usuarios_femeninos", elemento.numero_usuarios_femeninos);
-            obj.addProperty("numero_usuarios_masculinos", elemento.numero_usuarios_masculinos);
-            obj.addProperty("numero_usuarios_primera_infancia", elemento.numero_usuarios_primera_infancia);
-            obj.addProperty("numero_usuarios_primera_infancia_femenino", elemento.numero_usuarios_primera_infancia_femenino);
-            obj.addProperty("numero_usuarios_primera_infancia_masculino", elemento.numero_usuarios_primera_infancia_masculino);
-            obj.addProperty("numero_usuarios_infancia", elemento.numero_usuarios_infancia);
-            obj.addProperty("numero_usuarios_infancia_femenino", elemento.numero_usuarios_infancia_femenino);
-            obj.addProperty("numero_usuarios_infancia_masculino", elemento.numero_usuarios_infancia_masculino);
-            obj.addProperty("numero_usuarios_adolecente", elemento.numero_usuarios_adolecente);
-            obj.addProperty("numero_usuarios_adolecente_femenino", elemento.numero_usuarios_adolecente_femenino);
-            obj.addProperty("numero_usuarios_adolecente_masculino", elemento.numero_usuarios_adolecente_masculino);
-            obj.addProperty("numero_usuarios_joven", elemento.numero_usuarios_joven);
-            obj.addProperty("numero_usuarios_joven_femenino", elemento.numero_usuarios_joven_femenino);
-            obj.addProperty("numero_usuarios_joven_masculino", elemento.numero_usuarios_joven_masculino);
-            obj.addProperty("numero_usuarios_adulto", elemento.numero_usuarios_adulto);
-            obj.addProperty("numero_usuarios_adulto_femenino", elemento.numero_usuarios_adulto_femenino);
-            obj.addProperty("numero_usuarios_adulto_masculino", elemento.numero_usuarios_adulto_masculino);
-            obj.addProperty("numero_usuarios_mayor", elemento.numero_usuarios_mayor);
-            obj.addProperty("numero_usuarios_mayor_femenino", elemento.numero_usuarios_mayor_femenino);
-            obj.addProperty("numero_usuarios_mayor_masculino", elemento.numero_usuarios_mayor_masculino);
-            obj.addProperty("fecha1",fecha1);
-            obj.addProperty("fecha2",fecha2);
-            obj.addProperty("tipo_consulta",tipo_consulta);
-            obj.addProperty("llave_ws",llave_ws);
-            if(Gestion_administrador.getAdministrador_actual() != null)
-            {
-                obj.addProperty("nombre_administrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
-                obj.addProperty("contrasena_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
-            }
-            else
-            {
-                obj.addProperty("nombre_admnistrador_ol","");
-                obj.addProperty("contraseña_administrador_ol","");
-            }
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
-        }
-        HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("json",obj.toString());
-        return hashMap;
-    }
-
     private HashMap<String,String> construir_parametros()
     {
         JsonObject obj = new JsonObject();
         try {
-            obj.addProperty("tipo_consulta",tipo_consulta);
-            obj.addProperty("llave_ws",llave_ws);
+            obj.addProperty(TIPO_CONSULTA,tipo_consulta);
+            obj.addProperty(LLAVE_WS,LLAVE_ESTADISTICA_USUARIO);
             if(Gestion_administrador.getAdministrador_actual() != null)
             {
-                obj.addProperty("nombre_administrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
-                obj.addProperty("contrasena_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
-            }
-            else
-            {
-                obj.addProperty("nombre_admnistrador_ol","");
-                obj.addProperty("contraseña_administrador_ol","");
+                obj.addProperty(TOKEN,Gestion_administrador.getAdministrador_actual().token);
             }
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
         HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("json",obj.toString());
+        hashMap.put(JSON,obj.toString());
         return hashMap;
     }
 }

@@ -18,6 +18,7 @@ public class Administrador
     public String hora_registro_administrador;
     public String url_foto_perfil_administrador;
     public String url_foto_perfil_anterior;
+    public String token;
     public int numero_asesorias_dadas_administrador;
     public int numero_asesorias_dadas_primera_infancia_administrador;
     public int numero_asesorias_dadas_infancia_administrador;

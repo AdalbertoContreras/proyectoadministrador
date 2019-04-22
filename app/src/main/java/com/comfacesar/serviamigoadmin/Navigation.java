@@ -25,6 +25,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -426,21 +427,13 @@ public class Navigation extends AppCompatActivity
         super.onPause();
     }
 
-    private void iniciar_hilo_validacion()
-    {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int cont = 5000;
-            }
-        }).start();
-    }
 
     @Override
     public void onBackPressed()
     {
         if(aplicacion_terminada)
         {
+            finish();
             Intent intent = new Intent(getBaseContext(), LoginActivity.class);
             startActivity(intent);
         }
@@ -509,7 +502,6 @@ public class Navigation extends AppCompatActivity
         }
         if (id == R.id.ver_mis_Asesorias) {
             tengoAsesorias();
-
         }
         if (id == R.id.registrar_asesor) {
             fragment = new Registrar_AdministradorFragment();
@@ -543,23 +535,7 @@ public class Navigation extends AppCompatActivity
             tiulo_tollba.setText("Lista Noticias");
         }
         if (id == R.id.cerrar_sesion) {
-            Log.d("administrador", "null");
-            Gestion_administrador.setAdministrador_actual(null);
-            hilo_notificaciones_activo = false;
-            hilo_notificacion_iniciado = false;
-            notificationManagerCompat = NotificationManagerCompat.from(this);
-            if(chat_asesorias_local != null)
-            {
-                for(Chat_asesoria chat : chat_asesorias_local)
-                {
-                    notificationManagerCompat.cancel(chat.id_chat_asesoria);
-                }
-                chat_asesorias_local.clear();
-                chat_asesorias_local = null;
-            }
-            aplicacion_terminada = true;
-            new Gestion_sesion(Navigation.this).quitarSesionAdministrador();
-            onBackPressed();
+            cerrar_sesion();
             return false;
         }
         if(selecionado)
@@ -570,6 +546,62 @@ public class Navigation extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void cerrar_sesion()
+    {
+        HashMap<String, String> hashMap = new Gestion_administrador().cerrar_sesion();
+        Response.Listener<String> stringListener = new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response) {
+                //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
+                int val = 0;
+                try
+                {
+                    val = Integer.parseInt(response);
+                    if(val == 1)
+                    {
+                        new Gestion_sesion(Navigation.this).quitarSesionAdministrador();
+                        Log.d("administrador", "null");
+                        Gestion_administrador.setAdministrador_actual(null);
+                        hilo_notificaciones_activo = false;
+                        hilo_notificacion_iniciado = false;
+                        notificationManagerCompat = NotificationManagerCompat.from(Navigation.this);
+                        if(chat_asesorias_local != null)
+                        {
+                            for(Chat_asesoria chat : chat_asesorias_local)
+                            {
+                                notificationManagerCompat.cancel(chat.id_chat_asesoria);
+                            }
+                            chat_asesorias_local.clear();
+                            chat_asesorias_local = null;
+                        }
+                        aplicacion_terminada = true;
+                        Toast.makeText(getBaseContext(),"Sesion finalizada.", Toast.LENGTH_LONG).show();
+                        new Gestion_sesion(Navigation.this).quitarSesionAdministrador();
+                        onBackPressed();
+                    }
+                    else
+                    {
+                        Toast.makeText(getBaseContext(),"Sesion no finalizada.", Toast.LENGTH_LONG).show();
+                    }
+                }
+                catch(NumberFormatException exc)
+                {
+                    Toast.makeText(getBaseContext(),"Ocurrio un error en la conexcion.", Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getBaseContext(),"Ocurrio un error en la conexcion.", Toast.LENGTH_LONG).show();
+            }
+        };
+        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, errorListener);
+        MySocialMediaSingleton.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
+
     }
 
     private void tengoAsesorias()

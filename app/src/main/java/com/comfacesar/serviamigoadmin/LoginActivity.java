@@ -131,36 +131,38 @@ public class    LoginActivity extends AppCompatActivity {
         iniciarSesion(administrador);
     }
 
-    private void iniciarSesion(Administrador administrador)
+    private void iniciarSesion(final Administrador administrador)
     {
         HashMap<String,String> params = new Gestion_administrador().validar_administrador(administrador);
         Response.Listener<String> stringListener = new Response.Listener<String>()
         {
             @Override
             public void onResponse(String response) {
-                //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
-                int val = 0;
                 try
                 {
-                    val = Integer.parseInt(response);
-                    if(val == 0)
-                    {
-                        Toast.makeText(getBaseContext(), "Los datos ingresados no coindicen", Toast.LENGTH_LONG).show();
-                        progressDialog.dismiss();
-                    }
-                    else if(val == -1)
-                    {
-                        Toast.makeText(getBaseContext(), "Esta cuenta no cuenta con permisos para iniciar sesion.", Toast.LENGTH_LONG).show();
-                        progressDialog.dismiss();
-                    }
-                    else
-                    {
-                        prepararAdministrador(val, contraseñaEditText.getText().toString());
-                    }
+                    Integer.parseInt(response);
+                    progressDialog.dismiss();
+                    Toast.makeText(getBaseContext(), "Datos no validos", Toast.LENGTH_LONG).show();
                 }
                 catch(NumberFormatException exc)
                 {
-                    Toast.makeText(getBaseContext(), "Los datos ingresados no coindicen", Toast.LENGTH_LONG).show();
+                    ArrayList<Administrador> arrayList = new Gestion_administrador().generar_json(response);
+                    if(!arrayList.isEmpty())
+                    {
+                        arrayList.get(0).contrasena_administrador = administrador.contrasena_administrador;
+                        Gestion_administrador.setAdministrador_actual(arrayList.get(0));
+                        if (Gestion_administrador.getAdministrador_actual().tipo_administrador == 1) {
+                            Toast.makeText(getBaseContext(), "Administrador conectado", Toast.LENGTH_LONG).show();
+                        }
+                        if (Gestion_administrador.getAdministrador_actual().tipo_administrador == 2) {
+                            Toast.makeText(getBaseContext(), "Asesor conectado", Toast.LENGTH_LONG).show();
+                        }
+                        salvarSesion();
+                        Intent intent = new Intent(LoginActivity.this, Navigation.class);
+                        progressDialog.dismiss();
+                        contraseñaEditText.setText("");
+                        startActivity(intent);
+                    }
                     progressDialog.dismiss();
                 }
             }
@@ -193,9 +195,15 @@ public class    LoginActivity extends AppCompatActivity {
         {
             @Override
             public void onResponse(String response) {
-                if(!response.equals(""))
+                Log.d("response", response);
+                try
                 {
-                    Log.d("response", response);
+                    Integer.parseInt(response);
+                    progressDialog.dismiss();
+                    Toast.makeText(getBaseContext(), "Los datos ingresados no coindicen", Toast.LENGTH_LONG).show();
+                }
+                catch(NumberFormatException exc)
+                {
                     ArrayList<Administrador> arrayList = new Gestion_administrador().generar_json(response);
                     if(!arrayList.isEmpty())
                     {
@@ -209,22 +217,17 @@ public class    LoginActivity extends AppCompatActivity {
                         {
                             Toast.makeText(getBaseContext(), "Asesor conectado", Toast.LENGTH_LONG).show();
                         }
-                        salvarSesion();
+                        /*salvarSesion();
                         Intent intent = new Intent(LoginActivity.this, Navigation.class);
                         progressDialog.dismiss();
                         contraseñaEditText.setText("");
-                        startActivity(intent);
+                        startActivity(intent);*/
                     }
                     else
                     {
                         Toast.makeText(getBaseContext(), "Los datos ingresados no coindicen", Toast.LENGTH_LONG).show();
                         progressDialog.dismiss();
                     }
-                }
-                else
-                {
-                    progressDialog.dismiss();
-                    Toast.makeText(getBaseContext(), "Los datos ingresados no coindicen", Toast.LENGTH_LONG).show();
                 }
             }
         };
@@ -243,9 +246,7 @@ public class    LoginActivity extends AppCompatActivity {
     public static void quitarSesionAdministrador()
     {
         SharedPreferences.Editor myEditor = prefs.edit();
-        myEditor.putInt("ID", -1);
-        myEditor.putString("USER", "-1");
-        myEditor.putString("PASS", "-1");
+        myEditor.putString("TOKEN", "-1");
         myEditor.commit();
     }
 
@@ -253,26 +254,8 @@ public class    LoginActivity extends AppCompatActivity {
     {
         prefs = getSharedPreferences("SESION", Context.MODE_PRIVATE);
         SharedPreferences.Editor myEditor = prefs.edit();
-        myEditor.putInt("ID", Gestion_administrador.getAdministrador_actual().id_administrador);
-        myEditor.putString("USER", Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
-        myEditor.putString("PASS", Gestion_administrador.getAdministrador_actual().contrasena_administrador);
+        myEditor.putString("TOKEN", Gestion_administrador.getAdministrador_actual().token);
         myEditor.commit();
-    }
-
-    private void recuperarSesion()
-    {
-        prefs = getSharedPreferences("SESION", Context.MODE_PRIVATE);
-        int id = prefs.getInt("ID", -1);
-        String user = prefs.getString("USER", "-1");
-        String pass = prefs.getString("PASS", "-1");
-        if(id != -1 && !user.equals("-1") && !pass.equals("-1"))
-        {
-            Administrador administrador = new Administrador();
-            administrador.id_administrador = id;
-            administrador.nombre_cuenta_administrador = user;
-            administrador.contrasena_administrador = pass;
-            asignarAdministrador(administrador, administrador.contrasena_administrador, administrador.id_administrador);
-        }
     }
 
     @Override

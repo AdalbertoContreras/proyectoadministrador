@@ -11,38 +11,54 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Gestion_noticia {
+    //############################################################################################\\
+    //###############################PROPIEDADES GLOBALES##########################################\\
+    private final String LLAVE_NOTICIA = Propiedades.LLAVE_NOTICIA;
+    private final String LLAVE_WS = Propiedades.LLAVE_WS;
+    private final String JSON = Propiedades.JSON;
+    private final String TOKEN = Propiedades.TOKEN;
+    private final String TIPO_CONSULTA = Propiedades.TIPO_CONSULTA;
+    //############################################################################################\\
+    //###############################PROPIEDADES NOTICIA##########################################\\
+    private final String ID_NOTITICIA = "id_notiticia";
+    private final String ID_GENERACION_NOTICIA = "id_generacion_noticia";
+    private final String TITULO_NOTICIA = "titulo_noticia";
+    private final String CONTENIDO_NOTICIA = "contenido_noticia";
+    private final String NUM_IMAGENES_NOTICIA = "num_imagenes_noticia";
+    private final String FECHA_REGISTRO_NOTICIA = "fecha_registro_noticia";
+    private final String HORA_REGISTRO_NOTICIA = "hora_registro_noticia";
+    private final String TIPO_CREACION_NOTICIA = "tipo_creacion_noticia";
+    private final String NUMERO_VISISTAS_NOTICIA = "numero_visistas_noticia";
+    private final String ADMINISTRADOR_NOTICIA = "administrador_noticia";
+    private final String CATEGORIA_NOTICIA_MANUAL_NOTICIA = "categoria_noticia_manual_noticia";
+    private final String NUMERO_ME_GUSTA = "numero_me_gusta";
+    //############################################################################################\\
+    //###############################PROPIEDADES RELACION#########################################\\
+    private final String JSON_IMAGENES = "json_imagenes";
+    //############################################################################################\\
+    //###############################CONSULTA#####################################################\\
+    private final String REGISTRAR_NOTICIA_MANUAL = "registrar_noticia_manual";
+    private final String UPDATE = "update";
+    private final String CONSULTAR_CON_IMAGENES_Y_M_PRIMERO = "consultar_con_imagenes_y_m_primero";
     private static Noticia aux = new Noticia();
-    private static String llave_ws = "noticia";
-    private static String fecha1;
-    private static String fecha2;
     private static String tipo_consulta;
 
-    private static void iniciar_axu()
-    {
-        aux = new Noticia();
-    }
 
     public HashMap<String, String> registrar_noticia_manual(Noticia noticia)
     {
-        tipo_consulta = "registrar_noticia_manual";
+        tipo_consulta = REGISTRAR_NOTICIA_MANUAL;
         return construir_parametros(noticia);
     }
 
     public HashMap<String, String> update(Noticia noticia)
     {
-        tipo_consulta = "update";
+        tipo_consulta = UPDATE;
         return construir_parametros(noticia);
-    }
-
-    public HashMap<String, String> consultar_num_noticia()
-    {
-        tipo_consulta = "consultar_num_noticias";
-        return construir_parametros(aux);
     }
 
     public HashMap<String,String> consultar_con_imagenes_y_m_primero()
     {
-        tipo_consulta = "consultar_con_imagenes_y_m_primero";
+        tipo_consulta = CONSULTAR_CON_IMAGENES_Y_M_PRIMERO;
         return  construir_parametros(aux);
     }
 
@@ -67,27 +83,26 @@ public class Gestion_noticia {
     {
         return new Noticia(){{
             try {
-                id_notiticia = jsonObject.get("id_notiticia").getAsInt();
-                id_generacion_noticia = jsonObject.get("id_generacion_noticia").getAsInt();
-                titulo_noticia = jsonObject.get("titulo_noticia").getAsString();
-                contenido_noticia = jsonObject.get("contenido_noticia").getAsString();
-                num_imagenes_noticia = jsonObject.get("num_imagenes_noticia").getAsInt();
-                fecha_registro_noticia = jsonObject.get("fecha_registro_noticia").getAsString();
-                hora_registro_noticia = jsonObject.get("hora_registro_noticia").getAsString();
-                tipo_creacion_noticia = jsonObject.get("tipo_creacion_noticia").getAsInt();
-                numero_visistas_noticia = jsonObject.get("numero_visistas_noticia").getAsInt();
-                administrador_noticia = jsonObject.get("administrador_noticia").getAsInt();
-                categoria_noticia_manual_noticia = jsonObject.get("categoria_noticia_manual_noticia").getAsInt();
-                numero_me_gusta = jsonObject.get("numero_me_gusta").getAsInt();
-                if(!jsonObject.get("json_imagenes").isJsonNull())
+                id_notiticia = jsonObject.get(ID_NOTITICIA).getAsInt();
+                id_generacion_noticia = jsonObject.get(ID_GENERACION_NOTICIA).getAsInt();
+                titulo_noticia = jsonObject.get(TITULO_NOTICIA).getAsString();
+                contenido_noticia = jsonObject.get(CONTENIDO_NOTICIA).getAsString();
+                num_imagenes_noticia = jsonObject.get(NUM_IMAGENES_NOTICIA).getAsInt();
+                fecha_registro_noticia = jsonObject.get(FECHA_REGISTRO_NOTICIA).getAsString();
+                hora_registro_noticia = jsonObject.get(HORA_REGISTRO_NOTICIA).getAsString();
+                tipo_creacion_noticia = jsonObject.get(TIPO_CREACION_NOTICIA).getAsInt();
+                numero_visistas_noticia = jsonObject.get(NUMERO_VISISTAS_NOTICIA).getAsInt();
+                administrador_noticia = jsonObject.get(ADMINISTRADOR_NOTICIA).getAsInt();
+                categoria_noticia_manual_noticia = jsonObject.get(CATEGORIA_NOTICIA_MANUAL_NOTICIA).getAsInt();
+                numero_me_gusta = jsonObject.get(NUMERO_ME_GUSTA).getAsInt();
+                if(!jsonObject.get(JSON_IMAGENES).isJsonNull())
                 {
-                    json_imagenes = jsonObject.get("json_imagenes").getAsString();
+                    json_imagenes = jsonObject.get(JSON_IMAGENES).getAsString();
                 }
                 else
                 {
                     json_imagenes = "";
                 }
-
             } catch (JsonSyntaxException | IllegalStateException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -98,36 +113,28 @@ public class Gestion_noticia {
     {
         JsonObject obj = new JsonObject();
         try {
-            obj.addProperty("id_notiticia", elemento.id_notiticia);
-            obj.addProperty("id_generacion_noticia", elemento.id_generacion_noticia);
-            obj.addProperty("titulo_noticia", elemento.titulo_noticia);
-            obj.addProperty("contenido_noticia", elemento.contenido_noticia);
-            obj.addProperty("num_imagenes_noticia", elemento.num_imagenes_noticia);
-            obj.addProperty("fecha_registro_noticia", elemento.fecha_registro_noticia);
-            obj.addProperty("hora_registro_noticia", elemento.hora_registro_noticia);
-            obj.addProperty("tipo_creacion_noticia", elemento.tipo_creacion_noticia);
-            obj.addProperty("numero_visistas_noticia", elemento.numero_visistas_noticia);
-            obj.addProperty("administrador_noticia", elemento.administrador_noticia);
-            obj.addProperty("categoria_noticia_manual_noticia", elemento.categoria_noticia_manual_noticia);
-            obj.addProperty("fecha1",fecha1);
-            obj.addProperty("fecha2",fecha2);
-            obj.addProperty("tipo_consulta",tipo_consulta);
-            obj.addProperty("llave_ws",llave_ws);
+            obj.addProperty(ID_NOTITICIA, elemento.id_notiticia);
+            obj.addProperty(ID_GENERACION_NOTICIA, elemento.id_generacion_noticia);
+            obj.addProperty(TITULO_NOTICIA, elemento.titulo_noticia);
+            obj.addProperty(CONTENIDO_NOTICIA, elemento.contenido_noticia);
+            obj.addProperty(NUM_IMAGENES_NOTICIA, elemento.num_imagenes_noticia);
+            obj.addProperty(FECHA_REGISTRO_NOTICIA, elemento.fecha_registro_noticia);
+            obj.addProperty(HORA_REGISTRO_NOTICIA, elemento.hora_registro_noticia);
+            obj.addProperty(TIPO_CREACION_NOTICIA, elemento.tipo_creacion_noticia);
+            obj.addProperty(NUMERO_VISISTAS_NOTICIA, elemento.numero_visistas_noticia);
+            obj.addProperty(ADMINISTRADOR_NOTICIA, elemento.administrador_noticia);
+            obj.addProperty(CATEGORIA_NOTICIA_MANUAL_NOTICIA, elemento.categoria_noticia_manual_noticia);
+            obj.addProperty(TIPO_CONSULTA,tipo_consulta);
+            obj.addProperty(LLAVE_WS,LLAVE_NOTICIA);
             if(Gestion_administrador.getAdministrador_actual() != null)
             {
-                obj.addProperty("nombre_admnistrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
-                obj.addProperty("contraseña_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
-            }
-            else
-            {
-                obj.addProperty("nombre_admnistrador_ol","");
-                obj.addProperty("contraseña_administrador_ol","");
+                obj.addProperty(TOKEN,Gestion_administrador.getAdministrador_actual().token);
             }
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
         HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("json",obj.toString());
+        hashMap.put(JSON,obj.toString());
         return hashMap;
     }
 }

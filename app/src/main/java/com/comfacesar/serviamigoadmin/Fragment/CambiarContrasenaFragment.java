@@ -21,6 +21,7 @@ import com.comfacesar.gestion.Gestion_administrador;
 import com.comfacesar.modelo.Administrador;
 import com.comfacesar.servimaigoadmin.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -210,29 +211,23 @@ public class CambiarContrasenaFragment extends Fragment {
         {
             @Override
             public void onResponse(String response) {
-                int val = 0;
                 try
                 {
-                    val = Integer.parseInt(response);
-                    if(val > 0)
-                    {
-                        Gestion_administrador.getAdministrador_actual().contrasena_administrador = administrador_espejo.contrasena_administrador;
-                        salvarSesion();
-                        //limpiar_contraseñas();
-                        Toast.makeText(view.getContext(),"Datos de la cuenta actualizados", Toast.LENGTH_LONG).show();
-                        if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 1)
-                        {
-                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framengMaster,new ConsultaAlertasTempranasFragment()).commit();
-                        }
-                        else
-                        {
-                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framengMaster,new MisAsesoriasFragment()).commit();
-                        }
-                    }
+                    Integer.parseInt(response);
+                    Toast.makeText(view.getContext(),"Su contraseña no pudo ser cambiada.", Toast.LENGTH_LONG).show();
                 }
                 catch (NumberFormatException exc)
                 {
-                    Toast.makeText(view.getContext(),"Error al actualizar datos de la cuenta", Toast.LENGTH_LONG).show();
+                    ArrayList<Administrador> administradors = new Gestion_administrador().generar_json(response);
+                    if(administradors.isEmpty())
+                    {
+                        Gestion_administrador.setAdministrador_actual(administradors.get(0));
+                        Toast.makeText(view.getContext(),"Su contraseña no pudo ser cambiada.", Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(view.getContext(),"Ha ocurrido un error en el servidor", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         };

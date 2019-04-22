@@ -11,8 +11,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Gestion_mensaje_chat_asesoria {
-    private static final String LLAVE_WS = "mensaje_chat_asesoria";
     private JsonObject obj;
+    //############################################################################################\\
+    //###############################PROPIEDADES GLOBALES##########################################\\
+    private final String LLAVE_MENSAJE_CHAT_ASESORIA= Propiedades.LLAVE_MENSAJE_CHAT_ASESORIA;
+    private final String LLAVE_WS = Propiedades.LLAVE_WS;
+    private final String JSON = Propiedades.JSON;
+    private final String TOKEN = Propiedades.TOKEN;
+    private static final String TIPO_CONSULTA = Propiedades.TIPO_CONSULTA;
+    //############################################################################################\\
+    //###############################PROPIEDADES MENSAJE CHAT ASESORIA#############################\\
     private static final String ID_MENSAJE_CHAT_ASESORIA = "A";
     private static final String FECHA_ENVIO_MENSAJE_CHAT_ASESORIA = "B";
     private static final String HORA_ENVIO_MENSAJE_ASESORIA = "C";
@@ -20,18 +28,19 @@ public class Gestion_mensaje_chat_asesoria {
     private static final String CHAT_MENSAJE_CHAT_ASESORIA = "E";
     private static final String ID_CREADOR_MENSAJE_CHAT_ASESORIA = "F";
     private static final String TIPO_CREADOR_MENSAJE_CHAT_ASESORIA = "G";
-    private static final String NOMBRE_ADMINISTRADOR_OL = "NA";
-    private static final String CONTRASENA_ADMINISTRADOR_OL = "CA";
-    private static final String TIPO_CONSULTA = "TC";
+    //############################################################################################\\
+    //###############################CONSULTA#####################################################\\
+    private final String REGISTRAR_MENSAJE_CHAT_ASESORIA = "registrar_mensaje_chat_asesoria";
+    private final String MENSAJES_ASESORIA_POR_ASESORIA = "mensajes_asesoria_por_asesoria";
+    private final String MENSAJE_CHAT_ASESORIA_POR_CHAT_MAYOR = "mensaje_chat_asesoria_por_chat_mayor";
 
     private void adjuntar_aseso()
     {
         if(Gestion_administrador.getAdministrador_actual() != null)
         {
-            obj.addProperty(NOMBRE_ADMINISTRADOR_OL,Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
-            obj.addProperty(CONTRASENA_ADMINISTRADOR_OL,Gestion_administrador.getAdministrador_actual().contrasena_administrador);
+            obj.addProperty(TOKEN,Gestion_administrador.getAdministrador_actual().token);
         }
-        obj.addProperty("llave_ws", LLAVE_WS);
+        obj.addProperty(LLAVE_WS, LLAVE_MENSAJE_CHAT_ASESORIA);
     }
 
     public HashMap<String, String> registrar_mensaje_chat_asesoria(Mensaje_chat_asesoria mensaje_chat_asesoria)
@@ -42,13 +51,13 @@ public class Gestion_mensaje_chat_asesoria {
             obj.addProperty(CHAT_MENSAJE_CHAT_ASESORIA, mensaje_chat_asesoria.chat_mensaje_chat_asesoria);
             obj.addProperty(ID_CREADOR_MENSAJE_CHAT_ASESORIA, mensaje_chat_asesoria.id_creador_mensaje_chat_asesoria);
             obj.addProperty(TIPO_CREADOR_MENSAJE_CHAT_ASESORIA, mensaje_chat_asesoria.tipo_creador_mensaje_chat_asesoria);
-            obj.addProperty(TIPO_CONSULTA,"registrar_mensaje_chat_asesoria");
+            obj.addProperty(TIPO_CONSULTA,REGISTRAR_MENSAJE_CHAT_ASESORIA);
             adjuntar_aseso();
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
         HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("json",obj.toString());
+        hashMap.put(JSON,obj.toString());
         return hashMap;
     }
 
@@ -57,13 +66,13 @@ public class Gestion_mensaje_chat_asesoria {
         obj = new JsonObject();
         try {
             obj.addProperty(CHAT_MENSAJE_CHAT_ASESORIA, asesoria);
-            obj.addProperty(TIPO_CONSULTA,"mensajes_asesoria_por_asesoria");
+            obj.addProperty(TIPO_CONSULTA,MENSAJES_ASESORIA_POR_ASESORIA);
             adjuntar_aseso();
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
         HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("json",obj.toString());
+        hashMap.put(JSON,obj.toString());
         return hashMap;
     }
 
@@ -74,13 +83,13 @@ public class Gestion_mensaje_chat_asesoria {
             obj.addProperty(FECHA_ENVIO_MENSAJE_CHAT_ASESORIA, fecha);
             obj.addProperty(HORA_ENVIO_MENSAJE_ASESORIA, hora);
             obj.addProperty(CHAT_MENSAJE_CHAT_ASESORIA, id_chat);
-            obj.addProperty(TIPO_CONSULTA,"mensaje_chat_asesoria_por_chat_mayor");
+            obj.addProperty(TIPO_CONSULTA,MENSAJE_CHAT_ASESORIA_POR_CHAT_MAYOR);
             adjuntar_aseso();
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
         HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("json",obj.toString());
+        hashMap.put(JSON,obj.toString());
         return hashMap;
     }
 

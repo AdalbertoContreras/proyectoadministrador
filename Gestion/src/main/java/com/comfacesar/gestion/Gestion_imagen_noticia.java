@@ -11,26 +11,36 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Gestion_imagen_noticia {
-    private static Imagen_noticia aux;
-    private static String llave_ws = "imagen_noticia";
-    private static String fecha1;
-    private static String fecha2;
     private static String tipo_consulta;
-
-    private static void iniciar_axu()
-    {
-        aux = new Imagen_noticia();
-    }
+    //############################################################################################\\
+    //###############################PROPIEDADES GLOBALES##########################################\\
+    private final String LLAVE_IMAGEN_NOTICIA = Propiedades.LLAVE_IMAGEN_NOTICIA;
+    private final String TIPO_CONSULTA = Propiedades.TIPO_CONSULTA;
+    private final String LLAVE_WS = Propiedades.LLAVE_WS;
+    private final String JSON = Propiedades.JSON;
+    private final String TOKEN = Propiedades.TOKEN;
+    //############################################################################################\\
+    //###############################PROPIEDADES DE CATEGORIA NOTICIA MANUAL#######################\\
+    private final String ID_IMAGEN_NOTICIA = "id_imagen_noticia";
+    private final String URL_IMAGEN_NOTICIA = "url_imagen_noticia";
+    private final String URL_IMAGEN_ANTERIOR_NOTICIA = "url_imagen_anterior_noticia";
+    private final String FECHA_REGISTRO_IMAGEN_NOTICIA = "fecha_registro_imagen_noticia";
+    private final String HORA_REGISTRO_IMAGEN_NOTICIA = "hora_registro_imagen_noticia";
+    private final String NOTICIA_IMAGEN_NOTICIA = "noticia_imagen_noticia";
+    //############################################################################################\\
+    //###############################CONSULTAS####################################################\\
+    private final String SUBIR_Y_ELIMINAR_IMAGEN = "subir_y_eliminar_imagen";
+    private final String REGISTRAR_IMAGEN_CON_ARCHIVO = "registrar_imagen_con_archivo";
 
     public HashMap<String, String> subir_y_eliminar_imagen(Imagen_noticia imagen_noticia)
     {
-        tipo_consulta = "subir_y_eliminar_imagen";
+        tipo_consulta = SUBIR_Y_ELIMINAR_IMAGEN;
         return construir_parametros(imagen_noticia);
     }
 
     public HashMap<String, String> registrar_imagen_con_archivo(Imagen_noticia imagen_noticia)
     {
-        tipo_consulta = "registrar_imagen_con_archivo";
+        tipo_consulta = REGISTRAR_IMAGEN_CON_ARCHIVO;
         return construir_parametros(imagen_noticia);
     }
 
@@ -55,11 +65,11 @@ public class Gestion_imagen_noticia {
     {
         return new Imagen_noticia(){{
             try {
-                id_imagen_noticia = jsonObject.get("id_imagen_noticia").getAsInt();
-                url_imagen_noticia = jsonObject.get("url_imagen_noticia").getAsString();
-                fecha_registro_imagen_noticia = jsonObject.get("fecha_registro_imagen_noticia").getAsString();
-                hora_registro_imagen_noticia = jsonObject.get("hora_registro_imagen_noticia").getAsString();
-                noticia_imagen_noticia = jsonObject.get("noticia_imagen_noticia").getAsInt();
+                id_imagen_noticia = jsonObject.get(ID_IMAGEN_NOTICIA).getAsInt();
+                url_imagen_noticia = jsonObject.get(URL_IMAGEN_NOTICIA).getAsString();
+                fecha_registro_imagen_noticia = jsonObject.get(FECHA_REGISTRO_IMAGEN_NOTICIA).getAsString();
+                hora_registro_imagen_noticia = jsonObject.get(HORA_REGISTRO_IMAGEN_NOTICIA).getAsString();
+                noticia_imagen_noticia = jsonObject.get(NOTICIA_IMAGEN_NOTICIA).getAsInt();
             } catch (JsonSyntaxException | IllegalStateException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -70,32 +80,23 @@ public class Gestion_imagen_noticia {
     {
         JsonObject obj = new JsonObject();
         try {
-            obj.addProperty("id_imagen_noticia", elemento.id_imagen_noticia);
-            obj.addProperty("url_imagen_anterior_noticia", elemento.url_imagen_anterior_noticia);
-
-            obj.addProperty("fecha_registro_imagen_noticia", elemento.fecha_registro_imagen_noticia);
-            obj.addProperty("hora_registro_imagen_noticia", elemento.hora_registro_imagen_noticia);
-            obj.addProperty("noticia_imagen_noticia", elemento.noticia_imagen_noticia);
-            obj.addProperty("fecha1",fecha1);
-            obj.addProperty("fecha2",fecha2);
-            obj.addProperty("tipo_consulta",tipo_consulta);
-            obj.addProperty("llave_ws",llave_ws);
+            obj.addProperty(ID_IMAGEN_NOTICIA, elemento.id_imagen_noticia);
+            obj.addProperty(URL_IMAGEN_NOTICIA, elemento.url_imagen_noticia);
+            obj.addProperty(URL_IMAGEN_ANTERIOR_NOTICIA, elemento.url_imagen_anterior_noticia);
+            obj.addProperty(FECHA_REGISTRO_IMAGEN_NOTICIA, elemento.fecha_registro_imagen_noticia);
+            obj.addProperty(HORA_REGISTRO_IMAGEN_NOTICIA, elemento.hora_registro_imagen_noticia);
+            obj.addProperty(NOTICIA_IMAGEN_NOTICIA, elemento.noticia_imagen_noticia);
+            obj.addProperty(TIPO_CONSULTA,tipo_consulta);
+            obj.addProperty(LLAVE_WS, LLAVE_IMAGEN_NOTICIA);
             if(Gestion_administrador.getAdministrador_actual() != null)
             {
-                obj.addProperty("nombre_admnistrador_ol",Gestion_administrador.getAdministrador_actual().nombre_cuenta_administrador);
-                obj.addProperty("contraseña_administrador_ol",Gestion_administrador.getAdministrador_actual().contrasena_administrador);
+                obj.addProperty(TOKEN,Gestion_administrador.getAdministrador_actual().token);
             }
-            else
-            {
-                obj.addProperty("nombre_admnistrador_ol","");
-                obj.addProperty("contraseña_administrador_ol","");
-            }
-            obj.addProperty("url_imagen_noticia", elemento.url_imagen_noticia);
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
         HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("json",obj.toString());
+        hashMap.put(JSON,obj.toString());
         return hashMap;
     }
 }

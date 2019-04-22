@@ -293,13 +293,13 @@ public class ModificarNoticiaActivity extends AppCompatActivity {
         noticia.id_notiticia = noticiaModificar.id_notiticia;
         HashMap<String, String> hashMap = new Gestion_noticia().update(noticia);
         Response.Listener<String> stringListener = new Response.Listener<String>()
-    {
-        @Override
-        public void onResponse(String response) {
-            //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
-            noticiaRegistrada(response);
-        }
-    };
+        {
+            @Override
+            public void onResponse(String response) {
+                //aqui llega la respuesta, dependiendo del tipo de la consulta la proceso
+                noticiaRegistrada(response);
+            }
+        };
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
