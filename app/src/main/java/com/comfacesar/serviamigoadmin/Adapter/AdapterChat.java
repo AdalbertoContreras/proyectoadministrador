@@ -15,7 +15,7 @@ import com.comfacesar.modelo.Chat_asesoria;
 import com.comfacesar.modelo.Especialidad;
 import com.comfacesar.modelo.Usuario;
 import com.comfacesar.serviamigoadmin.Activity.ChatAsesoriaActivity;
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -98,7 +98,7 @@ public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.ViewHolderDat
                 tipoAsesoriaTextView.setText(especialidad.nombre_especialidad);
             }
             ultima_fechaTextView.setText(chat_asesoria.ultima_fecha_chat_asesoria + " " + chat_asesoria.ultima_hora_chat_asesoria);
-            ultimo_mensajeTextView.setText(chat_asesoria.ultimo_mensaje_chat_asesoria);
+            ultimo_mensajeTextView.setText(chat_asesoria.ultimo_mensaje_chat_asesoria.replace("\n",""));
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -14,7 +14,7 @@ import com.comfacesar.modelo.Administrador;
 import com.comfacesar.modelo.Especialidad;
 import com.comfacesar.serviamigoadmin.Dialog.DetalleAsesorDialog;
 import com.comfacesar.serviamigoadmin.Fragment.ConsultarAsesoresFragment;
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

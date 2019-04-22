@@ -14,7 +14,7 @@ import com.comfacesar.gestion.Gestion_imagen_noticia;
 import com.comfacesar.modelo.Imagen_noticia;
 import com.comfacesar.modelo.Noticia;
 import com.comfacesar.serviamigoadmin.Activity.ModificarNoticiaActivity;
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

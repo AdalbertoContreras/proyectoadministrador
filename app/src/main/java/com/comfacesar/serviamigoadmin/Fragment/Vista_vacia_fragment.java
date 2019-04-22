@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.comfacesar.gestion.Gestion_administrador;
 import com.comfacesar.modelo.Administrador;
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;

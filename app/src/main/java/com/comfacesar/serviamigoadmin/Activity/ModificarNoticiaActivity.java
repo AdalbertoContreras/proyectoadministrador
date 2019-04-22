@@ -1,6 +1,5 @@
 package com.comfacesar.serviamigoadmin.Activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -30,7 +29,7 @@ import com.comfacesar.modelo.Categoria_noticia_manual;
 import com.comfacesar.modelo.Imagen_noticia;
 import com.comfacesar.modelo.Noticia;
 import com.comfacesar.serviamigoadmin.Gestion_sesion;
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;

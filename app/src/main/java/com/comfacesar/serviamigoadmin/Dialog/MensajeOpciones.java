@@ -9,18 +9,11 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 
 public class MensajeOpciones extends DialogFragment {
     public String mensaje;
     public FragmentManager fragmentManager;
-    public static MensajeOpciones nuevaUbstancia(String mensaje, EscuchadorDialog escuchadorDialog)
-    {
-        MensajeOpciones mensajeInicioSesionDialog = new MensajeOpciones();
-        mensajeInicioSesionDialog.mensaje = mensaje;
-        mensajeInicioSesionDialog.escuchadorDialog = escuchadorDialog;
-        return mensajeInicioSesionDialog;
-    }
 
     public MensajeOpciones()
     {
@@ -40,7 +33,7 @@ public class MensajeOpciones extends DialogFragment {
         // Pass null as the parent view because its going in the dialog layout
         builder.setView(inflater.inflate(R.layout.mensaje_opciones, null))
                 // Add action buttons
-                .setPositiveButton("Acepttar", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         escuchadorDialog.positivo();

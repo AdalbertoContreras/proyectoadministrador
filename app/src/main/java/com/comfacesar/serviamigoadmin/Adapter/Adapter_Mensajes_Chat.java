@@ -16,7 +16,7 @@ import com.comfacesar.modelo.Chat_asesoria;
 import com.comfacesar.modelo.Mensaje_chat_asesoria;
 import com.comfacesar.modelo.Usuario;
 import com.comfacesar.serviamigoadmin.Activity.ChatAsesoriaActivity;
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

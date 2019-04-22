@@ -19,7 +19,7 @@ import com.comfacesar.extra.WebService;
 import com.comfacesar.gestion.Gestion_administrador;
 import com.comfacesar.modelo.Administrador;
 import com.comfacesar.serviamigoadmin.Adapter.AdapterItemAsesor;
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

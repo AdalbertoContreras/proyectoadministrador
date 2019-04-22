@@ -4,7 +4,7 @@ package com.comfacesar.serviamigoadmin;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 
 public class MainActivity extends AppCompatActivity {
 

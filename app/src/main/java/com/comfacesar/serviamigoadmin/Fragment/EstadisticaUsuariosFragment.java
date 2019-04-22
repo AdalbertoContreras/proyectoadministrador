@@ -17,7 +17,7 @@ import com.comfacesar.extra.MySocialMediaSingleton;
 import com.comfacesar.extra.WebService;
 import com.comfacesar.gestion.Gestion_estadistica_usuario;
 import com.comfacesar.modelo.Estadistica_usuario;
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

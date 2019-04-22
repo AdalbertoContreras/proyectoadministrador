@@ -6,6 +6,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,13 +21,14 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.comfacesar.extra.Calculo;
 import com.comfacesar.extra.MySocialMediaSingleton;
 import com.comfacesar.extra.WebService;
 import com.comfacesar.gestion.Gestion_administrador;
 import com.comfacesar.modelo.Administrador;
 import com.comfacesar.serviamigoadmin.Dialog.DatePickerFragment;
 import com.comfacesar.serviamigoadmin.Dialog.EspecialidadesDialog;
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 
 import java.util.HashMap;
 
@@ -67,6 +70,49 @@ public class Registrar_AdministradorFragment extends Fragment {
     private boolean identidadSelecionada = false;
     private boolean nutricionSelecionada = false;
     private boolean embarazoSelecionada = false;
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("nombre", nombresEditText.getText().toString());
+        outState.putString("apellido", apellidosEditText.getText().toString());
+        outState.putString("direccion", direccionEditText.getText().toString());
+        outState.putString("telefono", telefonoEditText.getText().toString());
+        outState.putString("correo", correoElectronicoEditText.getText().toString());
+        outState.putString("fecha", fechaNacimientoEditText.getText().toString());
+        outState.putString("cuenta", nombreCuentaEditText.getText().toString());
+        if(femeninoRadioButton.isChecked())
+        {
+            outState.putInt("sexo", 0);
+        }
+        else
+        {
+            outState.putInt("sexo", 1);
+        }
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if(savedInstanceState != null)
+        {
+            nombresEditText.setText(savedInstanceState.getString("nombre"));
+            apellidosEditText.setText(savedInstanceState.getString("apellido"));
+            direccionEditText.setText(savedInstanceState.getString("direccion"));
+            telefonoEditText.setText(savedInstanceState.getString("telefono"));
+            correoElectronicoEditText.setText(savedInstanceState.getString("correo"));
+            fechaNacimientoEditText.setText(savedInstanceState.getString("fecha"));
+            nombreCuentaEditText.setText(savedInstanceState.getString("cuenta"));
+            if(savedInstanceState.getInt("") == 0)
+            {
+                masculinoRadioButton.setChecked(true);
+            }
+            else
+            {
+                femeninoRadioButton.setChecked(true);
+            }
+        }
+    }
     public Registrar_AdministradorFragment() {
         // Required empty public constructor
     }
@@ -116,20 +162,18 @@ public class Registrar_AdministradorFragment extends Fragment {
         registrarButton = view.findViewById(R.id.registrarAsesorButton);
         masculinoRadioButton = view.findViewById(R.id.masculinoAsesorRadioButton);
         femeninoRadioButton = view.findViewById(R.id.femeninoAsesorRadioButton);
-        fechaNacimientoEditText.setFocusable(false);
         fechaNacimientoEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus)
+                fechaNacimientoEditText.setText(fechaNacimientoEditText.getText().toString().trim());
+                if(new Calculo().validarFecha(fechaNacimientoEditText.getText().toString()))
                 {
-                    showDatePickerDialog();
+                    fechaNacimientoEditText.setTextColor(getResources().getColor(R.color.Black));
                 }
-            }
-        });
-        fechaNacimientoEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog();
+                else
+                {
+                    fechaNacimientoEditText.setTextColor(getResources().getColor(R.color.rojo));
+                }
             }
         });
         nombreCuentaEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -217,7 +261,11 @@ public class Registrar_AdministradorFragment extends Fragment {
             Toast.makeText(view.getContext(), "Ingrese la fecha de cacimiento del asesor", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        if(!new Calculo().validarFecha(fechaNacimientoEditText.getText().toString()))
+        {
+            Toast.makeText(view.getContext(), "Fecha de nacimiento ingresada no valida", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if(nombreCuentaEditText.getText().toString().isEmpty())
         {
             Toast.makeText(view.getContext(), "Ingrese el nombre de la cuenta del asesor", Toast.LENGTH_SHORT).show();
@@ -356,11 +404,14 @@ public class Registrar_AdministradorFragment extends Fragment {
         nombreCuentaEditText.setText("");
         contraseñaEditText.setText("");
         verificarContraseñaEditText.setText("");
+        fechaNacimientoEditText.setText("");
+        masculinoRadioButton.setChecked(true);
         sexualidarReproductivaSelecionada = false;
         nutricionSelecionada = false;
         embarazoSelecionada = false;
         identidadSelecionada = false;
         femeninoRadioButton.setChecked(true);
+        fechaNacimientoEditText.setTextColor(getResources().getColor(R.color.Black));
     }
 
     private void showDatePickerDialog()
@@ -396,6 +447,8 @@ public class Registrar_AdministradorFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
+
+
 
     @Override
     public void onAttach(Context context) {

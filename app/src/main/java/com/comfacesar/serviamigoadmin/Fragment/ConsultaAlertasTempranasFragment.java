@@ -19,7 +19,7 @@ import com.comfacesar.extra.WebService;
 import com.comfacesar.gestion.Gestion_alerta_temprana;
 import com.comfacesar.modelo.Alerta_temprana;
 import com.comfacesar.serviamigoadmin.Adapter.AdapterItemAlertaTemprana;
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

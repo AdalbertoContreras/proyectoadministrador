@@ -23,7 +23,7 @@ import com.comfacesar.gestion.Gestion_especialidad;
 import com.comfacesar.modelo.Chat_asesoria;
 import com.comfacesar.modelo.Especialidad;
 import com.comfacesar.serviamigoadmin.Adapter.AdapterChat;
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

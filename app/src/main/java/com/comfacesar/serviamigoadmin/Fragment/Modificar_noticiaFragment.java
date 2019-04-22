@@ -32,7 +32,7 @@ import com.comfacesar.gestion.Gestion_noticia;
 import com.comfacesar.modelo.Categoria_noticia_manual;
 import com.comfacesar.modelo.Imagen_noticia;
 import com.comfacesar.modelo.Noticia;
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -20,7 +20,7 @@ import com.comfacesar.gestion.Gestion_administrador;
 import com.comfacesar.gestion.Gestion_especialidad_administrador;
 import com.comfacesar.modelo.Administrador;
 import com.comfacesar.modelo.Especialidad_administrador;
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

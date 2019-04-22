@@ -21,7 +21,6 @@ import com.comfacesar.extra.MySocialMediaSingleton;
 import com.comfacesar.extra.WebService;
 import com.comfacesar.gestion.Gestion_administrador;
 import com.comfacesar.modelo.Administrador;
-import com.comfacesar.servimaigoadmin.R;
 
 import java.util.HashMap;
 import java.util.ArrayList;

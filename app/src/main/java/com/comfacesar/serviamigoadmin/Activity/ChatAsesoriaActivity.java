@@ -26,7 +26,7 @@ import com.comfacesar.modelo.Mensaje_chat_asesoria;
 import com.comfacesar.modelo.Usuario;
 import com.comfacesar.serviamigoadmin.Adapter.Adapter_Mensajes_Chat;
 import com.comfacesar.serviamigoadmin.Navigation;
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

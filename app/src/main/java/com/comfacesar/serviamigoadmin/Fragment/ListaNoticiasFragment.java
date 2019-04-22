@@ -24,7 +24,7 @@ import com.comfacesar.gestion.Gestion_noticia;
 import com.comfacesar.modelo.Categoria_noticia_manual;
 import com.comfacesar.modelo.Noticia;
 import com.comfacesar.serviamigoadmin.Adapter.AdaptaderNoticiaModificar;
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

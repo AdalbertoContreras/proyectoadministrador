@@ -42,7 +42,6 @@ import com.comfacesar.modelo.Chat_asesoria;
 import com.comfacesar.modelo.Especialidad;
 import com.comfacesar.modelo.Usuario;
 import com.comfacesar.serviamigoadmin.Activity.ChatAsesoriaActivity;
-import com.comfacesar.serviamigoadmin.Dialog.MensajeOpciones;
 import com.comfacesar.serviamigoadmin.Fragment.Actualizar_AdministradorFragment;
 import com.comfacesar.serviamigoadmin.Fragment.CambiarContrasenaFragment;
 import com.comfacesar.serviamigoadmin.Fragment.ChatUsuarioFragment;
@@ -55,8 +54,6 @@ import com.comfacesar.serviamigoadmin.Fragment.Modificar_noticiaFragment;
 import com.comfacesar.serviamigoadmin.Fragment.Registrar_AdministradorFragment;
 import com.comfacesar.serviamigoadmin.Fragment.Registrar_noticiaFragment;
 import com.comfacesar.serviamigoadmin.Fragment.Vista_vacia_fragment;
-import com.comfacesar.servimaigoadmin.ListaAsesoriaVacia;
-import com.comfacesar.servimaigoadmin.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -444,7 +441,8 @@ public class Navigation extends AppCompatActivity
                 drawer.closeDrawer(GravityCompat.START);
             } else
             {
-                final MensajeOpciones mensajeOpciones = MensajeOpciones.nuevaUbstancia("Desea cerrar la aplicacion", new MensajeOpciones.EscuchadorDialog() {
+                moveTaskToBack(true);
+                /*final MensajeOpciones mensajeOpciones = MensajeOpciones.nuevaUbstancia("Desea cerrar la aplicacion", new MensajeOpciones.EscuchadorDialog() {
                     @Override
                     public void positivo() {
                         moveTaskToBack(true);
@@ -455,7 +453,7 @@ public class Navigation extends AppCompatActivity
 
                     }
                 });
-                mensajeOpciones.show(this.getSupportFragmentManager(), "missiles");
+                mensajeOpciones.show(this.getSupportFragmentManager(), "missiles");*/
             }
         }
     }

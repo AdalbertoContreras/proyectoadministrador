@@ -9,8 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 
 public class EspecialidadesDialog extends DialogFragment {
     private CheckBox saludSexualReproductivaCheckBox;

@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -37,7 +38,7 @@ import com.comfacesar.gestion.Gestion_noticia;
 import com.comfacesar.modelo.Categoria_noticia_manual;
 import com.comfacesar.modelo.Imagen_noticia;
 import com.comfacesar.modelo.Noticia;
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 
 import static android.app.Activity.RESULT_OK;
 

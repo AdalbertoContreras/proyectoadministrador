@@ -47,10 +47,11 @@
                     android:layout_height="match_parent">
 
                     <android.support.design.widget.TextInputEditText
+                        android:id="@+id/fechaNacimientoAsesorEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Fecha de nacimiento"
-                        android:id="@+id/fechaNacimientoAsesorEditText"/>
+                        android:hint="Fecha de nacimiento '2006-06-09'"
+                        android:inputType="date" />
                 </android.support.design.widget.TextInputLayout>
 
                 <LinearLayout
@@ -80,6 +81,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Masculino"
+                                android:checked="true"
                                 android:id="@+id/masculinoAsesorRadioButton"/>
 
                             <RadioButton
@@ -103,7 +105,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Direccion"
-                        android:inputType="text" />
+                        android:inputType="textPostalAddress" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout

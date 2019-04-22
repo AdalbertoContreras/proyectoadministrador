@@ -23,12 +23,13 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.comfacesar.extra.Calculo;
 import com.comfacesar.extra.MySocialMediaSingleton;
 import com.comfacesar.extra.WebService;
 import com.comfacesar.gestion.Gestion_administrador;
 import com.comfacesar.modelo.Administrador;
 import com.comfacesar.serviamigoadmin.Dialog.DatePickerFragment;
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -126,7 +127,6 @@ public class Actualizar_AdministradorFragment extends Fragment {
         actualizar_datos = view.findViewById(R.id.registrarAsesorButton);
         masculinoRadioButton = view.findViewById(R.id.masculinoAsesorRadioButton);
         femeninoRadioButton = view.findViewById(R.id.femeninoAsesorRadioButton);
-        fechaNacimientoEditText.setFocusable(false);
         fotoPerfilImageView = view.findViewById(R.id.fotoPerfilImageView);
         tomar_fotoButton = view.findViewById(R.id.tomarFotoButton);
         subirFotoButton = view.findViewById(R.id.subirFotoButton);
@@ -155,16 +155,15 @@ public class Actualizar_AdministradorFragment extends Fragment {
         fechaNacimientoEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-            if(hasFocus)
-            {
-                showDatePickerDialog();
-            }
-            }
-        });
-        fechaNacimientoEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog();
+                fechaNacimientoEditText.setText(fechaNacimientoEditText.getText().toString().trim());
+                if(new Calculo().validarFecha(fechaNacimientoEditText.getText().toString()))
+                {
+                    fechaNacimientoEditText.setTextColor(getResources().getColor(R.color.Black));
+                }
+                else
+                {
+                    fechaNacimientoEditText.setTextColor(getResources().getColor(R.color.rojo));
+                }
             }
         });
         actualizar_datos.setOnClickListener(new View.OnClickListener() {
@@ -188,6 +187,12 @@ public class Actualizar_AdministradorFragment extends Fragment {
                 if(fechaNacimientoEditText.getText().toString().isEmpty())
                 {
                     Toast.makeText(view.getContext(), "Ingrese su fecha de nacimiento", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                    return;
+                }
+                if(!new Calculo().validarFecha(fechaNacimientoEditText.getText().toString()))
+                {
+                    Toast.makeText(view.getContext(), "Fecha de nacimiento ingresada no valida", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                     return;
                 }
@@ -312,6 +317,7 @@ public class Actualizar_AdministradorFragment extends Fragment {
                         Gestion_administrador.getAdministrador_actual().direccion_administrador = administrador.direccion_administrador;
                         Gestion_administrador.getAdministrador_actual().numero_telefono_administrador = administrador.numero_telefono_administrador;
                         Gestion_administrador.getAdministrador_actual().correo_electronico_administrador = administrador.numero_telefono_administrador;
+                        fechaNacimientoEditText.setTextColor(getResources().getColor(R.color.Black));
                         if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 1)
                         {
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framengMaster,new ConsultaAlertasTempranasFragment()).commit();
@@ -343,19 +349,6 @@ public class Actualizar_AdministradorFragment extends Fragment {
         };
         StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),hashMap,stringListener, errorListener);
         MySocialMediaSingleton.getInstance(view.getContext()).addToRequestQueue(stringRequest);
-    }
-
-    private void showDatePickerDialog()
-    {
-        DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                // +1 because january is zero
-                fechaNacimientoEditText.setText(year + "-" + (month+1)  + "-" + day );
-            }
-        });
-        newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
     }
 
     private void actualizar_foto_perfil()

@@ -23,7 +23,7 @@ import com.comfacesar.gestion.Gestion_usuario;
 import com.comfacesar.modelo.Alerta_temprana;
 import com.comfacesar.modelo.Asunto;
 import com.comfacesar.modelo.Usuario;
-import com.comfacesar.servimaigoadmin.R;
+import com.comfacesar.serviamigoadmin.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
