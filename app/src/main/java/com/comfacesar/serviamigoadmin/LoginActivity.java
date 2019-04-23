@@ -244,6 +244,7 @@ public class    LoginActivity extends AppCompatActivity {
 
     public static void quitarSesionAdministrador()
     {
+
         SharedPreferences.Editor myEditor = prefs.edit();
         myEditor.putString("TOKEN", "-1");
         myEditor.commit();
@@ -271,14 +272,6 @@ public class    LoginActivity extends AppCompatActivity {
                     {
                         arrayList.get(0).contrasena_administrador = contrasena;
                         Gestion_administrador.setAdministrador_actual(arrayList.get(0));
-                        if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 1)
-                        {
-                            Toast.makeText(getBaseContext(), "Administrador conectado", Toast.LENGTH_LONG).show();
-                        }
-                        if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 2)
-                        {
-                            Toast.makeText(getBaseContext(), "Asesor conectado", Toast.LENGTH_LONG).show();
-                        }
                         gestion_sesion1.salvarSesion();
                         Intent intent = new Intent(LoginActivity.this, Navigation.class);
                         progressDialog.dismiss();

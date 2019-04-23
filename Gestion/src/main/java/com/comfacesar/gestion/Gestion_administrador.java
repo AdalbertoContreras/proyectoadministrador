@@ -346,9 +346,20 @@ public class Gestion_administrador{
                 {
                     url_foto_perfil_administrador = "";
                 }
-                if(!jsonObject.get(TOKEN).isJsonNull())
+                if(jsonObject.has(TOKEN))
                 {
-                    token = jsonObject.get(TOKEN).getAsString();
+                    if(!jsonObject.get(TOKEN).isJsonNull())
+                    {
+                        token = jsonObject.get(TOKEN).getAsString();
+                    }
+                    else
+                    {
+                        token = "";
+                    }
+                }
+                else
+                {
+                    token = "";
                 }
                 numero_asesorias_dadas_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_ADMINISTRADOR).getAsInt();
                 numero_asesorias_dadas_primera_infancia_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_PRIMERA_INFANCIA_ADMINISTRADOR).getAsInt();
@@ -370,7 +381,7 @@ public class Gestion_administrador{
                 numero_asesorias_dadas_adultez_f_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_ADULTEZ_F_ADMINISTRADOR).getAsInt();
                 numero_asesorias_dadas_mayor_f_administrador = jsonObject.get(NUMERO_ASESORIAS_DADAS_MAYOR_F_ADMINISTRADOR).getAsInt();
                 numero_especialidad_administrador = jsonObject.get(NUMERO_ESPECIALIDAD_ADMINISTRADOR).getAsInt();
-                if(jsonObject.has(ESPECIALIDAD))
+                if(!jsonObject.get(ESPECIALIDAD).isJsonNull())
                 {
                     especialidades = jsonObject.get(ESPECIALIDAD).getAsString();
                 }
