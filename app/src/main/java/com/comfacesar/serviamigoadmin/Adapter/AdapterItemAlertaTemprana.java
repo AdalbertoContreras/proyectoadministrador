@@ -2,6 +2,8 @@ package com.comfacesar.serviamigoadmin.Adapter;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -147,17 +149,17 @@ public class AdapterItemAlertaTemprana extends  RecyclerView.Adapter<AdapterItem
             descripcion.setText(alerta_temprana.descripcion_alerta_temprana);
             if(alerta_temprana.estado_atendido == 1)
             {
-                atendidoCheckBox.setButtonTintList(ColorStateList.valueOf(Color.GREEN));
+                atendidoCheckBox.setButtonTintList(ColorStateList.valueOf(Color.parseColor("#29752C")));
                 atendidoCheckBox.setChecked(true);
                 atendidoCheckBox.setText("Atendido");
                 atendidoCheckBox.setTextColor(view.getResources().getColor(R.color.verde));
             }
             else
             {
-                atendidoCheckBox.setButtonTintList(ColorStateList.valueOf(Color.BLACK));
+                atendidoCheckBox.setButtonTintList(ColorStateList.valueOf(Color.parseColor("#504F51")));
                 atendidoCheckBox.setChecked(false);
                 atendidoCheckBox.setText("No atendido");
-                atendidoCheckBox.setTextColor(view.getResources().getColor(R.color.rojo));
+                atendidoCheckBox.setTextColor(view.getResources().getColor(R.color.Gris));
             }
 
             atendidoCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -165,15 +167,15 @@ public class AdapterItemAlertaTemprana extends  RecyclerView.Adapter<AdapterItem
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked)
                     {
-                        atendidoCheckBox.setButtonTintList(ColorStateList.valueOf(Color.GREEN));
+                        atendidoCheckBox.setButtonTintList(ColorStateList.valueOf(Color.parseColor("#29752C")));
                         atendidoCheckBox.setText("Atendido");
                         atendidoCheckBox.setTextColor(view.getResources().getColor(R.color.verde));
                     }
                     else
                     {
-                        atendidoCheckBox.setButtonTintList(ColorStateList.valueOf(Color.BLACK));
+                        atendidoCheckBox.setButtonTintList(ColorStateList.valueOf(Color.parseColor("#504F51")));
                         atendidoCheckBox.setText("No atendido");
-                        atendidoCheckBox.setTextColor(view.getResources().getColor(R.color.rojo));
+                        atendidoCheckBox.setTextColor(view.getResources().getColor(R.color.Gris));
                     }
                     atenderAlertaTemprana(alerta_temprana, isChecked);
                 }

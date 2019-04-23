@@ -17,10 +17,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="ButtonGris" parent="Theme.AppCompat.Light">
-        <item name="colorButtonNormal">@color/Gris2</item>
-        <item name="colorControlHighlight">@color/Gris</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="colorButtonNormal">@color/White</item>
+        <item name="colorControlHighlight">@color/Gris2</item>
+        <item name="android:textColor">@color/Gris</item>
 
     </style>
 
@@ -44,6 +46,6 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
 
 </resources>
