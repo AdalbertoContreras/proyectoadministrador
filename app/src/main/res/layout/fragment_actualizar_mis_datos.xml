@@ -173,7 +173,7 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@color/White"
+
                             android:layout_marginRight="10dp">
 
                             <Button
@@ -190,7 +190,7 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@color/White"
+
                             android:layout_marginRight="10dp">
 
                             <Button
@@ -207,7 +207,7 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@color/White"
+
                             >
 
                             <Button
