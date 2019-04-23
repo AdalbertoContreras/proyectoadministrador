@@ -5,22 +5,36 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/crear_noticia"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Crear articulo" />
+
+        <item
+            android:id="@+id/registrar_asesor"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Registrar asesor" />
+
+
+        <item
             android:id="@+id/consulta_alertas_tempranas"
             android:icon="@drawable/ic_menu_send"
             android:title="Consultar alertas tempranas"
             />
-        <item
-            android:id="@+id/crear_noticia"
-            android:icon="@drawable/ic_menu_send"
-            android:title="Crear articulo" />
+
         <item
             android:id="@+id/cosultar_noticias"
             android:icon="@drawable/ic_menu_send"
-            android:title="Consultar noticias" />
+            android:title="Consultar articulo" />
+
         <item
-        android:id="@+id/cambiar_contraseña"
-        android:icon="@drawable/ic_menu_send"
-        android:title="Cambiar contraseña" />
+            android:id="@+id/ver_asesores"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Lista asesores" />
+
+        <item
+            android:id="@+id/estadistica_numero_usuario"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Estadistica de usuarios" />
 
         <item
             android:id="@+id/actualizar_mis_datos"
@@ -28,19 +42,9 @@
             android:title="Actualizar mis datos" />
 
         <item
-            android:id="@+id/registrar_asesor"
-            android:icon="@drawable/ic_menu_send"
-            android:title="Registrar asesor" />
-
-        <item
-            android:id="@+id/ver_asesores"
-            android:icon="@drawable/ic_menu_send"
-            android:title="Ver asesores" />
-
-        <item
-            android:id="@+id/estadistica_numero_usuario"
-            android:icon="@drawable/ic_menu_send"
-            android:title="Estadistica de usuarios" />
+        android:id="@+id/cambiar_contraseña"
+        android:icon="@drawable/ic_menu_send"
+        android:title="Cambiar contraseña" />
 
         <item
             android:id="@+id/cerrar_sesion"

@@ -496,7 +496,7 @@ public class Navigation extends AppCompatActivity
         if (id == R.id.crear_noticia) {
             fragment = new Registrar_noticiaFragment();
             selecionado = true;
-            tiulo_tollba.setText("Crear Noticia");
+            tiulo_tollba.setText("Crear Articulo");
         }
         if (id == R.id.ver_mis_Asesorias) {
             tengoAsesorias();
