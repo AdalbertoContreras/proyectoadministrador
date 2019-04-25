@@ -36,10 +36,36 @@ public class AdapterChat extends  RecyclerView.Adapter<AdapterChat.ViewHolderDat
     public AdapterChat.ViewHolderDatos onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.item_chat_asesoria,null, false);
+        switch (i)
+        {
+            case 1:
+                view =  LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.item_chat_asesoria,null, false);
+                break;
+            case 2:
+                view =  LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.item_chat_embarazo,null, false);
+                break;
+            case 3:
+                view =  LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.item_chat_maltrato,null, false);
+                break;
+            case 4:
+                view =  LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.item_chat_identidad,null, false);
+                break;
+        }
         return new AdapterChat.ViewHolderDatos(view);
     }
 
     private View view;
+
+    ///////////////////////////////////////////
+    @Override
+    public int getItemViewType(int position) {
+
+        return chat_asesorias.get(position).especializacion_chat_asesoria;
+    }
 
     @Override
     public void onBindViewHolder(@NonNull AdapterChat.ViewHolderDatos viewHolderDatos, int i) {

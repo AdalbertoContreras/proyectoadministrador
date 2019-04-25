@@ -13,6 +13,8 @@ public class Alerta_temprana
     public int numero_visitas;
     public int estado_atendido;
     public int atendido_por;
+    public String direccion_alerta_temprana;
+    public String numero_telefono_alerta_temprana;
     public String asunto;
     public String usuario;
 }
