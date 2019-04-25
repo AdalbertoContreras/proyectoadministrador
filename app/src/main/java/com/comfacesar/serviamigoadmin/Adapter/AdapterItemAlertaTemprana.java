@@ -115,18 +115,16 @@ public class AdapterItemAlertaTemprana extends  RecyclerView.Adapter<AdapterItem
         private void llenar_datos_usuario(String response)
         {
             ArrayList<Usuario> aux = new Gestion_usuario().generar_json(response);
+
             if(!aux.isEmpty())
             {
                 datos_usuario = aux.get(0);
                 nombre.setText(datos_usuario.nombres_usuario + " " +  datos_usuario.apellidos_usuario);
-                direccion.setText(datos_usuario.direccion_usuario);
-                telefono.setText(datos_usuario.telefono_usuario);
+
             }
             else
             {
                 nombre.setText("No encontrado");
-                direccion.setText("No encontradp");
-                telefono.setText("No encontrado");
             }
         }
 
@@ -147,6 +145,8 @@ public class AdapterItemAlertaTemprana extends  RecyclerView.Adapter<AdapterItem
             consultar_datos_usuario(alerta_temprana);
             consultar_asunto(alerta_temprana);
             descripcion.setText(alerta_temprana.descripcion_alerta_temprana);
+            direccion.setText(alerta_temprana.direccion_alerta_temprana);
+            telefono.setText(alerta_temprana.numero_telefono_alerta_temprana);
             if(alerta_temprana.estado_atendido == 1)
             {
                 atendidoCheckBox.setButtonTintList(ColorStateList.valueOf(Color.parseColor("#29752C")));

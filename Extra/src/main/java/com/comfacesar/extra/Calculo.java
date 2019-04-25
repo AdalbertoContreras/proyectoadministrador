@@ -25,6 +25,21 @@ public class Calculo {
         return calendar;
     }
 
+    public Calendar fecha_formato1(String date, String time)
+    {
+        String[] vectorFecha = date.split ("-");
+        String[] vectorHora = time.split (":");
+        int año = Integer.parseInt (vectorFecha[0]);
+        int mes = Integer.parseInt (vectorFecha[1]);
+        int dia = Integer.parseInt (vectorFecha[2]);
+        int hora = Integer.parseInt (vectorHora[0]);
+        int min = Integer.parseInt (vectorHora[1]);
+        int seg = Integer.parseInt (vectorHora[2]);
+        Calendar calendar = new GregorianCalendar();
+        calendar.set (año, mes, dia, hora, min, seg);
+        return calendar;
+    }
+
     public String fechaFormatoHace(Calendar fechaInicio, Calendar fechaFin, Calendar c)
     {
         c.setTimeInMillis(fechaInicio.getTime().getTime() - fechaFin.getTime().getTime());

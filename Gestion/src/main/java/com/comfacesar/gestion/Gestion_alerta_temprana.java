@@ -33,6 +33,8 @@ public class Gestion_alerta_temprana {
     private final String USUARIO = "usuario";
     private final String ESTADO_VISTO = "estado_visto";
     private final String NUMERO_VISITAS = "numero_visitas";
+    private final String DIRECCION_ALERTA_TEMPRANA = "direccion_alerta_temprana";
+    private final String NUMERO_TELEFONO_ALERTA_TEMPRANA = "numero_telefono_alerta_temprana";
     //############################################################################################\\
     //###############################CONSULTAS####################################################\\
     private final String CONSULTAR_ALERTA_TEMPRANA = "consultar_alerta_temprana";
@@ -99,6 +101,8 @@ public class Gestion_alerta_temprana {
                 usuario_alerta_temprana = jsonObject.get(USUARIO_ALERTA_TEMPRANA).getAsInt();
                 numero_visitas = jsonObject.get(NUMERO_VISITAS).getAsInt();
                 estado_atendido = jsonObject.get(ESTADO_ATENDIDO).getAsInt();
+                direccion_alerta_temprana = jsonObject.get(DIRECCION_ALERTA_TEMPRANA).getAsString();
+                numero_telefono_alerta_temprana = jsonObject.get(NUMERO_TELEFONO_ALERTA_TEMPRANA).getAsString();
                 if(!jsonObject.get(ATENDIDO_POR).isJsonNull())
                 {
                     atendido_por = jsonObject.get(ATENDIDO_POR).getAsInt();
