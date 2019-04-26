@@ -178,70 +178,6 @@ public class    LoginActivity extends AppCompatActivity {
         MySocialMediaSingleton.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
     }
 
-    private void prepararAdministrador(int id_administrador, final String contrasena)
-    {
-        Administrador administrador = new Administrador();
-        administrador.nombre_cuenta_administrador = cuentaEditText.getText().toString();
-        administrador.contrasena_administrador = contraseñaEditText.getText().toString();
-        asignarAdministrador(administrador, contrasena, id_administrador);
-    }
-
-    private void asignarAdministrador(Administrador administrador, final String contrasena, int id_administrador)
-    {
-        Gestion_administrador.setAdministrador_actual(administrador);
-        HashMap<String,String> params = new Gestion_administrador().consultar_administrador_por_id(id_administrador);
-        Response.Listener<String> stringListener = new Response.Listener<String>()
-        {
-            @Override
-            public void onResponse(String response) {
-                Log.d("response", response);
-                try
-                {
-                    Integer.parseInt(response);
-                    progressDialog.dismiss();
-                    Toast.makeText(getBaseContext(), "Los datos ingresados no coindicen", Toast.LENGTH_LONG).show();
-                }
-                catch(NumberFormatException exc)
-                {
-                    ArrayList<Administrador> arrayList = new Gestion_administrador().generar_json(response);
-                    if(!arrayList.isEmpty())
-                    {
-                        arrayList.get(0).contrasena_administrador = contrasena;
-                        Gestion_administrador.setAdministrador_actual(arrayList.get(0));
-                        if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 1)
-                        {
-                            Toast.makeText(getBaseContext(), "Administrador conectado", Toast.LENGTH_LONG).show();
-                        }
-                        if(Gestion_administrador.getAdministrador_actual().tipo_administrador == 2)
-                        {
-                            Toast.makeText(getBaseContext(), "Asesor conectado", Toast.LENGTH_LONG).show();
-                        }
-                        /*salvarSesion();
-                        Intent intent = new Intent(LoginActivity.this, Navigation.class);
-                        progressDialog.dismiss();
-                        contraseñaEditText.setText("");
-                        startActivity(intent);*/
-                    }
-                    else
-                    {
-                        Toast.makeText(getBaseContext(), "Los datos ingresados no coindicen", Toast.LENGTH_LONG).show();
-                        progressDialog.dismiss();
-                    }
-                }
-            }
-        };
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                quitarSesionAdministrador();
-                Toast.makeText(getBaseContext(), "Ocurrio un error en el servidor", Toast.LENGTH_LONG).show();
-                progressDialog.dismiss();
-            }
-        };
-        StringRequest stringRequest = MySocialMediaSingleton.volley_consulta(WebService.getUrl(),params,stringListener, errorListener);
-        MySocialMediaSingleton.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
-    }
-
     public static void quitarSesionAdministrador()
     {
 
@@ -278,15 +214,10 @@ public class    LoginActivity extends AppCompatActivity {
                         contraseñaEditText.setText("");
                         startActivity(intent);
                     }
-                    else
-                    {
-                        Toast.makeText(getBaseContext(), "Los datos ingresados no coindicen", Toast.LENGTH_LONG).show();
-                    }
                 }
                 else
                 {
                     progressDialog.dismiss();
-                    Toast.makeText(getBaseContext(), "Los datos ingresados no coindicen", Toast.LENGTH_LONG).show();
                 }
             }
 
