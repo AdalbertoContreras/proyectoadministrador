@@ -200,7 +200,7 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
                 while(fragment_activo)
                 {
                     try {
-                        Thread.sleep(200);
+                        Thread.sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -263,11 +263,8 @@ public class ChatAsesoriaActivity extends AppCompatActivity {
             ultima_hora = mensaje_chat_asesorias_aux.get(mensaje_chat_asesorias_aux.size() - 1).hora_envio_mensaje_asesoria;
             mensaje_chat_asesorias.addAll(mensaje_chat_asesorias_aux);
             adapter_mensajes_chat_asesoria.notifyItemInserted(mensaje_chat_asesorias.size() - 1 );
-            if(mensaje_enviado)
-            {
-                recyclerView_chat_asesoria.smoothScrollToPosition(mensaje_chat_asesorias.size() - 1);
-                mensaje_enviado = false;
-            }
+            recyclerView_chat_asesoria.smoothScrollToPosition(mensaje_chat_asesorias.size() - 1);
+            mensaje_enviado = false;
         }
         consultando = false;
     }

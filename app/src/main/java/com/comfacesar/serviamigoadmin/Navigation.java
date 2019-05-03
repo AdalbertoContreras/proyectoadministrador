@@ -75,6 +75,7 @@ public class Navigation extends AppCompatActivity
 
     public Navigation()
     {
+
     }
 
     @Override
@@ -442,18 +443,6 @@ public class Navigation extends AppCompatActivity
             } else
             {
                 moveTaskToBack(true);
-                /*final MensajeOpciones mensajeOpciones = MensajeOpciones.nuevaUbstancia("Desea cerrar la aplicacion", new MensajeOpciones.EscuchadorDialog() {
-                    @Override
-                    public void positivo() {
-                        moveTaskToBack(true);
-                    }
-
-                    @Override
-                    public void negativo() {
-
-                    }
-                });
-                mensajeOpciones.show(this.getSupportFragmentManager(), "missiles");*/
             }
         }
     }
@@ -604,7 +593,7 @@ public class Navigation extends AppCompatActivity
 
     private void tengoAsesorias()
     {
-        Fragment fragment = null;
+        Fragment fragment;
         if(!Gestion_chat_asesoria.getChat_asesorias().isEmpty())
         {
             fragment = new MisAsesoriasFragment();
