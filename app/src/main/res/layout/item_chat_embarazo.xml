@@ -4,102 +4,128 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        >
         <LinearLayout
             android:paddingHorizontal="5dp"
-            android:paddingVertical="5dp"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:orientation="vertical"
             android:layout_gravity="center"
             android:layout_marginRight="5dp">
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/fotoPerfilCircleImageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 />
-        </LinearLayout>
 
+        </LinearLayout>
         <LinearLayout
-            android:orientation="horizontal"
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            >
-
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center"
-                android:paddingLeft="10dp"
-                android:background="@color/tipo_one">
-                <LinearLayout
-                    android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="1">
+                <TextView
+                    android:id="@+id/nombre_usuarioTextView"
+                    android:textColor="@color/Gris"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
+                    android:text="jean carlos contreras"
+                    android:textSize="11sp"
+                    android:gravity="left"
+                    android:layout_weight="0.9"
+                    android:layout_marginLeft="18dp"
+                    />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:layout_gravity="right"
+                    android:gravity="right">
                     <TextView
-                        android:id="@+id/nombre_usuarioTextView"
                         android:textColor="@color/White"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:text="jean carlos"
-                        android:textSize="15sp"
-                        android:gravity="left"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="0.9"/>
-                    <TextView
-                        android:textColor="@color/tipo_one"
                         android:id="@+id/tipoAsesoriaTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="5dp"
-                        android:text="Sexualidad"
-                        android:gravity="center"
+                        android:text="Embarazo"
+                        android:gravity="right"
+                        android:layout_gravity="right"
                         android:textStyle="bold"
                         android:textSize="11sp"
-                        android:background="@color/White"
-                        android:layout_weight="0.1"
+                        android:background="@color/tipo_one"
+                        android:layout_marginRight="18dp"
+                        android:paddingBottom="2dp"
                         />
-
-                </LinearLayout>
-
-                <TextView
-                    android:textSize="12sp"
-                    android:textColor="@color/White"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Ultimo mensaje"
-                    android:layout_marginBottom="10dp"
-                    android:id="@+id/ultimo_mensajeTextView"
-                    android:paddingLeft="2dp"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:textColor="@color/White"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="1992-09-12"
-                        android:gravity="right"
-                        android:layout_weight="1"
-                        android:textSize="9sp"
-                        android:paddingRight="10dp"
-                        android:layout_marginBottom="5dp"
-                        android:id="@+id/fecha_ultimo_mensajeTextView"/>
                 </LinearLayout>
 
             </LinearLayout>
 
+            <LinearLayout
+                android:orientation="horizontal"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_historial_embarazo"
+                android:layout_gravity="center"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="5dp"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:textSize="12sp"
+                        android:textColor="@color/Gris"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ultimo mensaje"
+                        android:layout_marginBottom="2dp"
+                        android:id="@+id/ultimo_mensajeTextView"
+                        android:paddingLeft="2dp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:textColor="@color/Gris"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="1992-09-12"
+                            android:gravity="right"
+                            android:textSize="9sp"
+                            android:paddingRight="10dp"
+                            android:layout_marginBottom="2dp"
+                            android:id="@+id/fecha_ultimo_mensajeTextView"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
@@ -107,8 +133,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/Gris3"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         >
-
     </LinearLayout>
 </LinearLayout>
